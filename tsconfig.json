@@ -19,6 +19,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
+
+    // My additional config
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

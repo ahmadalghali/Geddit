@@ -1,0 +1,26 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "dsznajder.es7-react-js-snippets",
+    "mariusalchimavicius.json-to-ts",
+    "bradlc.vscode-tailwindcss",
+    "moalamri.inline-fold",
+    "steoates.autoimport",
+    "formulahendry.auto-rename-tag",
+    "vivaxy.vscode-conventional-commits",
+    "mikestead.dotenv",
+    "eamodio.gitlens",
+    "VisualStudioExptTeam.vscodeintellicode",
+    "VisualStudioExptTeam.intellicode-api-usage-examples",
+    "xabikos.JavaScriptSnippets",
+    "PKief.material-icon-theme",
+    "christian-kohler.npm-intellisense",
+    "christian-kohler.path-intellisense",
+    "rvest.vs-code-prettier-eslint",
+    "yoavbls.pretty-ts-errors",
+    "austenc.tailwind-docs",
+    "meganrogge.template-string-converter",
+    "ChakrounAnas.turbo-console-log"
+  ]
+}

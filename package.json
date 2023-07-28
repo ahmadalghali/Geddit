@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@headlessui/react": "^1.7.16",
     "@mantine/carousel": "^6.0.17",
     "@mantine/core": "^6.0.17",
     "@mantine/dates": "^6.0.17",

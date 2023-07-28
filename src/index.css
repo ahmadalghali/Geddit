@@ -1,3 +1,3 @@
-@tailwind base;
+/* @tailwind base; keep excluded, (this will mess up the default styles of mantine ui components) */
 @tailwind components;
 @tailwind utilities;

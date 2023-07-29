@@ -8,7 +8,9 @@ function SearchBar() {
 
   const navigate = useNavigate();
 
-  const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === "Enter") {
       if (searchTerm.trim().length < 1) return;
 
@@ -17,12 +19,12 @@ function SearchBar() {
   };
 
   return (
-    <div className='flex items-center justify-center'>
+    <div className="flex items-center justify-center">
       <Autocomplete
         icon={<IconSearch />}
-        className='w-52 sm:w-80'
+        className="w-52 sm:w-80"
         classNames={{ input: "rounded-full" }}
-        placeholder='Search community...'
+        placeholder="Search community..."
         data={[]}
         value={searchTerm}
         onKeyDown={(event) => handleKeyPress(event)}

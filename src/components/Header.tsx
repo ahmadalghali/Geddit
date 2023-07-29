@@ -1,7 +1,7 @@
-import { IconPencil, IconUser } from "@tabler/icons-react";
+import { IconPencil, IconPlus, IconUser } from "@tabler/icons-react";
 import SearchBar from "./SearchBar";
 import { Avatar } from "@mantine/core";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
   return (
@@ -9,6 +9,11 @@ function Header() {
       <div onClick={() => navigate("/")} className="cursor-pointer">
         <Logo />
       </div>
+      <Link to={`/create-community`}>
+        <Avatar radius="xl">
+          <IconPlus />
+        </Avatar>
+      </Link>
       <SearchBar />
       <Avatar radius="xl" onClick={() => navigate("/create-post")}>
         <IconPencil />

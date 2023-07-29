@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
+    "@headlessui/react": "^1.7.16",
     "@mantine/carousel": "^6.0.17",
     "@mantine/core": "^6.0.17",
     "@mantine/dates": "^6.0.17",
@@ -35,6 +36,8 @@
     "lucide-react": "^0.263.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-icons": "^4.10.1",
+    "react-router-dom": "^6.14.2",
     "tailwind-merge": "^1.14.0",
     "tailwindcss-animate": "^1.0.6"
   },

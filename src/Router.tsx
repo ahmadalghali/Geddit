@@ -5,6 +5,7 @@ import SearchPage from "./pages/SearchResultsPage";
 import Constants from "./constants";
 import CommunityPage from "./pages/CommunityPage";
 import CreatePostPage from "./pages/CreatePostPage";
+import CreateCommunityPage from "./pages/CreateCommunityPage";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
       {
         path: "/create-post",
         element: <CreatePostPage />,
+      },
+      {
+        path: "/create-community",
+        element: <CreateCommunityPage />,
       },
     ],
   },

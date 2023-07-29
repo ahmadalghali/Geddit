@@ -3,12 +3,14 @@ import { useState } from "react";
 import { createCommunity } from "../api/communities";
 import { CreateCommunityDto } from "../types/dto";
 
-function CreateCommunityForm() {
+function CreateCommunityPage() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (name.trim().length == 0 || description.trim().length == 0) return;
 
     const createCommunityDto: CreateCommunityDto = {
       name: name.trim(),
@@ -27,6 +29,7 @@ function CreateCommunityForm() {
         <TextInput
           placeholder="Name"
           className="mb-5"
+          required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
@@ -43,4 +46,4 @@ function CreateCommunityForm() {
   );
 }
 
-export default CreateCommunityForm;
+export default CreateCommunityPage;

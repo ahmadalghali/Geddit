@@ -14,6 +14,12 @@ async function search(keyword: string): Promise<Community[]> {
   return communities;
 }
 
+async function getAllCommunities(): Promise<Community[]> {
+  const response = await api.get("/communities");
+
+  return response.data;
+}
+
 async function createCommunity(createCommunityDto: CreateCommunityDto) {
   const response = await api.post<Community>(
     "/communities",
@@ -26,4 +32,4 @@ async function createCommunity(createCommunityDto: CreateCommunityDto) {
   );
 }
 
-export { search, createCommunity };
+export { search, getAllCommunities, createCommunity };

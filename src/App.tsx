@@ -1,17 +1,12 @@
-import Header from "./components/Header";
-import CreateCommunityForm from "./components/CreateCommunityForm";
 import { MantineProvider } from "@mantine/core";
+import { RouterProvider } from "react-router-dom";
+import router from "./Router";
 
 function App() {
   return (
-    <>
-      <MantineProvider withGlobalStyles withNormalizeCSS>
-        <Header />
-        <div className="m-5">
-          <CreateCommunityForm />
-        </div>
-      </MantineProvider>
-    </>
+    <MantineProvider withGlobalStyles withNormalizeCSS>
+      <RouterProvider router={router} />
+    </MantineProvider>
   );
 }
 

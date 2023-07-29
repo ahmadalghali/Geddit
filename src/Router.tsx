@@ -4,6 +4,7 @@ import RootLayout from "./layouts/RootLayout";
 import SearchPage from "./pages/SearchResultsPage";
 import Constants from "./constants";
 import CommunityPage from "./pages/CommunityPage";
+import CreatePostPage from "./pages/CreatePostPage";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: `/${Constants.PREFIX_COMMUNITY}:community`,
         element: <CommunityPage />, // COMMUNITY PAGE HERE
+      },
+      {
+        path: "/create-post",
+        element: <CreatePostPage />,
       },
     ],
   },

@@ -13,4 +13,10 @@ async function search(keyword: string): Promise<Community[]> {
   return communities;
 }
 
-export { search };
+async function getAllCommunities(): Promise<Community[]> {
+  const response = await api.get("/communities");
+
+  return response.data;
+}
+
+export { search, getAllCommunities };

@@ -9,11 +9,15 @@ function SearchBar() {
   const [communities, setCommunities] = useState<Community[]>([]);
   const [results, setResults] = useState<string[]>([]);
 
-  const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyPress = async (
+    event: React.KeyboardEvent<HTMLInputElement>
+  ) => {
     if (event.key === "Enter") {
       const communitiesResponse = await search(searchTerm);
       setCommunities(communitiesResponse);
-      const communityNames = communitiesResponse.map((community) => community.name);
+      const communityNames = communitiesResponse.map(
+        (community) => community.name
+      );
       if (searchTerm.length > 0 && communityNames.length == 0) {
         setResults(["No results."]);
       } else {
@@ -29,10 +33,10 @@ function SearchBar() {
   }, [communities]);
 
   return (
-    <div className='flex bg-gray-200 p-2'>
+    <div className="flex bg-red-200 p-2 w-80">
       <IconSearch />
       <Autocomplete
-        placeholder='Search community...'
+        placeholder="Search community..."
         data={results}
         value={searchTerm}
         onKeyDown={(event) => handleKeyPress(event)}

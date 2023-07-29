@@ -1,9 +1,11 @@
+import { Button } from "@mantine/core";
 import SearchBar from "./SearchBar";
 
 function Header() {
   return (
-    <div>
+    <div className="bg-yellow-300 p-2">
       <SearchBar />
+      <Button>Create Community</Button>
     </div>
   );
 }

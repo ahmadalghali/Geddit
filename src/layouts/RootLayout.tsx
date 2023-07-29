@@ -5,7 +5,7 @@ function RootLayout() {
   return (
     <div>
       <Header />
-      <main className='mx-5 mt-5 max-w-sm md:mx-auto'>
+      <main className='mt-5 max-w-sm mx-auto px-5'>
         <Outlet />
       </main>
     </div>

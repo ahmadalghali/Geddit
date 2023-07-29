@@ -1,39 +1,29 @@
 import { IconSearch } from "@tabler/icons-react";
 import { Autocomplete } from "@mantine/core";
-import { useEffect, useState } from "react";
-import { search } from "../api/communities";
-import { Community } from "../types";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function SearchBar() {
-  const [searchTerm, setSearchTerm] = useState("cscareers");
-  const [communities, setCommunities] = useState<Community[]>([]);
-  const [results, setResults] = useState<string[]>([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const navigate = useNavigate();
 
   const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      const communitiesResponse = await search(searchTerm);
-      setCommunities(communitiesResponse);
-      const communityNames = communitiesResponse.map((community) => community.name);
-      if (searchTerm.length > 0 && communityNames.length == 0) {
-        setResults(["No results."]);
-      } else {
-        setResults(communityNames);
-      }
+      if (searchTerm.trim().length < 1) return;
+
+      navigate(`/search?query=${searchTerm}`);
     }
   };
 
-  useEffect(() => {
-    if (communities.length < 1) {
-      setResults([]);
-    }
-  }, [communities]);
-
   return (
-    <div className='flex bg-gray-200 p-2'>
-      <IconSearch />
+    <div className='flex items-center justify-center'>
       <Autocomplete
+        icon={<IconSearch />}
+        className='w-52 sm:w-80'
+        classNames={{ input: "rounded-full" }}
         placeholder='Search community...'
-        data={results}
+        data={[]}
         value={searchTerm}
         onKeyDown={(event) => handleKeyPress(event)}
         onChange={(newSearchTerm) => setSearchTerm(newSearchTerm)}

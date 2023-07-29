@@ -1,10 +1,11 @@
 import { MantineProvider } from "@mantine/core";
-import Header from "./components/Header";
+import { RouterProvider } from "react-router-dom";
+import router from "./Router";
 
 function App() {
   return (
     <MantineProvider withGlobalStyles withNormalizeCSS>
-      <Header />
+      <RouterProvider router={router} />
     </MantineProvider>
   );
 }

@@ -19,7 +19,10 @@ function Header() {
         <IconPencil />
       </Avatar>
       <Avatar radius="xl">
-        <IconUser />
+        <IconUser
+          className="cursor-pointer"
+          onClick={() => navigate("/register")}
+        />
       </Avatar>
     </div>
   );

@@ -11,4 +11,9 @@ type Post = {
   author: string;
 };
 
-export type { Community, Post };
+type User = {
+  id: string;
+  username: string;
+  password: string;
+};
+export type { Community, Post, User };

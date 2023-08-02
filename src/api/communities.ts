@@ -1,5 +1,5 @@
 import { Community } from "../types";
-import { api } from "../api";
+import { api } from ".";
 import { CreateCommunityDto } from "../types/dto";
 
 async function search(keyword: string): Promise<Community[]> {
@@ -32,4 +32,11 @@ async function createCommunity(createCommunityDto: CreateCommunityDto) {
   );
 }
 
-export { search, getAllCommunities, createCommunity };
+async function getCommunityByName(communityName: string): Promise<Community> {
+  const CommunityResponse = await api.get("/communities/" + communityName, {
+  });
+
+  return CommunityResponse.data;
+}
+
+export { search, getAllCommunities, createCommunity , getCommunityByName};

@@ -21,8 +21,9 @@ const router = createBrowserRouter([
         element: <SearchPage />,
       },
       {
-        path: `/${Constants.PREFIX_COMMUNITY}:community`,
-        element: <CommunityPage />, // COMMUNITY PAGE HERE
+        path: `/${Constants.PREFIX_COMMUNITY}:communityName`,
+        element: <CommunityPage />,
+  
       },
       {
         path: "/create-post",

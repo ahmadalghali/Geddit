@@ -4,9 +4,16 @@ type CreatePostDto = {
   author: string;
 };
 
+type PostDto = {
+  id: string;
+  title: string;
+  body: string;
+  communityName: string;
+};
+
 type CreateCommunityDto = {
   name: string;
   description: string;
 };
 
-export type { CreateCommunityDto, CreatePostDto };
+export type { CreateCommunityDto, CreatePostDto, PostDto };

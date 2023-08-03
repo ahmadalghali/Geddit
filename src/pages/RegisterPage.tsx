@@ -1,7 +1,7 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useState } from "react";
-import { CreateUserDto } from "../types/dto";
-import createUser from "../api/users";
+import { UserRegisterRequestDTO } from "../types/dto";
+import { register } from "../api/auth";
 
 function RegisterPage() {
   const [username, setUsername] = useState("");
@@ -10,14 +10,17 @@ function RegisterPage() {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    if (username.trim().length == 0 || password.trim().length == 0) return;
+    const usernameTrimmed = username.trim();
+    const passwordTrimmed = password.trim();
 
-    const createUserDto: CreateUserDto = {
-      username: username.trim(),
-      password: password.trim(),
+    if (usernameTrimmed.length == 0 || passwordTrimmed.length == 0) return;
+
+    const userRegisterRequestDTO: UserRegisterRequestDTO = {
+      username: usernameTrimmed,
+      password: passwordTrimmed,
     };
 
-    createUser(createUserDto);
+    register(userRegisterRequestDTO);
   };
   return (
     <>

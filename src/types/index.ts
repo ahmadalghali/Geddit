@@ -10,10 +10,4 @@ type Post = {
   community: Community;
   author: string;
 };
-
-type User = {
-  id: string;
-  username: string;
-  password: string;
-};
-export type { Community, Post, User };
+export type { Community, Post };

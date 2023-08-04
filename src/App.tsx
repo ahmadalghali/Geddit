@@ -1,10 +1,16 @@
-import { MantineProvider } from "@mantine/core";
+import { MantineProvider, createEmotionCache } from "@mantine/core";
+
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
 
+const cache = createEmotionCache({
+  key: "mantine",
+  prepend: false,
+});
+
 function App() {
   return (
-    <MantineProvider withGlobalStyles withNormalizeCSS>
+    <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>
       <RouterProvider router={router} />
     </MantineProvider>
   );

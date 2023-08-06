@@ -4,6 +4,13 @@ type CreatePostDto = {
   author: string;
 };
 
+type PostDto = {
+  id: string;
+  title: string;
+  body: string;
+  communityName: string;
+};
+
 type CreateCommunityDto = {
   name: string;
   description: string;
@@ -19,9 +26,4 @@ type UserDTO = {
   username: string;
 };
 
-export type {
-  CreateCommunityDto,
-  CreatePostDto,
-  UserRegisterRequestDTO,
-  UserDTO,
-};
+export type { CreateCommunityDto, CreatePostDto, PostDto, UserRegisterRequestDTO, UserDTO };

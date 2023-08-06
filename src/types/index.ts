@@ -10,5 +10,4 @@ type Post = {
   community: Community;
   author: string;
 };
-
 export type { Community, Post };

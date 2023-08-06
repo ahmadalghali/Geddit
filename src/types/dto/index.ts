@@ -9,4 +9,19 @@ type CreateCommunityDto = {
   description: string;
 };
 
-export type { CreateCommunityDto, CreatePostDto };
+type UserRegisterRequestDTO = {
+  username: string;
+  password: string;
+};
+
+type UserDTO = {
+  id: string;
+  username: string;
+};
+
+export type {
+  CreateCommunityDto,
+  CreatePostDto,
+  UserRegisterRequestDTO,
+  UserDTO,
+};

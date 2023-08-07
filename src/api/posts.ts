@@ -7,13 +7,13 @@ async function createPost(communityName: string, createPostDTO: CreatePostDTO): 
   return response.status === 201;
 }
 
-async function getAllPosts(communityId: string): Promise<PostDTO[]> {
-  const response = await api.get<PostDTO[]>(`/communities/${communityId}/posts`);
+async function getAllPosts(communityName: string): Promise<PostDTO[]> {
+  const response = await api.get<PostDTO[]>(`/communities/${communityName}/posts`);
   return response.data;
 }
 
-async function getPost(communityId: string, postId: string): Promise<PostDTO> {
-  const response = await api.get<PostDTO>(`/communities/${communityId}/posts/${postId}`);
+async function getPost(communityName: string, postId: string): Promise<PostDTO> {
+  const response = await api.get<PostDTO>(`/communities/${communityName}/posts/${postId}`);
   return response.data;
 }
 

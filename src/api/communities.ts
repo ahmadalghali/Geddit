@@ -25,4 +25,10 @@ async function createCommunity(createCommunityDTO: CreateCommunityDTO): Promise<
   return response.data;
 }
 
-export { search, getAllCommunities, createCommunity };
+async function getCommunityByName(communityName: string): Promise<Community> {
+  const communityResponse = await api.get(`/communities/${communityName}`);
+
+  return communityResponse.data;
+}
+
+export { search, getAllCommunities, createCommunity, getCommunityByName };

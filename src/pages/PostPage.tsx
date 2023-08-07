@@ -6,6 +6,7 @@ import { createComment } from "../api/comments";
 import { CreateCommentDTO, PostDTO } from "../types/dto";
 import { getPost } from "../api/posts";
 import { notifications } from "@mantine/notifications";
+import Constants from "../constants";
 
 function PostPage() {
   const { communityName, postId } = useParams();
@@ -48,11 +49,19 @@ function PostPage() {
 
   return (
     <div className='bg-white'>
-      {/* <PostContent /> */}
       {post && (
         <>
-          <h1>{post.title}</h1>
-          <p className='my-10 whitespace-pre-line'>{post.body}</p>
+          {/* <PostContent /> */}
+          <div>
+            <p>
+              {Constants.PREFIX_COMMUNITY}
+              {post.communityName}
+            </p>
+            <p>Posted by: no one</p>
+            <h1>{post.title}</h1>
+            {post.body && <p className='my-10 whitespace-pre-line'>{post.body}</p>}
+          </div>
+
           <AddCommentBox onSubmit={(createCommentDTO: CreateCommentDTO) => handleSubmitComment(createCommentDTO)} />
           <CommentsList comments={post.comments} isChild={false} />
         </>

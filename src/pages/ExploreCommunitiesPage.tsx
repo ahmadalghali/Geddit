@@ -22,7 +22,7 @@ function ExploreCommunitiesPage() {
       {communities.length > 0 ? (
         <ul className='space-y-2'>
           {communities.map((community) => (
-            <li key={community.id} className='hover:bg-gray-100 cursor-pointer'>
+            <li key={community.name} className='hover:bg-gray-100 cursor-pointer'>
               <Link to={`/${Constants.PREFIX_COMMUNITY}/${community.name}`}>
                 <SearchResultCommunity community={community} />
               </Link>

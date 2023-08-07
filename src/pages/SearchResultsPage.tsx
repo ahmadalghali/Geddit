@@ -31,8 +31,8 @@ function SearchResultsPage() {
       {searchResults.length > 0 ? (
         <ul className='list-none p-0 m-0'>
           {searchResults.map((searchResult) => (
-            <li key={searchResult.id} className='hover:bg-gray-100 cursor-pointer'>
-              <Link to={`/${Constants.PREFIX_COMMUNITY}/${searchResult.name}`}>
+            <li key={searchResult.name} className='hover:bg-gray-100 cursor-pointer'>
+              <Link to={`/${Constants.PREFIX_COMMUNITY}${searchResult.name}`}>
                 <SearchResultCommunity community={searchResult} />
               </Link>
             </li>

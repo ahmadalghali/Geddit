@@ -48,7 +48,7 @@ const router = createBrowserRouter([
         element: <RegisterPage />,
       },
       {
-        path: `/${Constants.PREFIX_COMMUNITY}/:communityName/posts/:postId`,
+        path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
         element: <PostPage />,
       },
     ],

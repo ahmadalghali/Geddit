@@ -8,15 +8,14 @@ type Props = {
 
 function SearchResultCommunity({ community }: Props) {
   return (
-    <div className='flex rounded-md p-3 space-x-3 border border-black'>
-      <Avatar size='lg' radius='xl' color='dark' className='mt-3'>
+    <div className='flex rounded-md p-3 space-x-3 items-center'>
+      <Avatar size='lg' radius='xl' color='cyan' className='mt-3'>
         <IconBrandReddit size='40' />
       </Avatar>
 
       <div className=''>
         <h4 className='font-bold'>
-          {Constants.PREFIX_COMMUNITY}
-          {community.name}
+          {Constants.PREFIX_COMMUNITY}/{community.name}
         </h4>
         <p className='text-sm text-gray-500'>{community.description}</p>
       </div>

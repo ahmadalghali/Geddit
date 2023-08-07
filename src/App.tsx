@@ -2,6 +2,7 @@ import { MantineProvider, createEmotionCache } from "@mantine/core";
 
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
+import { Notifications } from "@mantine/notifications";
 
 const cache = createEmotionCache({
   key: "mantine",
@@ -11,6 +12,7 @@ const cache = createEmotionCache({
 function App() {
   return (
     <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>
+      <Notifications autoClose={4000} classNames='rounded-md' />
       <RouterProvider router={router} />
     </MantineProvider>
   );

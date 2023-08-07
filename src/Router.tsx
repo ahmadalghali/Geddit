@@ -7,6 +7,8 @@ import CommunityPage from "./pages/CommunityPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateCommunityPage from "./pages/CreateCommunityPage";
 import RegisterPage from "./pages/RegisterPage";
+import PostPage from "./pages/PostPage";
+import ExploreCommunitiesPage from "./pages/ExploreCommunitiesPage";
 
 const router = createBrowserRouter([
   {
@@ -18,11 +20,15 @@ const router = createBrowserRouter([
         element: <LandingPage />,
       },
       {
+        path: "/explore",
+        element: <ExploreCommunitiesPage />,
+      },
+      {
         path: "/search",
         element: <SearchPage />,
       },
       {
-        path: `/${Constants.PREFIX_COMMUNITY}:community`,
+        path: `/${Constants.PREFIX_COMMUNITY}/:communityName`,
         element: <CommunityPage />, // COMMUNITY PAGE HERE
       },
       {
@@ -36,6 +42,10 @@ const router = createBrowserRouter([
       {
         path: "/register",
         element: <RegisterPage />,
+      },
+      {
+        path: `/${Constants.PREFIX_COMMUNITY}/:communityName/posts/:postId`,
+        element: <PostPage />,
       },
     ],
   },

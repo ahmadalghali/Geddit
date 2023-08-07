@@ -1,34 +1,34 @@
-import { IconPencil, IconPlus, IconUser } from "@tabler/icons-react";
+import { IconPencil, IconPlus, IconUser, IconWorld } from "@tabler/icons-react";
 import SearchBar from "./SearchBar";
-import { Avatar } from "@mantine/core";
 import { Link, useNavigate } from "react-router-dom";
 
 function Header() {
   const navigate = useNavigate();
   return (
-    <div className="bg-amber-500 flex items-center justify-between px-5 py-3">
-      <div onClick={() => navigate("/")} className="cursor-pointer">
+    <div className='bg-amber-500 flex items-center justify-between px-5 py-3 fixed  top-0 left-0 right-0 z-50 shadow-md'>
+      <div onClick={() => navigate("/")} className='cursor-pointer'>
         <Logo />
       </div>
-      <Link to={`/create-community`}>
-        <Avatar radius="xl">
-          <IconPlus />
-        </Avatar>
+      <Link to={`/explore`}>
+        <IconWorld size={30} className='cursor-pointer text-amber-900' />
       </Link>
+
       <SearchBar />
-      <Avatar radius="xl" onClick={() => navigate("/create-post")}>
-        <IconPencil />
-      </Avatar>
+      <Link to={`/create-community`}>
+        <IconPlus size={30} className='cursor-pointer text-amber-900' />
+      </Link>
+      <Link to={`/create-post`}>
+        <IconPencil size={30} className='cursor-pointer text-amber-900' />
+      </Link>
+
       <Link to={`/register`}>
-        <Avatar radius="xl">
-          <IconUser className="cursor-pointer" />
-        </Avatar>
+        <IconUser className='cursor-pointer text-amber-900' size={30} />
       </Link>
     </div>
   );
 }
 
 function Logo() {
-  return <p className="font-black text-xl">GoGedit</p>;
+  return <p className='font-black text-2xl text-amber-900'>Gedit</p>;
 }
 export default Header;

@@ -1,11 +1,11 @@
 import { useParams } from "react-router-dom";
 
 function CommunityPage() {
-  const { community } = useParams();
+  const { communityName } = useParams();
 
   return (
     <div>
-      <h1>{community}</h1>
+      <h1>{communityName}</h1>
     </div>
   );
 }

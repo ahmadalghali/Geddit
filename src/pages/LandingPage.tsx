@@ -1,11 +1,23 @@
+import { useEffect, useState } from "react";
+import PostList from "../components/PostSummaryItemList";
+import { PostSummaryDTO } from "../types/dto";
+import { getSuggestedPosts } from "../api/suggestions";
+
 function LandingPage() {
+  const [suggestedPosts, setSuggestedPosts] = useState<PostSummaryDTO[]>([]);
+
+  useEffect(() => {
+    (async () => {
+      const posts = await getSuggestedPosts();
+      setSuggestedPosts(posts);
+    })();
+  }, []);
+
   return (
-    <ul className='space-y-5'>
-      <li className='w-full h-40 bg-gray-200 rounded-md'></li>
-      <li className='w-full h-40 bg-gray-200 rounded-md'></li>
-      <li className='w-full h-40 bg-gray-200 rounded-md'></li>
-      <li className='w-full h-40 bg-gray-200 rounded-md'></li>
-    </ul>
+    <div>
+      <h1 className='mb-10'>What's happening recently</h1>
+      <PostList posts={suggestedPosts} />
+    </div>
   );
 }
 

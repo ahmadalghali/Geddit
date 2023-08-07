@@ -15,7 +15,8 @@ function SearchResultCommunity({ community }: Props) {
 
       <div className=''>
         <h4 className='font-bold'>
-          {Constants.PREFIX_COMMUNITY}/{community.name}
+          {Constants.PREFIX_COMMUNITY}
+          {community.name}
         </h4>
         <p className='text-sm text-gray-500'>{community.description}</p>
       </div>

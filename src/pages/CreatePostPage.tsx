@@ -37,7 +37,7 @@ function CreatePostPage() {
   const mapCommunitiesToSelectData = (communities: Community[]): SelectItemType[] => {
     return communities.map((community): SelectItemType => {
       return {
-        label: Constants.PREFIX_COMMUNITY + "/" + community.name,
+        label: Constants.PREFIX_COMMUNITY + community.name,
         description: community.description,
         value: community.name,
       };

@@ -17,14 +17,10 @@ function CommunityPage() {
     }
   }, [communityName]);
 
-  if (!community) {
-    return <div>Community doesn't exist sir!</div>;
-  }
-
   return (
     <div>
-      <h2>{community.name}</h2>
-      <p>{community.description}</p>
+      <h2>{community?.name}</h2>
+      <p>{community?.description}</p>
     </div>
   );
 }

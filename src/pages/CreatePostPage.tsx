@@ -6,7 +6,8 @@ import Constants from "../constants";
 import { createPost } from "../api/posts";
 import { getAllCommunities } from "../api/communities";
 import { useNavigate } from "react-router";
-import { CreatePostDto } from "../types/dto";
+import { CreatePostDTO } from "../types/dto";
+import { notifications } from "@mantine/notifications";
 
 // TODO: extract select component and logic
 
@@ -17,6 +18,7 @@ function CreatePostPage() {
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [submittable, setSubmittable] = useState(false);
+  const [selectedItemValue] = useState<string | null>();
 
   const navigate = useNavigate();
 
@@ -35,15 +37,15 @@ function CreatePostPage() {
   const mapCommunitiesToSelectData = (communities: Community[]): SelectItemType[] => {
     return communities.map((community): SelectItemType => {
       return {
-        label: Constants.PREFIX_COMMUNITY + community.name,
+        label: Constants.PREFIX_COMMUNITY + "/" + community.name,
         description: community.description,
-        value: community.id,
+        value: community.name,
       };
     });
   };
 
   const handleSelectChange = (newValue: string | null) => {
-    const selectedCommunity = allCommunities.find((community) => community.id == newValue)!;
+    const selectedCommunity = allCommunities.find((community) => community.name == newValue)!;
 
     setSelectedCommunity(selectedCommunity);
   };
@@ -61,15 +63,24 @@ function CreatePostPage() {
     setSubmittable(true);
   }, [title, selectedCommunity]);
 
-  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const createPostDto: CreatePostDto = {
+    const createPostDTO: CreatePostDTO = {
       title: title.trim(),
       body: body.trim(),
       author: "Ahmad", // TODO: use real user
     };
+    const success = await createPost(selectedCommunity!.name, createPostDTO);
 
-    createPost(selectedCommunity!.id, createPostDto);
+    if (success) {
+      notifications.show({ message: "Your post is now live!", color: "green" });
+      navigate("/");
+    } else {
+      notifications.show({
+        message: "Something went wrong, please try again.",
+        color: "red",
+      });
+    }
   };
 
   return (
@@ -92,7 +103,8 @@ function CreatePostPage() {
             item.label!.toLowerCase().includes(value.toLowerCase().trim()) ||
             item.description.toLowerCase().includes(value.toLowerCase().trim())
           }
-          onChange={(newValue) => handleSelectChange(newValue)}
+          value={selectedItemValue}
+          onChange={handleSelectChange}
         />
 
         <TextInput placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} />
@@ -104,7 +116,7 @@ function CreatePostPage() {
 }
 
 const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, description, ...others }: ItemProps, ref) => (
-  <div ref={ref} {...others}>
+  <div ref={ref} key={label} {...others}>
     <Group noWrap>
       <Avatar size='lg' radius='xl' color='dark'>
         <IconBrandReddit size='40' />

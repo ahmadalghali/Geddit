@@ -3,12 +3,12 @@ import Header from "../components/Header";
 
 function RootLayout() {
   return (
-    <div>
+    <main className='min-h-screen'>
       <Header />
-      <main className='mt-5 max-w-sm mx-auto px-5'>
+      <section className='max-w-3xl mx-auto py-20 px-10 min-h-screen'>
         <Outlet />
-      </main>
-    </div>
+      </section>
+    </main>
   );
 }
 

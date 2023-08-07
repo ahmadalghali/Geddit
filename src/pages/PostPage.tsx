@@ -1,30 +1,71 @@
-import { useParams } from "react-router-dom";
-import { getPost } from "../api/posts";
+import { useParams } from "react-router";
+import AddCommentBox from "../components/AddCommentBox";
 import { useEffect, useState } from "react";
-import { PostDto } from "../types/dto";
+import CommentsList from "../components/CommentsList";
+import { createComment } from "../api/comments";
+import { CreateCommentDTO, PostDTO } from "../types/dto";
+import { getPost } from "../api/posts";
+import { notifications } from "@mantine/notifications";
+import Constants from "../constants";
 
 function PostPage() {
   const { communityName, postId } = useParams();
-  const [post, setPost] = useState<PostDto>();
+
+  // Fetch post from url
+
+  const [post, setPost] = useState<PostDTO>();
   useEffect(() => {
-    const fetchPost = async () => {
-      if (communityName != undefined && postId != undefined) {
-        const postResponse = await getPost(communityName, postId);
-        setPost(postResponse);
+    (async () => {
+      if (!communityName || !postId) return;
+
+      const post = await getPost(communityName, postId);
+      setPost(post);
+    })();
+  }, [postId, communityName]);
+
+  const handleSubmitComment = async (createCommentDTO: CreateCommentDTO) => {
+    if (communityName && postId) {
+      const comment = await createComment(communityName, postId, createCommentDTO);
+
+      if (comment) {
+        setPost((prevPost) => {
+          if (!prevPost) return;
+
+          const newComments = [comment, ...prevPost.comments];
+          const updatePost: PostDTO = { ...prevPost, comments: newComments };
+
+          return updatePost;
+        });
+      } else {
+        notifications.show({
+          title: "Something went wrong",
+          message: "Failed to send comment, please try again later.",
+          autoClose: true,
+          color: "red",
+        });
       }
-    };
-    fetchPost();
-  }, []);
-  if (!post) return;
+    }
+  };
 
   return (
-    <div>
-      <div>
-        <p>g/{post.communityName}</p>
-        <p>Posted by: no one</p>
-        <h1>{post.title}</h1>
-        <p className="mt-10">{post.body}</p>
-      </div>
+    <div className='bg-white'>
+      {post && (
+        <>
+          {/* <PostContent /> */}
+          <div>
+            <p>
+              {Constants.PREFIX_COMMUNITY}
+              {post.communityName}
+            </p>
+            <p>Posted by: no one</p>
+            <h1>{post.title}</h1>
+            {post.body && <p className='my-10 whitespace-pre-line'>{post.body}</p>}
+          </div>
+
+          <AddCommentBox onSubmit={(createCommentDTO: CreateCommentDTO) => handleSubmitComment(createCommentDTO)} />
+          <CommentsList comments={post.comments} isChild={false} />
+        </>
+      )}
     </div>
   );
 }

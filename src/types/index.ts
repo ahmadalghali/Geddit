@@ -1,5 +1,4 @@
 type Community = {
-  id: string;
   name: string;
   description: string;
 };
@@ -8,6 +7,13 @@ type Post = {
   id: string;
   title: string;
   community: Community;
-  author: string;
+  body: string;
 };
-export type { Community, Post };
+
+type Comment = {
+  id: string;
+  text: string;
+  comments: Comment[];
+};
+
+export type { Community, Post, Comment };

@@ -1,7 +1,7 @@
 import { Button, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { createCommunity } from "../api/communities";
-import { CreateCommunityDto } from "../types/dto";
+import { CreateCommunityDTO } from "../types/dto";
 
 function CreateCommunityPage() {
   const [name, setName] = useState("");
@@ -12,33 +12,26 @@ function CreateCommunityPage() {
 
     if (name.trim().length == 0 || description.trim().length == 0) return;
 
-    const createCommunityDto: CreateCommunityDto = {
+    const createCommunityDTO: CreateCommunityDTO = {
       name: name.trim(),
       description: description.trim(),
     };
 
-    createCommunity(createCommunityDto);
+    createCommunity(createCommunityDTO);
   };
 
   return (
     <>
-      <form
-        className="shadow-md p-3 rounded-md"
-        onSubmit={(e) => handleSubmit(e)}
-      >
+      <form className='shadow-md p-3 rounded-md' onSubmit={(e) => handleSubmit(e)}>
         <TextInput
-          placeholder="Name"
-          className="mb-5"
+          placeholder='Name'
+          className='mb-5'
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <TextInput
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        <Button type="submit" className="mt-5">
+        <TextInput placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
+        <Button type='submit' className='mt-5'>
           Submit
         </Button>
       </form>

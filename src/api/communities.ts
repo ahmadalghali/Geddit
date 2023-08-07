@@ -21,22 +21,15 @@ async function getAllCommunities(): Promise<Community[]> {
 }
 
 async function createCommunity(createCommunityDto: CreateCommunityDto) {
-  const response = await api.post<Community>(
-    "/communities",
-    createCommunityDto
-  );
+  const response = await api.post<Community>("/communities", createCommunityDto);
   const createdCommunity = response.data;
-  console.log(
-    "🚀 ~ file: communities.ts:20 ~ createCommunity ~ createdCommunity:",
-    createdCommunity
-  );
+  console.log("🚀 ~ file: communities.ts:20 ~ createCommunity ~ createdCommunity:", createdCommunity);
 }
 
 async function getCommunityByName(communityName: string): Promise<Community> {
-  const CommunityResponse = await api.get("/communities/" + communityName, {
-  });
+  const communityResponse = await api.get(`/communities/${communityName}`);
 
-  return CommunityResponse.data;
+  return communityResponse.data;
 }
 
-export { search, getAllCommunities, createCommunity , getCommunityByName};
+export { search, getAllCommunities, createCommunity, getCommunityByName };

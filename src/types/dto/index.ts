@@ -51,6 +51,11 @@ type UserRegisterRequestDTO = {
   password: string;
 };
 
+type UserSignInRequestDTO = {
+  username: string;
+  password: string;
+};
+
 type UserDTO = {
   id: string;
   username: string;
@@ -66,4 +71,5 @@ export type {
   PostSummaryDTO,
   UserRegisterRequestDTO,
   UserDTO,
+  UserSignInRequestDTO,
 };

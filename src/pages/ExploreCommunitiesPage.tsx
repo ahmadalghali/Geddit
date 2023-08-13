@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { IconSearch } from "@tabler/icons-react";
-import { getAllCommunities } from "../api/communities";
-import SearchResultSkeleton from "../components/skeletons/SearchResultSkeleton";
-import PageTitle from "../components/PageTitle";
-import SearchResultCommunityList from "../components/SearchResultCommunityList";
-import { CommunitySummaryDTO } from "@/types/dto";
+import { getAllCommunities } from "@/api/communities";
+import SearchResultSkeleton from "@/components/skeletons/SearchResultSkeleton";
+import PageTitle from "@/components/PageTitle";
+import SearchResultCommunityList from "@/components/SearchResultCommunityList";
+import { CommunitySummaryDTO } from "@/types/dtos";
 
 function ExploreCommunitiesPage() {
   const [communities, setCommunities] = useState<CommunitySummaryDTO[]>([]);

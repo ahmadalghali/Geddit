@@ -1,13 +1,13 @@
 import { Avatar, Box } from "@mantine/core";
 import { IconArrowsDiagonal, IconBrandReddit } from "@tabler/icons-react";
 import { useState } from "react";
-import CommentsList from "./CommentsList";
-import { CommentDTO } from "../types/dto";
-import Constants from "../constants";
-import ContentInteractions from "./ContentInteractions";
-import { since } from "../utils/date-time";
+import { CommentDTO } from "@/types/dtos";
+import { Constants } from "@/lib/constants";
+import { since } from "@/lib/utils/date-time";
 import { useLongPress } from "react-use";
 import { AnimatePresence, motion } from "framer-motion";
+import CommentsList from "@/components/CommentsList";
+import ContentInteractions from "@/components/ContentInteractions";
 type Props = {
   comment: CommentDTO;
   isChild: boolean;

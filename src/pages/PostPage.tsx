@@ -1,20 +1,20 @@
 import { useParams } from "react-router";
-import AddCommentBox from "../components/AddCommentBox";
+import AddCommentBox from "@/components/AddCommentBox";
 import { useEffect, useState } from "react";
-import CommentsList from "../components/CommentsList";
-import { createComment } from "../api/comments";
-import { CreateCommentDTO, PostDTO } from "../types/dto";
-import { getPost } from "../api/posts";
+import CommentsList from "@/components/CommentsList";
+import { createComment } from "@/api/comments";
+import { CreateCommentDTO, PostDTO } from "@/types/dtos";
+import { getPost } from "@/api/posts";
 import { notifications } from "@mantine/notifications";
 import { IconBrandReddit, IconBrandWechat } from "@tabler/icons-react";
-import { Accordion, Avatar } from "@mantine/core";
-import Constants from "../constants";
-import ContentInteractions from "../components/ContentInteractions";
-import { since } from "../utils/date-time";
-import CommentSkeleton from "../components/skeletons/CommentSkeleton";
+import { Avatar } from "@mantine/core";
+import ContentInteractions from "@/components/ContentInteractions";
+import { since } from "@/lib/utils/date-time";
+import CommentSkeleton from "@/components/skeletons/CommentSkeleton";
 import { AnimatePresence } from "framer-motion";
-import PostContentSkeleton from "../components/skeletons/PostContentSkeleton";
-import Comment from "@/components/Comment";
+import PostContentSkeleton from "@/components/skeletons/PostContentSkeleton";
+import { Constants } from "@/lib/constants";
+
 function PostPage() {
   const { communityName, postId } = useParams();
 

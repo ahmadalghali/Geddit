@@ -1,5 +1,5 @@
+import SearchBar from "@/components/SearchBar";
 import { IconPencil, IconPlus, IconUser, IconWorld } from "@tabler/icons-react";
-import SearchBar from "./SearchBar";
 import { Link, useNavigate } from "react-router-dom";
 
 function Header() {

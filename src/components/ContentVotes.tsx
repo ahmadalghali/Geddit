@@ -1,5 +1,5 @@
 import { IconArrowBigDown, IconArrowBigUp } from "@tabler/icons-react";
-import { VoteState } from "../types";
+import { VoteState } from "@/types/index";
 import { ActionIcon } from "@mantine/core";
 
 type Props = {

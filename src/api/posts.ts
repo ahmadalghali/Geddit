@@ -1,5 +1,5 @@
-import { api } from ".";
-import { CreatePostDTO, PostDTO, PostSummaryDTO } from "../types/dto";
+import { api } from "@/api/confi";
+import { CreatePostDTO, PostDTO, PostSummaryDTO } from "@/types/dtos";
 
 async function createPost(communityName: string, createPostDTO: CreatePostDTO): Promise<PostSummaryDTO> {
   const response = await api.post<PostSummaryDTO>(`/communities/${communityName}/posts`, createPostDTO);

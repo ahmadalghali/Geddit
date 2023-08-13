@@ -1,14 +1,14 @@
 import { forwardRef, useEffect, useState } from "react";
-import { Community } from "../types";
+import { Community } from "@/types/entities";
 import { Avatar, Button, CloseButton, Group, Select, Text, TextInput, Textarea } from "@mantine/core";
 import { IconBrandReddit } from "@tabler/icons-react";
-import Constants from "../constants";
-import { createPost } from "../api/posts";
-import { getAllCommunities } from "../api/communities";
+import { Constants } from "@/lib/constants";
+import { createPost } from "@/api/posts";
+import { getAllCommunities } from "@/api/communities";
 import { useNavigate } from "react-router";
-import { CreatePostDTO } from "../types/dto";
+import { CreatePostDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
-import PageTitle from "../components/PageTitle";
+import PageTitle from "@/components/PageTitle";
 
 // TODO: extract select component and logic
 

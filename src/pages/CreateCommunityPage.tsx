@@ -1,8 +1,8 @@
 import { Button, TextInput } from "@mantine/core";
 import { useState } from "react";
-import { createCommunity } from "../api/communities";
-import { CreateCommunityDTO } from "../types/dto";
-import PageTitle from "../components/PageTitle";
+import { createCommunity } from "@/api/communities";
+import { CreateCommunityDTO } from "@/types/dtos";
+import PageTitle from "@/components/PageTitle";
 
 function CreateCommunityPage() {
   const [name, setName] = useState("");

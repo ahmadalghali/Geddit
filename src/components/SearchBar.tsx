@@ -2,7 +2,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { Autocomplete } from "@mantine/core";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getAllCommunities } from "../api/communities";
+import { getAllCommunities } from "@/api/communities";
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");

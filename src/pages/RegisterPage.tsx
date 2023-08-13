@@ -1,8 +1,8 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
 import { useState } from "react";
-import { UserRegisterRequestDTO } from "../types/dto";
-import { register } from "../api/auth";
-import PageTitle from "../components/PageTitle";
+import { UserRegisterRequestDTO } from "@/types/dtos";
+import { register } from "@/api/auth";
+import PageTitle from "@/components/PageTitle";
 
 function RegisterPage() {
   const [username, setUsername] = useState("");

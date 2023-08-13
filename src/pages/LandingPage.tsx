@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import PostSummaryItemList from "@/components/PostSummaryItemList";
-import { PostSummaryDTO } from "@/types/dto";
+import { PostSummaryDTO } from "@/types/dtos";
 import { getSuggestedPosts } from "@/api/suggestions";
-import PostSummaryItemSkeleton from "../components/skeletons/PostSummaryItemSkeleton";
+import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
 import PageTitle from "@/components/PageTitle";
 
 function LandingPage() {

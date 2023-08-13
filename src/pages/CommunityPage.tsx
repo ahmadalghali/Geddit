@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { getCommunityByName } from "../api/communities";
+import { getCommunityByName } from "@/api/communities";
 import { useParams } from "react-router-dom";
-import PostSummaryItemList from "../components/PostSummaryItemList";
-import { CommunitySummaryDTO, PostSummaryDTO } from "../types/dto";
-import { getAllPosts } from "../api/posts";
-import Constants from "../constants";
+import PostSummaryItemList from "@/components/PostSummaryItemList";
+import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
+import { getAllPosts } from "@/api/posts";
+import { Constants } from "@/lib/constants";
 import { Avatar, Button, Skeleton } from "@mantine/core";
 import { IconBrandReddit, IconSend } from "@tabler/icons-react";
 import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";

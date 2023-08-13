@@ -1,7 +1,6 @@
 import { AnimatePresence, motion } from "framer-motion";
-import { CommentDTO } from "../types/dto";
-import Comment from "./Comment";
-
+import { CommentDTO } from "@/types/dtos";
+import Comment from "@/components/Comment";
 type Props = {
   comments: CommentDTO[];
   isChild: boolean;

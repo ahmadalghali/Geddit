@@ -1,6 +1,6 @@
-import { Community } from "../types";
-import { api } from "../api";
-import { CommunitySummaryDTO, CreateCommunityDTO } from "../types/dto";
+import { Community } from "@/types/entities";
+import { api } from "@/api/config";
+import { CommunitySummaryDTO, CreateCommunityDTO } from "@/types/dtos";
 
 async function search(keyword: string): Promise<CommunitySummaryDTO[]> {
   const searchResponse = await api.get("/communities/search", {

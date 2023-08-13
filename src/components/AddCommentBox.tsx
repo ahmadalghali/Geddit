@@ -1,7 +1,7 @@
 import { Button, Textarea } from "@mantine/core";
 import { useEffect, useState } from "react";
-import { CreateCommentDTO } from "../types/dto";
-import { cn } from "../lib/utils";
+import { CreateCommentDTO } from "@/types/dtos";
+import { cn } from "@/lib/utils/classname";
 
 function AddCommentBox({
   onSubmit,

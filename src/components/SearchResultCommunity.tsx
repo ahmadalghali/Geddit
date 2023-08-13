@@ -1,7 +1,7 @@
 import { Avatar } from "@mantine/core";
 import { IconBrandReddit } from "@tabler/icons-react";
-import Constants from "../constants";
-import { CommunitySummaryDTO } from "types/dto";
+import { Constants } from "@/lib/constants";
+import { CommunitySummaryDTO } from "@/types/dtos";
 import { motion } from "framer-motion";
 type Props = {
   community: CommunitySummaryDTO;

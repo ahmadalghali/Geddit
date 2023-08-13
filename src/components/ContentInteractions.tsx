@@ -1,8 +1,8 @@
 import { IconDots, IconMessageCircle } from "@tabler/icons-react";
-import ContentVotes from "./ContentVotes";
-import { cn } from "../lib/utils";
-import { VoteState } from "../types";
+import { cn } from "@/lib/utils/classname";
+import { VoteState } from "@/types/index";
 import { useState } from "react";
+import ContentVotes from "@/components/ContentVotes";
 
 type Props = {
   commentCount: number;

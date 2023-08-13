@@ -22,16 +22,24 @@ function CreateCommunityPage() {
 
   return (
     <>
-      <form className='shadow-md p-3 rounded-md' onSubmit={(e) => handleSubmit(e)}>
+      <h1>Create a new community</h1>
+      <form
+        className="shadow-md p-3 rounded-md"
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <TextInput
-          placeholder='Name'
-          className='mb-5'
+          placeholder="Name"
+          className="mb-5"
           required
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <TextInput placeholder='Description' value={description} onChange={(e) => setDescription(e.target.value)} />
-        <Button type='submit' className='mt-5'>
+        <TextInput
+          placeholder="Description"
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
+        />
+        <Button type="submit" className="mt-5">
           Submit
         </Button>
       </form>

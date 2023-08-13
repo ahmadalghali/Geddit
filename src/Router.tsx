@@ -7,6 +7,7 @@ import CommunityPage from "./pages/CommunityPage";
 import CreatePostPage from "./pages/CreatePostPage";
 import CreateCommunityPage from "./pages/CreateCommunityPage";
 import RegisterPage from "./pages/RegisterPage";
+import SignInPage from "./pages/SignInPage";
 import PostPage from "./pages/PostPage";
 import ExploreCommunitiesPage from "./pages/ExploreCommunitiesPage";
 
@@ -48,8 +49,8 @@ const router = createBrowserRouter([
         element: <RegisterPage />,
       },
       {
-        path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: <PostPage />,
+        path: "/sign-in",
+        element: <SignInPage />,
       },
     ],
   },

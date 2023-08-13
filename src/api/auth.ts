@@ -23,7 +23,6 @@ async function signIn(
     "/auth/sign-in",
     userSignInRequestDTO
   );
-  console.log("Signed in");
   return signInResponse.status == 200;
 }
 export { register, signIn };

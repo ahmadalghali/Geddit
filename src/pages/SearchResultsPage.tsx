@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { search } from "@/api/communities";
 import { IconSearch } from "@tabler/icons-react";
-import PageTitle from "@/components/PageTitle";
 import SearchResultSkeleton from "@/components/skeletons/SearchResultSkeleton";
 import { CommunitySummaryDTO } from "@/types/dtos";
 import SearchResultCommunityList from "@/components/SearchResultCommunityList";

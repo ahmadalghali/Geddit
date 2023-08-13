@@ -37,7 +37,7 @@ function CommunityPage() {
 
   return (
     <>
-      <CommunityHeader community={community} />
+      {community && <CommunityHeader community={community} />}
       {posts.length ? (
         <PostSummaryItemList posts={posts} />
       ) : (

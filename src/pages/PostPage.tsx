@@ -71,7 +71,9 @@ function PostPage() {
           <>
             {post?.comments.length ? (
               <CommentsList
-                comments={post.comments.sort((a, b) => new Date(b.createdDate) - new Date(a.createdDate))}
+                comments={post.comments.sort(
+                  (a, b) => new Date(b.createdDate).valueOf() - new Date(a.createdDate).valueOf()
+                )}
                 isChild={false}
               />
             ) : (

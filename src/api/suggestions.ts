@@ -1,4 +1,4 @@
-import { api } from "@/api/confi";
+import { api } from "@/api/config";
 import { PostSummaryDTO } from "@/types/dtos";
 
 async function getSuggestedPosts(): Promise<PostSummaryDTO[]> {

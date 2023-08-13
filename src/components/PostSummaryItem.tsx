@@ -20,16 +20,14 @@ function PostSummaryItem({ post }: Props) {
           <Avatar size='md' radius='xl' className='mr-1' color={"green"}>
             <IconBrandReddit size='25' />
           </Avatar>
-          <Link to={`/${Constants.PREFIX_COMMUNITY}${post.communityName}`}>
-            <p className='font-semibold text-sm'>
-              {Constants.PREFIX_COMMUNITY}
-              {post.communityName}
-              <span className='text-xs font-semibold text-gray-400'>
-                <span className='mx-1'>·</span>
-                <span>{formattedDate}</span>
-              </span>
-            </p>
-          </Link>
+          <p className='font-semibold text-sm'>
+            {Constants.PREFIX_COMMUNITY}
+            {post.communityName}
+            <span className='text-xs font-semibold text-gray-400'>
+              <span className='mx-1'>·</span>
+              <span>{formattedDate}</span>
+            </span>
+          </p>
 
           <IconDots size='20' color='gray' className='cursor-pointer ml-auto' />
         </div>

@@ -9,7 +9,7 @@ function CommentSkeleton({ count }: Props) {
   return (
     <motion.div className='space-y-5'>
       {Array.from({ length: count }).map((_, index) => (
-        <div className='flex gap-5'>
+        <div key={index} className='flex gap-5'>
           <Collapse />
 
           <div key={index} className='w-full'>

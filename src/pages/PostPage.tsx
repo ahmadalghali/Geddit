@@ -14,6 +14,7 @@ import CommentSkeleton from "@/components/skeletons/CommentSkeleton";
 import { AnimatePresence } from "framer-motion";
 import PostContentSkeleton from "@/components/skeletons/PostContentSkeleton";
 import { Constants } from "@/lib/constants";
+import { Link } from "react-router-dom";
 
 function PostPage() {
   const { communityName, postId } = useParams();
@@ -90,10 +91,12 @@ function PostPage() {
             <IconBrandReddit size='25' />
           </Avatar>
           <div className=''>
-            <p className='font-semibold'>
-              {Constants.PREFIX_COMMUNITY}
-              {post.communityName}
-            </p>
+            <Link to={`/${Constants.PREFIX_COMMUNITY}${post.communityName}`}>
+              <p className='font-semibold'>
+                {Constants.PREFIX_COMMUNITY}
+                {post.communityName}
+              </p>
+            </Link>
 
             <p className='text-[.8rem] font-semibold text-gray-500'>
               {Constants.PREFIX_USER}

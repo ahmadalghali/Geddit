@@ -1,5 +1,5 @@
 import { api } from "@/api/config";
-import { UserDTO, UserRegisterRequestDTO } from "@/types/dtos";
+import { UserDTO, UserRegisterRequestDTO, UserSignInRequestDTO } from "@/types/dtos";
 
 async function register(userRegisterRequestDTO: UserRegisterRequestDTO): Promise<boolean> {
   const registerResponse = await api.post<UserDTO>("/auth/register", userRegisterRequestDTO);
@@ -7,4 +7,8 @@ async function register(userRegisterRequestDTO: UserRegisterRequestDTO): Promise
   return registerResponse.status == 201;
 }
 
-export { register };
+async function signIn(userSignInRequestDTO: UserSignInRequestDTO): Promise<boolean> {
+  const signInResponse = await api.post<UserDTO>("/auth/sign-in", userSignInRequestDTO);
+  return signInResponse.status == 200;
+}
+export { register, signIn };

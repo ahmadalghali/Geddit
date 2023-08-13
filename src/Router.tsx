@@ -9,6 +9,7 @@ import RegisterPage from "@/pages/RegisterPage";
 import PostPage from "@/pages/PostPage";
 import ExploreCommunitiesPage from "@/pages/ExploreCommunitiesPage";
 import AnimatedPage from "@/components/animate/AnimatedPage";
+import SignInPage from "@/pages/SignInPage";
 import { Constants } from "@/lib/constants";
 
 const router = createBrowserRouter([
@@ -77,6 +78,14 @@ const router = createBrowserRouter([
         element: (
           <AnimatedPage>
             <RegisterPage />
+          </AnimatedPage>
+        ),
+      },
+      {
+        path: "/sign-in",
+        element: (
+          <AnimatedPage>
+            <SignInPage />
           </AnimatedPage>
         ),
       },

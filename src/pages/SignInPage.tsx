@@ -1,11 +1,10 @@
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { useState } from "react";
-import { UserRegisterRequestDTO } from "@/types/dtos";
-import { register } from "@/api/auth";
-import PageTitle from "@/components/PageTitle";
-import SignInPage from "@/pages/SignInPage";
+import { UserSignInRequestDTO } from "../types/dto";
+import { signIn } from "../api/auth";
 
-function RegisterPage() {
+import { useState } from "react";
+
+function SignInPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
@@ -17,36 +16,37 @@ function RegisterPage() {
 
     if (usernameTrimmed.length == 0 || passwordTrimmed.length == 0) return;
 
-    const userRegisterRequestDTO: UserRegisterRequestDTO = {
+    const userSignInRequestDTO: UserSignInRequestDTO = {
       username: usernameTrimmed,
       password: passwordTrimmed,
     };
-
-    register(userRegisterRequestDTO);
+    signIn(userSignInRequestDTO);
   };
   return (
     <>
-      <PageTitle>Create account</PageTitle>
-      <form className='shadow-md p-3 rounded-md' onSubmit={(e) => handleSubmit(e)}>
+      <h1>Sign In</h1>
+      <form
+        className="shadow-md p-3 rounded-md"
+        onSubmit={(e) => handleSubmit(e)}
+      >
         <TextInput
-          className='mb-5'
+          className="mb-5"
           value={username}
-          placeholder='Username'
+          placeholder="Username"
           required
           onChange={(e) => setUsername(e.target.value)}
         />
         <PasswordInput
-          className='mb-5'
+          className="mb-5"
           value={password}
-          placeholder='Password'
+          placeholder="Password"
           required
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type='submit'>Sign up</Button>
+        <Button type="submit">Sign in</Button>
       </form>
-      <SignInPage />
     </>
   );
 }
 
-export default RegisterPage;
+export default SignInPage;

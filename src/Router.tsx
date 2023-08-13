@@ -9,6 +9,7 @@ import CreateCommunityPage from "./pages/CreateCommunityPage";
 import RegisterPage from "./pages/RegisterPage";
 import PostPage from "./pages/PostPage";
 import ExploreCommunitiesPage from "./pages/ExploreCommunitiesPage";
+import AnimatedPage from "./components/animate/AnimatedPage";
 
 const router = createBrowserRouter([
   {
@@ -17,39 +18,75 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <LandingPage />,
+        element: (
+          <AnimatedPage>
+            <LandingPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: "/explore",
-        element: <ExploreCommunitiesPage />,
+        element: (
+          <AnimatedPage>
+            <ExploreCommunitiesPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: "/search",
-        element: <SearchPage />,
+        element: (
+          <AnimatedPage>
+            <SearchPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName`,
-        element: <CommunityPage />,
+        element: (
+          <AnimatedPage>
+            <CommunityPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: <PostPage />,
+        element: (
+          <AnimatedPage>
+            <PostPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: "/create-post",
-        element: <CreatePostPage />,
+        element: (
+          <AnimatedPage>
+            <CreatePostPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: "/create-community",
-        element: <CreateCommunityPage />,
+        element: (
+          <AnimatedPage>
+            <CreateCommunityPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: "/register",
-        element: <RegisterPage />,
+        element: (
+          <AnimatedPage>
+            <RegisterPage />
+          </AnimatedPage>
+        ),
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: <PostPage />,
+        element: (
+          <AnimatedPage>
+            <PostPage />
+          </AnimatedPage>
+        ),
       },
     ],
   },

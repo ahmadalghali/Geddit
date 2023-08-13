@@ -16,4 +16,6 @@ type Comment = {
   comments: Comment[];
 };
 
-export type { Community, Post, Comment };
+type VoteState = "UPVOTED" | "DOWNVOTED";
+
+export type { Community, Post, Comment, VoteState };

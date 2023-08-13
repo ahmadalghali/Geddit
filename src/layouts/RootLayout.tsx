@@ -3,9 +3,10 @@ import Header from "../components/Header";
 
 function RootLayout() {
   return (
-    <main className='min-h-screen'>
+    <main>
       <Header />
-      <section className='max-w-3xl mx-auto py-20 px-10 min-h-screen'>
+
+      <section className='max-w-3xl mx-auto pt-20 pb-8 md:px-10 px-5 min-h-screen flex flex-col'>
         <Outlet />
       </section>
     </main>

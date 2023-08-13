@@ -20,6 +20,7 @@ type CommentDTO = {
   author: string;
   postId: string;
   replies: CommentDTO[];
+  createdDate: string;
 };
 
 type PostDTO = {
@@ -28,12 +29,19 @@ type PostDTO = {
   body?: string;
   communityName: string;
   comments: CommentDTO[];
+  createdDate: string;
 };
 
 type CommunityDTO = {
   name: string;
   description: string;
   posts: PostDTO[];
+};
+
+type CommunitySummaryDTO = {
+  name: string;
+  description: string;
+  postCount: number;
 };
 
 type PostSummaryDTO = {
@@ -44,6 +52,7 @@ type PostSummaryDTO = {
   commentCount: number;
   upvotes: number;
   downvotes: number;
+  createdDate: string;
 };
 
 type UserRegisterRequestDTO = {
@@ -66,4 +75,5 @@ export type {
   PostSummaryDTO,
   UserRegisterRequestDTO,
   UserDTO,
+  CommunitySummaryDTO,
 };

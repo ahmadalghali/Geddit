@@ -1,38 +1,40 @@
 import { useEffect, useState } from "react";
-import Constants from "../constants";
-import { Link } from "react-router-dom";
 import { IconSearch } from "@tabler/icons-react";
 import { getAllCommunities } from "../api/communities";
-import { Community } from "../types";
-import SearchResultCommunity from "../components/SearchResultCommunity";
+import SearchResultSkeleton from "../components/skeletons/SearchResultSkeleton";
+import PageTitle from "../components/PageTitle";
+import SearchResultCommunityList from "../components/SearchResultCommunityList";
+import { CommunitySummaryDTO } from "@/types/dto";
 
 function ExploreCommunitiesPage() {
-  const [communities, setCommunities] = useState<Community[]>([]);
+  const [communities, setCommunities] = useState<CommunitySummaryDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     (async () => {
       const allCommunities = await getAllCommunities();
       setCommunities(allCommunities);
+      setIsLoading(false);
     })();
   }, []);
 
+  if (isLoading)
+    return (
+      <>
+        <PageTitle>Explore Communities</PageTitle>
+        <SearchResultSkeleton count={10} />;
+      </>
+    );
+
   return (
-    <div>
-      <h1>Explore Communities</h1>
+    <>
+      <PageTitle>Explore Communities</PageTitle>
       {communities.length > 0 ? (
-        <ul className='space-y-2'>
-          {communities.map((community) => (
-            <li key={community.name} className='hover:bg-gray-100 cursor-pointer'>
-              <Link to={`/${Constants.PREFIX_COMMUNITY}${community.name}`}>
-                <SearchResultCommunity community={community} />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <SearchResultCommunityList searchResults={communities} />
       ) : (
         <NoSearchResults className='mt-20' />
       )}
-    </div>
+    </>
   );
 }
 

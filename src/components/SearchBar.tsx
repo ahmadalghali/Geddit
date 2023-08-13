@@ -1,6 +1,6 @@
 import { IconSearch } from "@tabler/icons-react";
 import { Autocomplete } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getAllCommunities } from "../api/communities";
 
@@ -8,6 +8,7 @@ function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
   const [allCommunityNames, setAllCommunityNames] = useState<string[]>([]);
   const [autoCompleteData, setAutoCompleteData] = useState<string[]>([]);
+  const searchBarRef = useRef<HTMLInputElement | null>(null);
 
   // optimise to fetch only once
   useEffect(() => {
@@ -21,6 +22,7 @@ function SearchBar() {
 
   const handleKeyPress = async (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
+      removeFocus();
       if (searchTerm.trim().length < 1) return;
 
       navigate(`/search?query=${searchTerm}`);
@@ -39,9 +41,12 @@ function SearchBar() {
     }
   };
 
+  const removeFocus = () => searchBarRef.current?.blur();
+
   return (
-    <div className='flex items-center justify-center sm:w-96'>
+    <div className='flex items-center justify-center sm:w-96 overflow-visible'>
       <Autocomplete
+        ref={searchBarRef}
         icon={<IconSearch />}
         className='w-full'
         radius='xl'
@@ -54,6 +59,8 @@ function SearchBar() {
         onItemSubmit={(item) => navigate(`/search?query=${item.value}`)}
         onKeyDown={(event) => handleKeyPress(event)}
         onChange={(newSearchTerm) => onSearchTermChanged(newSearchTerm)}
+        hoverOnSearchChange
+        onDropdownClose={() => removeFocus()}
       />
     </div>
   );

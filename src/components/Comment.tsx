@@ -1,16 +1,13 @@
 import { Avatar, Box } from "@mantine/core";
-import {
-  IconArrowBigDown,
-  IconArrowBigUp,
-  IconArrowsDiagonal,
-  IconBrandReddit,
-  IconDots,
-  IconMessageCircle,
-} from "@tabler/icons-react";
+import { IconArrowsDiagonal, IconBrandReddit } from "@tabler/icons-react";
 import { useState } from "react";
 import CommentsList from "./CommentsList";
 import { CommentDTO } from "../types/dto";
-
+import Constants from "../constants";
+import ContentInteractions from "./ContentInteractions";
+import { since } from "../utils/date-time";
+import { useLongPress } from "react-use";
+import { AnimatePresence, motion } from "framer-motion";
 type Props = {
   comment: CommentDTO;
   isChild: boolean;
@@ -18,55 +15,92 @@ type Props = {
 
 function Comment({ comment, isChild }: Props) {
   const [collapsed, setCollapsed] = useState(false);
+
+  const onLongPress = () => {
+    setCollapsed((preVal) => !preVal);
+  };
+
+  const longPressEvent = useLongPress(onLongPress, { delay: 500 });
+  const datePosted = since(comment.createdDate);
   return (
-    <>
-      {collapsed ? (
-        <div className='flex items-center'>
-          <IconArrowsDiagonal
-            color='gray'
-            className='mr-4 cursor-pointer hover:text-black'
-            onClick={() => setCollapsed(false)}
+    <motion.div>
+      <AnimatePresence>
+        {collapsed ? (
+          <CommentCollapsedView
+            comment={comment}
+            datePosted={datePosted}
+            setCollapsed={setCollapsed}
+            longPressEvent={longPressEvent}
           />
-          <Header author={comment.author} />
-        </div>
-      ) : (
-        <div className='flex'>
-          <VerticalCollapsibleLine onClick={() => setCollapsed(true)} />
-
-          <div className=''>
-            {/* Comment */}
-            <div className='flex '>
-              <div className='ml-4 '>
-                <Header author={comment.author} />
-                <p className='whitespace-pre-line'>{comment.text}</p>
-
-                <div className='mt-3 flex items-center justify-end space-x-4'>
-                  <IconArrowBigUp size='20' color='gray' className='cursor-pointer' />
-                  <IconArrowBigDown size='20' color='gray' className='cursor-pointer' />
-                  <IconMessageCircle size='20' color='gray' className='cursor-pointer' />
-                  <IconDots size='20' color='gray' className='cursor-pointer' />
-                </div>
-              </div>
-            </div>
-            <br />
-            {/* Child */}
-            <div className={"" + isChild ? "ml-5" : ""}>
-              {comment.replies.length > 0 && <CommentsList comments={comment.replies} isChild={true} />}
-            </div>
-          </div>
-        </div>
-      )}
-    </>
+        ) : (
+          <CommentExpandedView
+            comment={comment}
+            datePosted={datePosted}
+            setCollapsed={setCollapsed}
+            longPressEvent={longPressEvent}
+            isChild={isChild}
+          />
+        )}
+      </AnimatePresence>
+    </motion.div>
   );
 }
 
-function Header({ author }: { author: string }) {
+function CommentExpandedView({ longPressEvent, setCollapsed, comment, datePosted, isChild }) {
+  return (
+    <div className='flex' {...longPressEvent}>
+      <VerticalCollapsibleLine onClick={() => setCollapsed(true)} />
+
+      <div className='w-full'>
+        {/* Comment */}
+        <div className='ml-4 w-full'>
+          <Header author={comment.author} datePosted={datePosted} />
+          <p className='whitespace-pre-line'>{comment.text}</p>
+          <ContentInteractions commentCount={comment.replies.length} />
+        </div>
+        {/* Child */}
+        <div className={"" + isChild ? "ml-5" : ""}>
+          {comment.replies.length > 0 && (
+            <>
+              <br />
+              <CommentsList comments={comment.replies} isChild={true} />
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function CommentCollapsedView({ longPressEvent, setCollapsed, comment, datePosted }) {
+  return (
+    <div className='flex items-center' {...longPressEvent}>
+      <IconArrowsDiagonal
+        color='gray'
+        className='mr-4 cursor-pointer hover:text-black'
+        onClick={() => setCollapsed(false)}
+      />
+      <Header author={comment.author} datePosted={datePosted} />
+    </div>
+  );
+}
+
+function Header({ author, datePosted }: { author: string; datePosted: string }) {
   return (
     <div className='flex items-center'>
       <Avatar size='md' radius='xl' className='mr-1' color={"green"}>
         <IconBrandReddit size='30' />
       </Avatar>
-      <p className='text-sm font-semibold '>{author}</p>
+      <p className='text-sm'>
+        <span className='font-semibold '>
+          {Constants.PREFIX_USER}
+          {author}
+        </span>
+        <span className=''>
+          <span className='mx-1'>·</span>
+          <span>{datePosted}</span>
+        </span>
+      </p>
     </div>
   );
 }

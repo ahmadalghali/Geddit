@@ -1,13 +1,14 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Community } from "../types";
-import { Avatar, Button, Group, Select, Text, TextInput, Textarea } from "@mantine/core";
-import { IconBrandReddit, IconX } from "@tabler/icons-react";
+import { Avatar, Button, CloseButton, Group, Select, Text, TextInput, Textarea } from "@mantine/core";
+import { IconBrandReddit } from "@tabler/icons-react";
 import Constants from "../constants";
 import { createPost } from "../api/posts";
 import { getAllCommunities } from "../api/communities";
 import { useNavigate } from "react-router";
 import { CreatePostDTO } from "../types/dto";
 import { notifications } from "@mantine/notifications";
+import PageTitle from "../components/PageTitle";
 
 // TODO: extract select component and logic
 
@@ -70,11 +71,11 @@ function CreatePostPage() {
       body: body.trim(),
       author: "Ahmad", // TODO: use real user
     };
-    const success = await createPost(selectedCommunity!.name, createPostDTO);
+    const createdPost = await createPost(selectedCommunity!.name, createPostDTO);
 
-    if (success) {
+    if (createdPost) {
       notifications.show({ message: "Your post is now live!", color: "green" });
-      navigate("/");
+      navigate(`/${Constants.PREFIX_COMMUNITY}${createdPost.communityName}/posts/${createdPost.id}`);
     } else {
       notifications.show({
         message: "Something went wrong, please try again.",
@@ -84,34 +85,37 @@ function CreatePostPage() {
   };
 
   return (
-    <form onSubmit={handleFormSubmit}>
-      <div className='flex items-center justify-between'>
-        <IconX size={"40"} onClick={() => navigate("/")} className='cursor-pointer' />
-        <Button type='submit' radius={"xl"} disabled={!submittable}>
-          POST
-        </Button>
-      </div>
-      <div className='mt-5 space-y-5'>
-        <Select
-          placeholder='Select community'
-          itemComponent={SelectItem}
-          data={selectData}
-          searchable
-          maxDropdownHeight={400}
-          nothingFound='No communities found'
-          filter={(value, item) =>
-            item.label!.toLowerCase().includes(value.toLowerCase().trim()) ||
-            item.description.toLowerCase().includes(value.toLowerCase().trim())
-          }
-          value={selectedItemValue}
-          onChange={handleSelectChange}
-        />
+    <>
+      <PageTitle>Create a post</PageTitle>
+      <form onSubmit={handleFormSubmit}>
+        <div className='flex items-center justify-between'>
+          <CloseButton onClick={() => navigate(-1)} size={"xl"} iconSize={30} radius={"xl"} color='gray' />
+          <Button type='submit' radius={"xl"} disabled={!submittable} className='transition-all duration-300'>
+            POST
+          </Button>
+        </div>
+        <div className='mt-5 space-y-5'>
+          <Select
+            placeholder='Select community'
+            itemComponent={SelectItem}
+            data={selectData}
+            searchable
+            maxDropdownHeight={400}
+            nothingFound='No communities found'
+            filter={(value, item) =>
+              item.label!.toLowerCase().includes(value.toLowerCase().trim()) ||
+              item.description.toLowerCase().includes(value.toLowerCase().trim())
+            }
+            value={selectedItemValue}
+            onChange={handleSelectChange}
+          />
 
-        <TextInput placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} />
+          <TextInput placeholder='Enter title' value={title} onChange={(e) => setTitle(e.target.value)} />
 
-        <Textarea placeholder='Body text' minRows={10} value={body} onChange={(e) => setBody(e.target.value)} />
-      </div>
-    </form>
+          <Textarea placeholder='Body text' minRows={10} value={body} onChange={(e) => setBody(e.target.value)} />
+        </div>
+      </form>
+    </>
   );
 }
 

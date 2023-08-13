@@ -2,6 +2,7 @@ import { Button, TextInput } from "@mantine/core";
 import { useState } from "react";
 import { createCommunity } from "../api/communities";
 import { CreateCommunityDTO } from "../types/dto";
+import PageTitle from "../components/PageTitle";
 
 function CreateCommunityPage() {
   const [name, setName] = useState("");
@@ -22,6 +23,7 @@ function CreateCommunityPage() {
 
   return (
     <>
+      <PageTitle>Create a community</PageTitle>
       <form className='shadow-md p-3 rounded-md' onSubmit={(e) => handleSubmit(e)}>
         <TextInput
           placeholder='Name'

@@ -1,8 +1,15 @@
 import { Button, Textarea } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { CreateCommentDTO } from "../types/dto";
+import { cn } from "../lib/utils";
 
-function AddCommentBox({ onSubmit }: { onSubmit: (createCommentDTO: CreateCommentDTO) => void }) {
+function AddCommentBox({
+  onSubmit,
+  className,
+}: {
+  className: string;
+  onSubmit: (createCommentDTO: CreateCommentDTO) => void;
+}) {
   const [submittable, setSubmittable] = useState(false);
   const [text, setText] = useState("");
 
@@ -21,7 +28,7 @@ function AddCommentBox({ onSubmit }: { onSubmit: (createCommentDTO: CreateCommen
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className={cn("", className)}>
       <Textarea
         placeholder='Add a comment'
         minRows={5}
@@ -30,7 +37,12 @@ function AddCommentBox({ onSubmit }: { onSubmit: (createCommentDTO: CreateCommen
         onChange={(e) => setText(e.target.value)}
       />
       <div className='flex justify-end'>
-        <Button type='submit' radius={"xl"} className='ml-auto mt-3' disabled={!submittable}>
+        <Button
+          type='submit'
+          radius={"xl"}
+          className='ml-auto mt-3 transition-all duration-300'
+          disabled={!submittable}
+        >
           Reply
         </Button>
       </div>

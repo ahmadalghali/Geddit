@@ -89,14 +89,6 @@ const router = createBrowserRouter([
           </AnimatedPage>
         ),
       },
-      {
-        path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: (
-          <AnimatedPage>
-            <PostPage />
-          </AnimatedPage>
-        ),
-      },
     ],
   },
 ]);

@@ -8,7 +8,6 @@ import CreateCommunityPage from "@/pages/CreateCommunityPage";
 import RegisterPage from "@/pages/RegisterPage";
 import PostPage from "@/pages/PostPage";
 import ExploreCommunitiesPage from "@/pages/ExploreCommunitiesPage";
-import AnimatedPage from "@/components/animate/AnimatedPage";
 import SignInPage from "@/pages/SignInPage";
 import { Constants } from "@/lib/constants";
 
@@ -19,75 +18,39 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <AnimatedPage>
-            <LandingPage />
-          </AnimatedPage>
-        ),
+        element: <LandingPage />,
       },
       {
         path: "/explore",
-        element: (
-          <AnimatedPage>
-            <ExploreCommunitiesPage />
-          </AnimatedPage>
-        ),
+        element: <ExploreCommunitiesPage />,
       },
       {
         path: "/search",
-        element: (
-          <AnimatedPage>
-            <SearchPage />
-          </AnimatedPage>
-        ),
+        element: <SearchPage />,
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName`,
-        element: (
-          <AnimatedPage>
-            <CommunityPage />
-          </AnimatedPage>
-        ),
+        element: <CommunityPage />,
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: (
-          <AnimatedPage>
-            <PostPage />
-          </AnimatedPage>
-        ),
+        element: <PostPage />,
       },
       {
         path: "/create-post",
-        element: (
-          <AnimatedPage>
-            <CreatePostPage />
-          </AnimatedPage>
-        ),
+        element: <CreatePostPage />,
       },
       {
         path: "/create-community",
-        element: (
-          <AnimatedPage>
-            <CreateCommunityPage />
-          </AnimatedPage>
-        ),
+        element: <CreateCommunityPage />,
       },
       {
         path: "/register",
-        element: (
-          <AnimatedPage>
-            <RegisterPage />
-          </AnimatedPage>
-        ),
+        element: <RegisterPage />,
       },
       {
         path: "/sign-in",
-        element: (
-          <AnimatedPage>
-            <SignInPage />
-          </AnimatedPage>
-        ),
+        element: <SignInPage />,
       },
     ],
   },

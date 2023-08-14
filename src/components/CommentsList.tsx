@@ -1,6 +1,6 @@
-import { CommentDTO } from "../types/dto";
-import Comment from "./Comment";
-
+import { AnimatePresence, motion } from "framer-motion";
+import { CommentDTO } from "@/types/dtos";
+import Comment from "@/components/Comment";
 type Props = {
   comments: CommentDTO[];
   isChild: boolean;
@@ -8,13 +8,20 @@ type Props = {
 
 function CommentsList({ comments }: Props) {
   return (
-    <ul className='space-y-10 bg-white'>
-      {comments.map((comment) => (
-        <li key={comment.id}>
-          <Comment comment={comment} isChild={false} />
-        </li>
-      ))}
-    </ul>
+    <motion.ul className='space-y-10 bg-white'>
+      <AnimatePresence>
+        {comments.map((comment, index) => (
+          <motion.li
+            key={comment.id}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: index * 0.1, duration: 0.3 }}
+          >
+            <Comment comment={comment} isChild={false} />
+          </motion.li>
+        ))}
+      </AnimatePresence>
+    </motion.ul>
   );
 }
 

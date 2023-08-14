@@ -12,7 +12,7 @@ const cache = createEmotionCache({
 function App() {
   return (
     <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>
-      <Notifications autoClose={4000} classNames='rounded-md' />
+      <Notifications autoClose={4000} className='rounded-md' />
       <RouterProvider router={router} />
     </MantineProvider>
   );

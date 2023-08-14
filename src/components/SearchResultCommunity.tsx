@@ -1,14 +1,15 @@
 import { Avatar } from "@mantine/core";
-import { Community } from "../types";
 import { IconBrandReddit } from "@tabler/icons-react";
-import Constants from "../constants";
+import { Constants } from "@/lib/constants";
+import { CommunitySummaryDTO } from "@/types/dtos";
+import { motion } from "framer-motion";
 type Props = {
-  community: Community;
+  community: CommunitySummaryDTO;
 };
 
 function SearchResultCommunity({ community }: Props) {
   return (
-    <div className='flex rounded-md p-3 space-x-3 items-center'>
+    <motion.div className='flex rounded-md p-3 space-x-3 items-center'>
       <Avatar size='lg' radius='xl' color='cyan' className='mt-3'>
         <IconBrandReddit size='40' />
       </Avatar>
@@ -20,7 +21,7 @@ function SearchResultCommunity({ community }: Props) {
         </h4>
         <p className='text-sm text-gray-500'>{community.description}</p>
       </div>
-    </div>
+    </motion.div>
   );
 }
 

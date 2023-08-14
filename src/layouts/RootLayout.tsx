@@ -1,13 +1,17 @@
-import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
+import { Outlet, ScrollRestoration } from "react-router-dom";
+import Header from "@/components/Header";
+import AnimatedPage from "@/components/animate/AnimatedPage";
 
 function RootLayout() {
   return (
-    <main className='min-h-screen'>
+    <main>
       <Header />
-      <section className='max-w-3xl mx-auto py-20 px-10 min-h-screen'>
-        <Outlet />
+      <section className='max-w-3xl mx-auto pt-20 pb-8 sm:px-10 px-5 min-h-screen flex flex-col'>
+        <AnimatedPage>
+          <Outlet />
+        </AnimatedPage>
       </section>
+      <ScrollRestoration />
     </main>
   );
 }

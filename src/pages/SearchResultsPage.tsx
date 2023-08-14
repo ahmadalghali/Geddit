@@ -1,47 +1,42 @@
 import { useEffect, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
-import { search } from "../api/communities";
-import { Community } from "../types";
-import SearchResultCommunity from "../components/SearchResultCommunity";
+import { useSearchParams } from "react-router-dom";
+import { search } from "@/api/communities";
 import { IconSearch } from "@tabler/icons-react";
-import Constants from "../constants";
+import SearchResultSkeleton from "@/components/skeletons/SearchResultSkeleton";
+import { CommunitySummaryDTO } from "@/types/dtos";
+import SearchResultCommunityList from "@/components/SearchResultCommunityList";
 
 function SearchResultsPage() {
   // This hook grabs the search query params from your browser
   // Example: gogeddit.com/search?query=cscareers
   const [searchParams] = useSearchParams();
-  const [searchResults, setSearchResults] = useState<Community[]>([]);
+  const [searchResults, setSearchResults] = useState<CommunitySummaryDTO[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const performSearch = async () => {
       const searchQuery = searchParams.get("query");
       if (searchQuery) {
         const communitiesResponse = await search(searchQuery);
-
         setSearchResults(communitiesResponse);
+        setIsLoading(false);
       }
     };
 
     performSearch();
   }, [searchParams]);
 
+  if (isLoading) return <SearchResultSkeleton count={10} />;
+
   return (
-    <div>
-      <p className='text-sm'>Results: {searchResults.length}</p>
+    <>
+      <p className='text-xl font-medium'>Results: {searchResults.length}</p>
       {searchResults.length > 0 ? (
-        <ul className='list-none p-0 m-0'>
-          {searchResults.map((searchResult) => (
-            <li key={searchResult.name} className='hover:bg-gray-100 cursor-pointer'>
-              <Link to={`/${Constants.PREFIX_COMMUNITY}${searchResult.name}`}>
-                <SearchResultCommunity community={searchResult} />
-              </Link>
-            </li>
-          ))}
-        </ul>
+        <SearchResultCommunityList searchResults={searchResults} />
       ) : (
         <NoSearchResults className='mt-20' />
       )}
-    </div>
+    </>
   );
 }
 

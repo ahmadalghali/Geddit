@@ -1,8 +1,8 @@
-import { Community } from "../types";
-import { api } from "../api";
-import { CreateCommunityDTO } from "../types/dto";
+import { Community } from "@/types/entities";
+import { api } from "@/api/config";
+import { CommunitySummaryDTO, CreateCommunityDTO } from "@/types/dtos";
 
-async function search(keyword: string): Promise<Community[]> {
+async function search(keyword: string): Promise<CommunitySummaryDTO[]> {
   const searchResponse = await api.get("/communities/search", {
     params: {
       name: keyword,
@@ -14,7 +14,7 @@ async function search(keyword: string): Promise<Community[]> {
   return communities;
 }
 
-async function getAllCommunities(): Promise<Community[]> {
+async function getAllCommunities(): Promise<CommunitySummaryDTO[]> {
   const response = await api.get("/communities");
 
   return response.data;
@@ -25,7 +25,7 @@ async function createCommunity(createCommunityDTO: CreateCommunityDTO): Promise<
   return response.data;
 }
 
-async function getCommunityByName(communityName: string): Promise<Community> {
+async function getCommunityByName(communityName: string): Promise<CommunitySummaryDTO> {
   const communityResponse = await api.get(`/communities/${communityName}`);
 
   return communityResponse.data;

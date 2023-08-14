@@ -1,5 +1,5 @@
-import { api } from ".";
-import { CommentDTO, CreateCommentDTO } from "../types/dto";
+import { api } from "@/api/config";
+import { CommentDTO, CreateCommentDTO } from "@/types/dtos";
 
 async function getComments(communityName: string, postId: string): Promise<CommentDTO[]> {
   const response = await api.get<CommentDTO[]>(`/communities/${communityName}/posts/${postId}/comments`);

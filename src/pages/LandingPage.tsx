@@ -1,22 +1,25 @@
 import { useEffect, useState } from "react";
-import PostList from "../components/PostSummaryItemList";
-import { PostSummaryDTO } from "../types/dto";
-import { getSuggestedPosts } from "../api/suggestions";
+import PostSummaryItemList from "@/components/PostSummaryItemList";
+import { PostSummaryDTO } from "@/types/dtos";
+import { getSuggestedPosts } from "@/api/suggestions";
+import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
+import PageTitle from "@/components/PageTitle";
 
 function LandingPage() {
   const [suggestedPosts, setSuggestedPosts] = useState<PostSummaryDTO[]>([]);
-
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     (async () => {
       const posts = await getSuggestedPosts();
       setSuggestedPosts(posts);
+      setIsLoading(false);
     })();
   }, []);
 
   return (
     <div>
-      <h1 className='mb-10'>What's happening recently</h1>
-      <PostList posts={suggestedPosts} />
+      <PageTitle>What's happening recently</PageTitle>
+      {isLoading ? <PostSummaryItemSkeleton count={5} /> : <PostSummaryItemList posts={suggestedPosts} />}
     </div>
   );
 }

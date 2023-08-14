@@ -1,14 +1,13 @@
-import { Post } from "../types";
-import { api } from ".";
-import { CreatePostDTO, PostDTO } from "../types/dto";
+import { api } from "@/api/config";
+import { CreatePostDTO, PostDTO, PostSummaryDTO } from "@/types/dtos";
 
-async function createPost(communityName: string, createPostDTO: CreatePostDTO): Promise<boolean> {
-  const response = await api.post<Post>(`/communities/${communityName}/posts`, createPostDTO);
-  return response.status === 201;
+async function createPost(communityName: string, createPostDTO: CreatePostDTO): Promise<PostSummaryDTO> {
+  const response = await api.post<PostSummaryDTO>(`/communities/${communityName}/posts`, createPostDTO);
+  return response.data;
 }
 
-async function getAllPosts(communityName: string): Promise<PostDTO[]> {
-  const response = await api.get<PostDTO[]>(`/communities/${communityName}/posts`);
+async function getAllPosts(communityName: string): Promise<PostSummaryDTO[]> {
+  const response = await api.get<PostSummaryDTO[]>(`/communities/${communityName}/posts`);
   return response.data;
 }
 

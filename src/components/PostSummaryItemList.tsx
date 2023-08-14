@@ -1,23 +1,25 @@
-import { Link } from "react-router-dom";
-import { PostSummaryDTO } from "../types/dto";
-import PostSummaryItem from "./PostSummaryItem";
-
+import { motion } from "framer-motion";
+import { PostSummaryDTO } from "@/types/dtos";
+import PostSummaryItem from "@/components/PostSummaryItem";
 type Props = {
   posts: PostSummaryDTO[];
 };
 
-function CommentsList({ posts }: Props) {
+function PostSummaryItemList({ posts }: Props) {
   return (
-    <ul className='space-y-2'>
-      {posts.map((post) => (
-        <li>
-          <Link to={`/g/${post.communityName}/posts/${post.id}`}>
-            <PostSummaryItem post={post} />
-          </Link>
-        </li>
+    <motion.ul className='space-y-2'>
+      {posts.map((post, index) => (
+        <motion.li
+          key={post.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: index * 0.1, duration: 0.3 }}
+        >
+          <PostSummaryItem post={post} />
+        </motion.li>
       ))}
-    </ul>
+    </motion.ul>
   );
 }
 
-export default CommentsList;
+export default PostSummaryItemList;

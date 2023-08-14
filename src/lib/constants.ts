@@ -3,4 +3,4 @@ const Constants = {
   PREFIX_USER: "u/",
 };
 
-export default Constants;
+export { Constants };

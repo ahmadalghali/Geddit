@@ -13,7 +13,7 @@ function ContentInteractions({ commentCount = 0, className }: Props) {
   const [voteCount, setVoteCount] = useState(0);
   const [voteState, setVoteState] = useState<VoteState>();
   return (
-    <div className={cn("mt-5 flex items-center space-x-5", className ?? "")}>
+    <div className={cn("flex items-center space-x-5", className ?? "")}>
       <ContentVotes
         voteCount={voteCount}
         setVoteCount={setVoteCount}

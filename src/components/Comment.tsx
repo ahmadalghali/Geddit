@@ -1,13 +1,12 @@
-import { Avatar, Box } from "@mantine/core";
+import { Avatar, Box, Collapse } from "@mantine/core";
 import { IconArrowsDiagonal, IconBrandReddit } from "@tabler/icons-react";
-import { useState } from "react";
 import { CommentDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
-import { useLongPress } from "react-use";
 import { AnimatePresence, motion } from "framer-motion";
 import CommentsList from "@/components/CommentsList";
 import ContentInteractions from "@/components/ContentInteractions";
+import { useDisclosure } from "@mantine/hooks";
 
 type Props = {
   comment: CommentDTO;
@@ -15,47 +14,42 @@ type Props = {
 };
 
 function Comment({ comment, isChild }: Props) {
-  const [collapsed, setCollapsed] = useState(false);
+  const [commentExpanded, { toggle: toggleCollapsed }] = useDisclosure(true);
 
-  const onLongPress = () => {
-    setCollapsed((preVal) => !preVal);
-  };
-
-  const longPressEvent = useLongPress(onLongPress, { delay: 500 });
   const datePosted = since(comment.createdDate);
   return (
     <motion.div>
-      <AnimatePresence>
-        {collapsed ? (
-          <CommentCollapsedView
-            comment={comment}
-            datePosted={datePosted}
-            setCollapsed={setCollapsed}
-            longPressEvent={longPressEvent}
-          />
-        ) : (
-          <CommentExpandedView
-            comment={comment}
-            datePosted={datePosted}
-            setCollapsed={setCollapsed}
-            longPressEvent={longPressEvent}
-            isChild={isChild}
-          />
-        )}
-      </AnimatePresence>
+      <Header
+        author={comment.author}
+        datePosted={datePosted}
+        expandComment={toggleCollapsed}
+        commentExpanded={commentExpanded}
+      />
+      <div className='pl-4 pt-1.5'>
+        <Collapse in={commentExpanded}>
+          <Content toggleCollapsed={toggleCollapsed} comment={comment} isChild={isChild} />
+        </Collapse>
+      </div>
     </motion.div>
   );
 }
 
-function CommentExpandedView({ longPressEvent, setCollapsed, comment, datePosted, isChild }) {
+function Content({
+  comment,
+  isChild,
+  toggleCollapsed,
+}: {
+  comment: CommentDTO;
+  isChild: boolean;
+  toggleCollapsed: () => void;
+}) {
   return (
-    <div className='flex' {...longPressEvent}>
-      <VerticalCollapsibleLine onClick={() => setCollapsed(true)} />
+    <div className='flex'>
+      <VerticalCollapsibleLine onClick={toggleCollapsed} />
 
       <div className='w-full'>
         {/* Comment */}
         <div className='ml-4 w-full'>
-          <Header author={comment.author} datePosted={datePosted} />
           <p className='whitespace-pre-line'>{comment.text}</p>
           <ContentInteractions commentCount={comment.replies.length} />
         </div>
@@ -73,36 +67,50 @@ function CommentExpandedView({ longPressEvent, setCollapsed, comment, datePosted
   );
 }
 
-function CommentCollapsedView({ longPressEvent, setCollapsed, comment, datePosted }) {
+function Header({
+  author,
+  datePosted,
+  expandComment,
+  commentExpanded,
+}: {
+  author: string;
+  datePosted: string;
+  expandComment: () => void;
+  commentExpanded: boolean;
+}) {
   return (
-    <div className='flex items-center' {...longPressEvent}>
-      <IconArrowsDiagonal
-        color='gray'
-        className='mr-4 cursor-pointer hover:text-black'
-        onClick={() => setCollapsed(false)}
-      />
-      <Header author={comment.author} datePosted={datePosted} />
-    </div>
-  );
-}
+    <motion.div className='flex items-center' transition={{ delay: 0.5, duration: 1 }}>
+      <AnimatePresence mode='popLayout'>
+        {!commentExpanded && (
+          <motion.div
+            initial={{ scale: 0, opacity: 0, x: 50 }}
+            animate={{ scale: 1, opacity: 1, x: 0 }}
+            exit={{ scale: 0, opacity: 0, x: 20, transition: { duration: 1 } }}
+            key={"1"}
+            transition={{ duration: 0.4, type: "spring" }}
+          >
+            <IconArrowsDiagonal color='gray' className='mr-2 cursor-pointer hover:text-black' onClick={expandComment} />
+          </motion.div>
+        )}
 
-function Header({ author, datePosted }: { author: string; datePosted: string }) {
-  return (
-    <div className='flex items-center'>
-      <Avatar size='md' radius='xl' className='mr-1' color={"green"}>
-        <IconBrandReddit size='30' />
-      </Avatar>
-      <p className='text-sm'>
-        <span className='font-semibold '>
-          {Constants.PREFIX_USER}
-          {author}
-        </span>
-        <span className=''>
-          <span className='mx-1'>·</span>
-          <span>{datePosted}</span>
-        </span>
-      </p>
-    </div>
+        <div className='flex items-center'>
+          <Avatar size='md' radius='xl' className='mr-1' color={"green"}>
+            <IconBrandReddit size='30' />
+          </Avatar>
+
+          <p className='text-sm'>
+            <span className='font-semibold '>
+              {Constants.PREFIX_USER}
+              {author}
+            </span>
+            <span className=''>
+              <span className='mx-1'>·</span>
+              <span>{datePosted}</span>
+            </span>
+          </p>
+        </div>
+      </AnimatePresence>
+    </motion.div>
   );
 }
 

@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 function Header() {
   const navigate = useNavigate();
   return (
-    <div className='bg-amber-500 flex items-center justify-between px-5 py-3 fixed  top-0 left-0 right-0 z-50 shadow-md'>
+    <div className='bg-amber-500 flex items-center justify-between px-5 py-3 fixed inset-x-0 z-50 shadow-md'>
       <div onClick={() => navigate("/")} className='cursor-pointer'>
         <Logo />
       </div>

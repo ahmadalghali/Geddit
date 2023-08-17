@@ -3,6 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* * {
-  overflow: hidden;
-} */
+body {
+  overflow-y: scroll;
+}

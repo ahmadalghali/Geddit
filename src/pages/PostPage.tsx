@@ -15,7 +15,8 @@ import { AnimatePresence } from "framer-motion";
 import PostContentSkeleton from "@/components/skeletons/PostContentSkeleton";
 import { Constants } from "@/lib/constants";
 import { Link } from "react-router-dom";
-
+import { Skeleton } from "@mantine/core";
+import { motion } from "framer-motion";
 function PostPage() {
   const { communityName, postId } = useParams();
 
@@ -57,18 +58,18 @@ function PostPage() {
   };
 
   return (
-    <div className='bg-white'>
-      <AnimatePresence>{isLoading ? <PostContentSkeleton /> : <PostContent post={post!} />}</AnimatePresence>
-      <AddCommentBox
-        className='mt-5'
-        onSubmit={(createCommentDTO: CreateCommentDTO) => handleSubmitComment(createCommentDTO)}
-      />
+    <AnimatePresence>
+      {isLoading ? (
+        <PostPageSkeleton />
+      ) : (
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <PostContent post={post!} />
+          <AddCommentBox
+            className='mt-5'
+            onSubmit={(createCommentDTO: CreateCommentDTO) => handleSubmitComment(createCommentDTO)}
+          />
 
-      <AnimatePresence mode='wait'>
-        {isLoading ? (
-          <CommentSkeleton count={10} />
-        ) : (
-          <>
+          <AnimatePresence mode='wait'>
             {post?.comments.length ? (
               <CommentsList
                 comments={post.comments.sort(
@@ -79,10 +80,10 @@ function PostPage() {
             ) : (
               <NoCommentsYet />
             )}
-          </>
-        )}
-      </AnimatePresence>
-    </div>
+          </AnimatePresence>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 
   function PostContent({ post }: { post: PostDTO }) {
@@ -126,6 +127,25 @@ function PostPage() {
       </div>
     );
   }
+}
+
+const PostPageSkeleton = () => (
+  <motion.div animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <PostContentSkeleton />
+    <CommentBoxSkeleton />
+    <CommentSkeleton count={10} />
+  </motion.div>
+);
+
+function CommentBoxSkeleton() {
+  return (
+    <div className='mt-5'>
+      <Skeleton height={130} radius={"md"} />
+      <div className='flex justify-end'>
+        <Skeleton height={35} width={75} radius={"xl"} className='mt-3' />
+      </div>
+    </div>
+  );
 }
 
 export default PostPage;

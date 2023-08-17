@@ -8,6 +8,7 @@ import { Constants } from "@/lib/constants";
 import { Avatar, Button, Skeleton } from "@mantine/core";
 import { IconBrandReddit, IconSend } from "@tabler/icons-react";
 import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
+import { AnimatePresence, motion } from "framer-motion";
 
 function CommunityPage() {
   const [community, setCommunity] = useState<CommunitySummaryDTO | null>(null);
@@ -33,29 +34,33 @@ function CommunityPage() {
     }
   }, [communityName]);
 
-  if (isLoading) return <PageSkeleton />;
-
   return (
-    <>
-      {community && <CommunityHeader community={community} />}
-      {posts.length ? (
-        <PostSummaryItemList posts={posts} />
+    <AnimatePresence>
+      {isLoading ? (
+        <PageSkeleton />
       ) : (
-        <div className='flex-grow flex flex-col justify-center'>
-          <NoPostsYet />
-        </div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <CommunityHeader community={community!} />
+          {posts.length ? (
+            <PostSummaryItemList posts={posts} />
+          ) : (
+            <div className='flex-grow flex flex-col justify-center'>
+              <NoPostsYet />
+            </div>
+          )}
+        </motion.div>
       )}
-    </>
+    </AnimatePresence>
   );
 }
 
 function PageSkeleton() {
   return (
-    <>
+    <motion.div animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
       <CommunityHeaderSkeleton />
       <br />
       <PostSummaryItemSkeleton count={10} />
-    </>
+    </motion.div>
   );
 }
 function CommunityHeaderSkeleton() {

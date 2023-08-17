@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Community } from "@/types/entities";
 import { Avatar, Button, CloseButton, Group, Select, Text, TextInput, Textarea } from "@mantine/core";
-import { IconBrandReddit } from "@tabler/icons-react";
+import { IconBrandReddit, IconCheck } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
 import { createPost } from "@/api/posts";
 import { getAllCommunities } from "@/api/communities";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router";
 import { CreatePostDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
 import PageTitle from "@/components/PageTitle";
+import { addArtificialDelay } from "@/lib/utils/network";
 
 // TODO: extract select component and logic
 
@@ -20,6 +21,7 @@ function CreatePostPage() {
   const [body, setBody] = useState("");
   const [submittable, setSubmittable] = useState(false);
   const [selectedItemValue] = useState<string | null>();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
@@ -66,21 +68,36 @@ function CreatePostPage() {
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    setIsSubmitting(true);
+
     const createPostDTO: CreatePostDTO = {
       title: title.trim(),
       body: body.trim(),
       author: "Ahmad", // TODO: use real user
     };
-    const createdPost = await createPost(selectedCommunity!.name, createPostDTO);
 
-    if (createdPost) {
-      notifications.show({ message: "Your post is now live!", color: "green" });
-      navigate(`/${Constants.PREFIX_COMMUNITY}${createdPost.communityName}/posts/${createdPost.id}`);
-    } else {
-      notifications.show({
-        message: "Something went wrong, please try again.",
-        color: "red",
-      });
+    try {
+      const createdPost = await createPost(selectedCommunity!.name, createPostDTO);
+      await addArtificialDelay(8);
+
+      if (createdPost) {
+        notifications.show({
+          color: "green",
+          title: "Your post is now live!",
+          message: "",
+          icon: <IconCheck size='1rem' />,
+          autoClose: 4000,
+        });
+        navigate(`/${Constants.PREFIX_COMMUNITY}${createdPost.communityName}/posts/${createdPost.id}`);
+      } else {
+        notifications.show({
+          message: "Something went wrong, please try again.",
+          color: "red",
+        });
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -90,7 +107,15 @@ function CreatePostPage() {
       <form onSubmit={handleFormSubmit}>
         <div className='flex items-center justify-between'>
           <CloseButton onClick={() => navigate(-1)} size={"xl"} iconSize={30} radius={"xl"} color='gray' />
-          <Button type='submit' radius={"xl"} disabled={!submittable} className='transition-all duration-300'>
+          <Button
+            loading={isSubmitting}
+            loaderPosition='center'
+            type='submit'
+            radius={"xl"}
+            disabled={!submittable}
+            className={`transition-all duration-300 `}
+            classNames={{ label: `${isSubmitting ? "text-transparent" : ""}` }}
+          >
             POST
           </Button>
         </div>

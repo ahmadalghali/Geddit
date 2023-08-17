@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useState } from "react";
 import { Community } from "@/types/entities";
-import { Avatar, Button, CloseButton, Group, Select, Text, TextInput, Textarea } from "@mantine/core";
+import { Avatar, Button, CloseButton, Group, LoadingOverlay, Select, Text, TextInput, Textarea } from "@mantine/core";
 import { IconBrandReddit, IconCheck } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
 import { createPost } from "@/api/posts";
@@ -104,18 +104,11 @@ function CreatePostPage() {
   return (
     <>
       <PageTitle>Create a post</PageTitle>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={handleFormSubmit} className='relative'>
+        <LoadingOverlay transitionDuration={100} loaderProps={{ size: "lg" }} visible={isSubmitting} />
         <div className='flex items-center justify-between'>
           <CloseButton onClick={() => navigate(-1)} size={"xl"} iconSize={30} radius={"xl"} color='gray' />
-          <Button
-            loading={isSubmitting}
-            loaderPosition='center'
-            type='submit'
-            radius={"xl"}
-            disabled={!submittable}
-            className={`transition-all duration-300 `}
-            classNames={{ label: `${isSubmitting ? "text-transparent" : ""}` }}
-          >
+          <Button type='submit' radius={"xl"} disabled={!submittable}>
             POST
           </Button>
         </div>
@@ -147,13 +140,15 @@ function CreatePostPage() {
 const SelectItem = forwardRef<HTMLDivElement, ItemProps>(({ label, description, ...others }: ItemProps, ref) => (
   <div ref={ref} key={label} {...others}>
     <Group noWrap>
-      <Avatar size='lg' radius='xl' color='dark'>
+      <Avatar size='lg' radius='xl' color='cyan'>
         <IconBrandReddit size='40' />
       </Avatar>
 
       <div>
-        <Text size='sm'>{label}</Text>
-        <Text size='xs' opacity={0.65}>
+        <Text size='md' className='font-semibold'>
+          {label}
+        </Text>
+        <Text size='xs' className='font-medium' opacity={0.65}>
           {description}
         </Text>
       </div>

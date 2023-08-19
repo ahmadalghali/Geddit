@@ -79,7 +79,7 @@ function CreatePostPage() {
 
     try {
       const createdPost = await createPost(selectedCommunity!.name, createPostDTO);
-      await addArtificialDelay(8);
+      await addArtificialDelay(1);
 
       if (createdPost) {
         notifications.show({

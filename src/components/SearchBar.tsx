@@ -44,7 +44,7 @@ function SearchBar() {
   const removeFocus = () => searchBarRef.current?.blur();
 
   return (
-    <div className='flex items-center justify-center sm:w-96 overflow-visible'>
+    <div className='flex items-center w-96 justify-center overflow-visible'>
       <Autocomplete
         ref={searchBarRef}
         icon={<IconSearch />}

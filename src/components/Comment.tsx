@@ -154,6 +154,8 @@ function Header({
               {Constants.PREFIX_USER}
               {author}
             </span>
+            <span className='mx-1'>·</span>
+            <span className='font-bold text-blue-600 text-[.9rem]'>Author</span>
             <span className=''>
               <span className='mx-1'>·</span>
               <span>{datePosted}</span>

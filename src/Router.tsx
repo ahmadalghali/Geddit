@@ -10,6 +10,10 @@ import PostPage from "@/pages/PostPage";
 import ExploreCommunitiesPage from "@/pages/ExploreCommunitiesPage";
 import SignInPage from "@/pages/SignInPage";
 import { Constants } from "@/lib/constants";
+import UserProfilePage from "@/pages/UserProfilePage";
+import ProfilePageLayout from "@/layouts/ProfilePageLayout";
+import { PostModalProvider } from "@/contexts/PostModalContext";
+import { CommentProvider } from "@/contexts/CommentContext";
 
 const router = createBrowserRouter([
   {
@@ -34,7 +38,13 @@ const router = createBrowserRouter([
       },
       {
         path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
-        element: <PostPage />,
+        element: (
+          <PostModalProvider>
+            <CommentProvider>
+              <PostPage />
+            </CommentProvider>
+          </PostModalProvider>
+        ),
       },
       {
         path: "/create-post",
@@ -51,6 +61,16 @@ const router = createBrowserRouter([
       {
         path: "/sign-in",
         element: <SignInPage />,
+      },
+    ],
+  },
+  {
+    path: "/profile",
+    element: <ProfilePageLayout />,
+    children: [
+      {
+        index: true,
+        element: <UserProfilePage />,
       },
     ],
   },

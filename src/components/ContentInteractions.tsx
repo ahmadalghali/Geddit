@@ -3,15 +3,19 @@ import { cn } from "@/lib/utils/classname";
 import { VoteState } from "@/types/index";
 import { useState } from "react";
 import ContentVotes from "@/components/ContentVotes";
+import { ActionIcon } from "@mantine/core";
 
 type Props = {
   commentCount: number;
+  onOptionsClicked: () => void;
   className?: string;
+  showOptions?: boolean;
 };
 
-function ContentInteractions({ commentCount = 0, className }: Props) {
+function ContentInteractions({ commentCount = 0, className, onOptionsClicked, showOptions = true }: Props) {
   const [voteCount, setVoteCount] = useState(0);
   const [voteState, setVoteState] = useState<VoteState>();
+
   return (
     <div className={cn("flex items-center space-x-5", className ?? "")}>
       <ContentVotes
@@ -21,8 +25,15 @@ function ContentInteractions({ commentCount = 0, className }: Props) {
         setVoteState={setVoteState}
       />
       <Comments commentCount={commentCount} />
-
-      <IconDots size='36' color='gray' className='cursor-pointer  p-1.5 rounded-full hover:bg-zinc-100' />
+      {/* <ActionIcon></ActionIcon> */}
+      {showOptions && (
+        <IconDots
+          size='36'
+          color='gray'
+          className='cursor-pointer  p-1.5 rounded-full hover:bg-zinc-100'
+          onClick={onOptionsClicked}
+        />
+      )}
     </div>
   );
 }

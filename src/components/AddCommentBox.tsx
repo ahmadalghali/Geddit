@@ -23,7 +23,7 @@ function AddCommentBox({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    onSubmit({ text: text, author: "Ahmad" });
+    onSubmit({ text: text });
     setText("");
   };
 

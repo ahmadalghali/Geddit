@@ -1,11 +1,6 @@
 import { api } from "@/api/config";
 import { CommentDTO, CreateCommentDTO, UpdateCommentDTO } from "@/types/dtos";
 
-async function getComments(communityName: string, postId: string): Promise<CommentDTO[]> {
-  const response = await api.get<CommentDTO[]>(`/communities/${communityName}/posts/${postId}/comments`);
-  return response.data;
-}
-
 async function createComment(postId: string, createCommentDTO: CreateCommentDTO): Promise<CommentDTO> {
   const response = await api.post<CommentDTO>(`/posts/${postId}/comments`, createCommentDTO);
 
@@ -22,4 +17,4 @@ async function patchUpdateComment(commentId: string, updateCommentDTO: UpdateCom
   return response.data;
 }
 
-export { getComments, createComment, deleteComment, patchUpdateComment };
+export { createComment, deleteComment, patchUpdateComment };

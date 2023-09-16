@@ -3,13 +3,13 @@ import { Community } from "@/types/entities";
 import { Avatar, Button, CloseButton, Group, LoadingOverlay, Select, Text, TextInput, Textarea } from "@mantine/core";
 import { IconBrandReddit, IconCheck } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
-import { createPost } from "@/api/community-posts";
 import { getAllCommunities } from "@/api/communities";
 import { useNavigate } from "react-router";
 import { CreatePostDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
 import { addArtificialDelay } from "@/lib/utils/network";
 import { useForm, SubmitHandler, useController } from "react-hook-form";
+import { createCommunityPost } from "@/api/community-posts";
 
 type Inputs = {
   title: string;
@@ -44,7 +44,7 @@ function CreatePostForm({ communityName, onDismiss }: Props) {
     };
 
     try {
-      const createdPost = await createPost(selectedCommunityName!, createPostDTO);
+      const createdPost = await createCommunityPost(selectedCommunityName!, createPostDTO);
       await addArtificialDelay(1);
 
       if (createdPost) {

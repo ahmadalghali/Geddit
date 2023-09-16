@@ -3,7 +3,6 @@ import { getCommunityByName } from "@/api/communities";
 import { useParams } from "react-router-dom";
 import PostSummaryItemList from "@/components/PostSummaryItemList";
 import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
-import { getAllPosts } from "@/api/community-posts";
 import { Constants } from "@/lib/constants";
 import { Avatar, Button, Modal, Skeleton } from "@mantine/core";
 import { IconBrandReddit, IconSend } from "@tabler/icons-react";
@@ -11,6 +10,7 @@ import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkele
 import { AnimatePresence, motion } from "framer-motion";
 import { useDisclosure } from "@mantine/hooks";
 import CreatePostForm from "@/components/CreatePostForm";
+import { getCommunityPosts } from "@/api/community-posts";
 
 function CommunityPage() {
   const [community, setCommunity] = useState<CommunitySummaryDTO | null>(null);
@@ -26,7 +26,7 @@ function CommunityPage() {
       };
 
       const fetchCommunityPosts = async () => {
-        return await getAllPosts(communityName);
+        return await getCommunityPosts(communityName);
       };
 
       Promise.all([fetchCommunity(), fetchCommunityPosts()]).then(([community, posts]) => {

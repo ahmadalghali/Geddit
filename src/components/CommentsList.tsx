@@ -48,7 +48,6 @@ function CommentsList({
         <DrawerEditText
           close={closeEditDrawer}
           opened={editDrawerOpened}
-          title={"title here"}
           text={selectedComment.text}
           onSave={(updatedCommentText) => onEditComment(selectedComment.id, updatedCommentText)}
           resource='comment'

@@ -3,14 +3,14 @@ import { useState } from "react";
 
 type Props = {
   onSave: (text: string) => void;
-  text: string;
+  text: string | undefined;
   close: () => void;
   opened: boolean;
   resource: "comment" | "post";
   title?: string;
 };
 
-function DrawerEditText({ close, opened, text, title, onSave, resource }: Props) {
+function DrawerEditText({ close, opened, text = "", title, onSave, resource }: Props) {
   const [updatedText, setUpdatedText] = useState<string>(text);
 
   const handleSave = (updatedPostBody: string) => {

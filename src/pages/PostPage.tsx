@@ -87,7 +87,7 @@ function PostPage() {
           openEditDrawer();
         }}
       />
-      {post?.body && (
+      {post && (
         <DrawerEditText
           close={closeEditDrawer}
           opened={editDrawerOpened}

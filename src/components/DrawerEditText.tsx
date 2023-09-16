@@ -1,14 +1,13 @@
-import { Button, Drawer, Textarea } from "@mantine/core";
-import { IconX } from "@tabler/icons-react";
+import { Button, CloseButton, Drawer, Textarea } from "@mantine/core";
 import { useState } from "react";
 
 type Props = {
   onSave: (text: string) => void;
-  title: string;
   text: string;
   close: () => void;
   opened: boolean;
   resource: "comment" | "post";
+  title?: string;
 };
 
 function DrawerEditText({ close, opened, text, title, onSave, resource }: Props) {
@@ -18,38 +17,48 @@ function DrawerEditText({ close, opened, text, title, onSave, resource }: Props)
     onSave(updatedPostBody);
     close();
   };
+
+  const onCancel = () => {
+    close();
+    setTimeout(() => {
+      setUpdatedText(text);
+    }, 1000);
+  };
+
   return (
     <Drawer.Root
       classNames={{ body: "max-w-3xl mx-auto" }}
-      onClose={close}
+      onClose={onCancel}
       opened={opened}
       position='bottom'
       size='90%'
     >
       <Drawer.Overlay />
       <Drawer.Content>
-        <Drawer.Header className='mr-8 '>
-          <div className='flex justify-between items-center w-full px-0 mx-0'>
-            <div className=''>
-              <Drawer.CloseButton onClick={close}>
-                <IconX />
-              </Drawer.CloseButton>
-            </div>
-            <Drawer.Title sx={{ fontWeight: "600", fontSize: "1.2rem" }} className='text-gray-500'>
-              Edit {resource}
-            </Drawer.Title>
-            <div className=''>
-              <Drawer.CloseButton onClick={() => handleSave(updatedText)} className='mt-2 '>
-                <Button>SAVE</Button>
-              </Drawer.CloseButton>
-            </div>
-          </div>
+        <Drawer.Header>
+          <CloseButton onClick={onCancel} size={"xl"} iconSize={25} radius={"xl"} color='gray' />
+          <Drawer.Title sx={{ fontWeight: "600", fontSize: "1.2rem" }} className='text-gray-500'>
+            Edit {resource}
+          </Drawer.Title>
+          <Button
+            onClick={() => {
+              handleSave(updatedText);
+              close();
+            }}
+          >
+            SAVE
+          </Button>
         </Drawer.Header>
         <Drawer.Body>
           <p className='font-bold text-2xl'>{title}</p>
+          <hr className='mt-4 ' />
+
           <Textarea
-            className='mt-5'
-            minRows={10}
+            styles={{
+              input: { border: "none", outline: "", fontSize: "1rem", padding: 0, height: "100%", width: "100%" },
+            }}
+            placeholder='Enter text...'
+            minRows={20}
             value={updatedText}
             onChange={(e) => setUpdatedText(e.target.value)}
           />

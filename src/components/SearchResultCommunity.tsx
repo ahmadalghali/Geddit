@@ -1,4 +1,4 @@
-import { Avatar } from "@mantine/core";
+import { Avatar, Button } from "@mantine/core";
 import { IconBrandReddit } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
 import { CommunitySummaryDTO } from "@/types/dtos";
@@ -8,19 +8,34 @@ type Props = {
 };
 
 function SearchResultCommunity({ community }: Props) {
+  const handleJoinClicked = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    e.preventDefault();
+
+    alert("joined");
+  };
   return (
-    <motion.div className='flex rounded-md p-3 space-x-3 items-center'>
-      <Avatar size='lg' radius='xl' color='cyan' className='mt-3'>
-        <IconBrandReddit size='40' />
+    <motion.div className='flex rounded-md p-3 items-center '>
+      <Avatar size='lg' radius='xl' color='cyan'>
+        <IconBrandReddit size='35' />
       </Avatar>
 
-      <div className=''>
+      <div className='ml-3'>
         <h4 className='font-bold'>
           {Constants.PREFIX_COMMUNITY}
           {community.name}
         </h4>
-        <p className='text-sm text-gray-500'>{community.description}</p>
+        <p className='text-xs text-gray-500'>{community.description}</p>
       </div>
+      <Button
+        className='ml-auto'
+        sx={{
+          fontWeight: "800",
+        }}
+        radius={"xl"}
+        onClick={handleJoinClicked}
+      >
+        JOIN
+      </Button>
     </motion.div>
   );
 }

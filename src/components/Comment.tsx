@@ -1,5 +1,5 @@
 import { Avatar, Collapse } from "@mantine/core";
-import { IconArrowsDiagonal, IconBrandReddit } from "@tabler/icons-react";
+import { IconArrowsDiagonal, IconBrandReddit, IconPencil, IconTrash } from "@tabler/icons-react";
 import { CommentDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
@@ -7,36 +7,75 @@ import { AnimatePresence, motion } from "framer-motion";
 import CommentsList from "@/components/CommentsList";
 import ContentInteractions from "@/components/ContentInteractions";
 import { useDisclosure } from "@mantine/hooks";
+import OptionsModal from "@/components/OptionsModal";
+import DrawerEditText from "@/components/DrawerEditText";
+import { useCommentContext } from "@/contexts/CommentContext";
+import { modals } from "@mantine/modals";
 
 type Props = {
   comment: CommentDTO;
   isChild: boolean;
+  onDelete: () => void;
+  onEdit: (updatedCommentText: string) => void;
+  setSelected: (comment: CommentDTO) => void;
 };
 
-function Comment({ comment, isChild }: Props) {
+function Comment({ comment, isChild, onDelete, onEdit, setSelected }: Props) {
   const [commentExpanded, { toggle: toggleCollapsed }] = useDisclosure(true);
 
   const datePosted = since(comment.createdDate);
+
+  const { closeOptionsModal, openOptionsModal, openEditDrawer, optionsModalOpened, closeEditDrawer, editDrawerOpened } =
+    useCommentContext();
+
+  // const { removeComment, editComment } = usePost(comment.postId);
+
+  // const openDeleteCommentModal = () => {
+  //   closeOptionsModal();
+
+  //   modals.openConfirmModal({
+  //     title: "Delete comment",
+  //     centered: true,
+  //     children: <p>Are you sure you want to delete this comment? You will not be able to undo this action.</p>,
+  //     labels: { confirm: "Delete", cancel: "Cancel" },
+  //     confirmProps: { color: "red" },
+  //     onCancel: () => console.log("Cancel"),
+  //     onConfirm: () => onDelete(),
+  //   });
+  // };
+
+  // const { removeComment,  } = usePost(comment.postId)
+
   return (
-    <motion.div
-      layout
-      key={comment.id}
-      initial={{ opacity: 0, y: -20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ type: "spring", duration: 0.7 }}
-    >
-      <Header
-        author={comment.author}
-        datePosted={datePosted}
-        expandComment={toggleCollapsed}
-        commentExpanded={commentExpanded}
-      />
-      <div className='pl-1.5 pt-1.5'>
-        <Collapse in={commentExpanded}>
-          <Content toggleCollapsed={toggleCollapsed} comment={comment} isChild={isChild} />
-        </Collapse>
-      </div>
-    </motion.div>
+    <>
+      <motion.div
+        layout
+        key={comment.id}
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ type: "spring", duration: 0.7 }}
+      >
+        <Header
+          author={comment.authorUsername}
+          datePosted={datePosted}
+          expandComment={toggleCollapsed}
+          commentExpanded={commentExpanded}
+        />
+        <div className='pl-1.5 pt-1.5'>
+          <Collapse in={commentExpanded}>
+            <Content
+              toggleCollapsed={toggleCollapsed}
+              comment={comment}
+              isChild={isChild}
+              onOptionsClicked={() => {
+                setSelected(comment);
+                openOptionsModal();
+              }}
+            />
+          </Collapse>
+        </div>
+      </motion.div>
+    </>
   );
 }
 
@@ -44,10 +83,12 @@ function Content({
   comment,
   isChild,
   toggleCollapsed,
+  onOptionsClicked,
 }: {
   comment: CommentDTO;
   isChild: boolean;
   toggleCollapsed: () => void;
+  onOptionsClicked: () => void;
 }) {
   return (
     <div className='flex'>
@@ -57,7 +98,7 @@ function Content({
         {/* Comment */}
         <div className='ml-4 w-full'>
           <p className='whitespace-pre-line'>{comment.text}</p>
-          <ContentInteractions commentCount={comment.replies.length} />
+          <ContentInteractions commentCount={comment.replies.length} onOptionsClicked={onOptionsClicked} />
         </div>
         {/* Child */}
         <div className={"" + isChild ? "ml-5" : ""}>

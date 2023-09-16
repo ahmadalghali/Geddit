@@ -3,18 +3,21 @@ import { getCommunityByName } from "@/api/communities";
 import { useParams } from "react-router-dom";
 import PostSummaryItemList from "@/components/PostSummaryItemList";
 import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
-import { getAllPosts } from "@/api/posts";
+import { getAllPosts } from "@/api/community-posts";
 import { Constants } from "@/lib/constants";
-import { Avatar, Button, Skeleton } from "@mantine/core";
+import { Avatar, Button, Modal, Skeleton } from "@mantine/core";
 import { IconBrandReddit, IconSend } from "@tabler/icons-react";
 import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
 import { AnimatePresence, motion } from "framer-motion";
+import { useDisclosure } from "@mantine/hooks";
+import CreatePostForm from "@/components/CreatePostForm";
 
 function CommunityPage() {
   const [community, setCommunity] = useState<CommunitySummaryDTO | null>(null);
   const [posts, setPosts] = useState<PostSummaryDTO[]>([]);
   const { communityName } = useParams();
   const [isLoading, setIsLoading] = useState(true);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     if (communityName) {
@@ -35,22 +38,30 @@ function CommunityPage() {
   }, [communityName]);
 
   return (
-    <AnimatePresence>
-      {isLoading ? (
-        <PageSkeleton />
-      ) : (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <CommunityHeader community={community!} />
-          {posts.length ? (
-            <PostSummaryItemList posts={posts} />
-          ) : (
-            <div className='flex-grow flex flex-col justify-center'>
-              <NoPostsYet />
-            </div>
-          )}
-        </motion.div>
-      )}
-    </AnimatePresence>
+    <>
+      <Modal opened={opened} onClose={close} centered withCloseButton={false}>
+        <CreatePostForm communityName={communityName} onDismiss={close} />
+      </Modal>
+      <AnimatePresence>
+        {isLoading ? (
+          <PageSkeleton />
+        ) : (
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+            <CommunityHeader community={community!} />
+            <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
+              Create Post
+            </Button>
+            {posts.length ? (
+              <PostSummaryItemList posts={posts} />
+            ) : (
+              <div className='flex-grow flex flex-col justify-center'>
+                <NoPostsYet />
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 }
 
@@ -81,8 +92,10 @@ function CommunityHeaderSkeleton() {
 }
 
 function CommunityHeader({ community }: { community: CommunitySummaryDTO }) {
+  const [isMember, setIsMember] = useState(false);
+
   return (
-    <div className='mb-10'>
+    <div className='mb-5'>
       <div className='flex items-center gap-2'>
         <Avatar radius='xl' color='violet' size={60}>
           <IconBrandReddit size={40} />
@@ -95,18 +108,37 @@ function CommunityHeader({ community }: { community: CommunitySummaryDTO }) {
           <p className='text-xs text-gray-500'>42 members</p>
         </div>
 
-        <Button
-          radius={"xl"}
-          sx={{
-            width: "4.25rem",
-            padding: "0",
-            height: "2rem",
-            marginLeft: "auto",
-            fontWeight: "bold",
-          }}
-        >
-          JOIN
-        </Button>
+        {isMember ? (
+          <Button
+            radius={"xl"}
+            variant='outline'
+            sx={{
+              width: "4.25rem",
+              padding: "0",
+              height: "2rem",
+              marginLeft: "auto",
+              fontWeight: "bold",
+              fontSize: ".8rem",
+            }}
+            onClick={() => setIsMember(false)}
+          >
+            JOINED
+          </Button>
+        ) : (
+          <Button
+            radius={"xl"}
+            sx={{
+              width: "4.25rem",
+              padding: "0",
+              height: "2rem",
+              marginLeft: "auto",
+              fontWeight: "bold",
+            }}
+            onClick={() => setIsMember(true)}
+          >
+            JOIN
+          </Button>
+        )}
       </div>
       <p className='text-xs text-gray-500 mt-4'>{community?.description}</p>
     </div>

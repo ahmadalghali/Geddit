@@ -32,13 +32,13 @@ function SearchBar() {
   const onSearchTermChanged = (newSearchTerm: string) => {
     setSearchTerm(newSearchTerm);
 
-    const data = allCommunityNames.filter((name) => name.toLowerCase().startsWith(newSearchTerm.toLowerCase()));
+    // const data = allCommunityNames.filter((name) => name.toLowerCase().startsWith(newSearchTerm.toLowerCase()));
 
-    if (newSearchTerm.trim().length < 1) {
-      setAutoCompleteData([]);
-    } else {
-      setAutoCompleteData(data);
-    }
+    // if (newSearchTerm.trim().length < 1) {
+    //   setAutoCompleteData([]);
+    // } else {
+    //   setAutoCompleteData(data);
+    // }
   };
 
   const removeFocus = () => searchBarRef.current?.blur();
@@ -51,7 +51,7 @@ function SearchBar() {
         className='w-full'
         radius='xl'
         classNames={{ input: "rounded-full" }}
-        placeholder='Search community...'
+        placeholder='Search...'
         // nothingFound='No results.'
         limit={8}
         data={autoCompleteData}

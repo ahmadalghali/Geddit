@@ -3,6 +3,12 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
+/* :root {
   overflow-y: scroll;
-}
+} */
+
+/* body {
+  overflow-x: 0;
+  margin-inline: 0;
+  padding-inline: 0;
+} */

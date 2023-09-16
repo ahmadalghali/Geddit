@@ -1,3 +1,5 @@
 type VoteState = "UPVOTED" | "DOWNVOTED";
 
-export type { VoteState };
+type Searchable = "Communities" | "Posts" | "Users";
+
+export type { VoteState, Searchable };

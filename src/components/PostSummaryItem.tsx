@@ -29,12 +29,12 @@ function PostSummaryItem({ post }: Props) {
             </span>
           </p>
 
-          <IconDots size='20' color='gray' className='cursor-pointer ml-auto' />
+          {/* <IconDots size='20' color='gray' className='cursor-pointer ml-auto' /> */}
         </div>
         <p className='font-semibold text-xl mt-2'>{post.title}</p>
         <p className='whitespace-pre-line mt-8 mb-2'>{post.body?.substring(0, 200)}</p>
 
-        <ContentInteractions commentCount={post.commentCount} />
+        <ContentInteractions commentCount={post.commentCount} showOptions={false} onOptionsClicked={() => {}} />
       </Box>
     </Link>
   );

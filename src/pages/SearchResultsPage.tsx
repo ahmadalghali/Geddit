@@ -31,7 +31,7 @@ function SearchResultsPage() {
 
 function ResultsPanel({ selectedTab }: { selectedTab: Searchable }) {
   // This hook grabs the search query params from your browser
-  // Example: gogeddit.com/search?query=cscareers
+  // Example: geddit.com/search?query=cscareers
   const [searchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const searchQuery = searchParams.get("query");

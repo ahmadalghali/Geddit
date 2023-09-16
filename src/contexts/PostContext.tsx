@@ -1,6 +1,7 @@
 import usePost from "@/hooks/usePost";
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext } from "react";
 
+// TODO: utilise this file to clean up post functionality
 type Props = {
   children?: ReactNode;
 };
@@ -12,7 +13,6 @@ type PostContextType = {};
 const PostContext = createContext<PostContextType | null>(null);
 
 const PostProvider = ({ children }: Props) => {
-  const { removeComment } = usePost();
   return <PostContext.Provider value={{}}>{children}</PostContext.Provider>;
 };
 

@@ -3,7 +3,6 @@ import CreatePostForm from "@/components/CreatePostForm";
 import { useNavigate } from "react-router-dom";
 
 function CreatePostPage() {
-  // const { } = useCreatePost();
   const navigate = useNavigate();
   return (
     <>

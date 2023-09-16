@@ -100,7 +100,7 @@ function PostItem({ post, onDelete }: { post: PostSummaryDTO; onDelete: (postId:
 
   const [opened, { open, close }] = useDisclosure(false);
 
-  const handlePostOptionsClicked = (e) => {
+  const handlePostOptionsClicked = (e: React.MouseEvent<SVGSVGElement, MouseEvent>) => {
     e.preventDefault();
     open();
   };
@@ -144,7 +144,7 @@ function PostItem({ post, onDelete }: { post: PostSummaryDTO; onDelete: (postId:
           </div>
           <p className='font-semibold'>{post.title}</p>
 
-          <ContentInteractions commentCount={post.commentCount} />
+          <ContentInteractions commentCount={post.commentCount} onOptionsClicked={() => {}} />
         </motion.div>
       </Link>
     </>

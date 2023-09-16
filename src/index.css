@@ -3,9 +3,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* :root {
+:root {
   overflow-y: scroll;
-} */
+}
 
 /* body {
   overflow-x: 0;

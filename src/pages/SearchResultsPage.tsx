@@ -10,6 +10,8 @@ import SearchResultCommunity from "@/components/SearchResultCommunity";
 import SearchResultPost from "@/components/SearchResultPost";
 import SearchResultUser from "@/components/SearchResultUser";
 
+// TODO: use the enum object approach to render which block
+
 function SearchResultsPage() {
   const [resultTypes] = useState(["Communities", "Posts", "Users"]);
   const [selectedTab, setSelectedTab] = useState<Searchable>("Communities");
@@ -92,24 +94,3 @@ function ResultsPanel({ selectedTab }: { selectedTab: Searchable }) {
 }
 
 export default SearchResultsPage;
-
-// switch (resultType) {
-//   case "Communities":
-//     {
-//       const results = await searchCommunities(searchQuery);
-//       setSearchResultsCommunities(results);
-//     }
-//     break;
-//   case "Posts":
-//     {
-//       const results = await searchCommunities(searchQuery);
-//       setSearchResultsCommunities(results);
-//     }
-//     break;
-//   case "Users":
-//     {
-//       const results = await searchCommunities(searchQuery);
-//       setSearchResultsCommunities(results);
-//     }
-//     break;
-// }

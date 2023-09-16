@@ -3,8 +3,6 @@ import { getPost, patchUpdatePost } from "@/api/posts";
 import { CommentDTO, CreateCommentDTO, PostDTO, UpdateCommentDTO } from "@/types/dtos";
 import { useEffect, useState } from "react";
 import { deletePost as deletePostInApi } from "@/api/posts";
-import { notifications } from "@mantine/notifications";
-import AppNotificationMessage from "@/components/AppNotification";
 import { notify } from "@/lib/notifications";
 
 function usePost(postId: string) {

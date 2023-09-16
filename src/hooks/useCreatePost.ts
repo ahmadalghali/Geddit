@@ -1,9 +1,6 @@
-import { forwardRef, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Community } from "@/types/entities";
-import { Avatar, Button, CloseButton, Group, LoadingOverlay, Select, Text, TextInput, Textarea } from "@mantine/core";
-import { IconBrandReddit, IconCheck } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
-import { createPost } from "@/api/community-posts";
 import { getAllCommunities } from "@/api/communities";
 import { useNavigate } from "react-router";
 import { CreatePostDTO } from "@/types/dtos";

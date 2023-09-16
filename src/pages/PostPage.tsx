@@ -1,12 +1,9 @@
 import { useParams } from "react-router";
 import AddCommentBox from "@/components/AddCommentBox";
 import CommentsList from "@/components/CommentsList";
-import { createComment } from "@/api/comments";
 import { CreateCommentDTO, PostDTO } from "@/types/dtos";
-import { getPost } from "@/api/community-posts";
-import { notifications } from "@mantine/notifications";
-import { IconBrandReddit, IconBrandWechat, IconPencil, IconShare, IconTrash, IconX } from "@tabler/icons-react";
-import { ActionIcon, Avatar, Button, Drawer, Textarea } from "@mantine/core";
+import { IconBrandReddit, IconBrandWechat, IconPencil, IconShare, IconTrash } from "@tabler/icons-react";
+import { Avatar } from "@mantine/core";
 import ContentInteractions from "@/components/ContentInteractions";
 import { since } from "@/lib/utils/date-time";
 import CommentSkeleton from "@/components/skeletons/CommentSkeleton";
@@ -18,26 +15,17 @@ import { Skeleton } from "@mantine/core";
 import { motion } from "framer-motion";
 import usePost from "@/hooks/usePost";
 import OptionsModal from "@/components/OptionsModal";
-import { useDisclosure } from "@mantine/hooks";
 import { useCopyToClipboard } from "react-use";
 import { notify } from "@/lib/notifications";
-import { patchUpdatePost } from "@/api/posts";
-import { useState } from "react";
 import { modals } from "@mantine/modals";
 import DrawerEditText from "@/components/DrawerEditText";
-import { PostModalProvider, usePostModalContext } from "@/contexts/PostModalContext";
-import { CommentProvider } from "@/contexts/CommentContext";
+import { usePostModalContext } from "@/contexts/PostModalContext";
+
 function PostPage() {
   const { postId, communityName } = useParams();
-  const [state, copyToClipboard] = useCopyToClipboard();
+  const [, copyToClipboard] = useCopyToClipboard();
 
   const { post, isLoading, removeComment, editComment, addComment, deletePost, updatePostBody } = usePost(postId!);
-  // const [postOptionsModalOpened, { close: closePostOptionsModal, open: openPostOptionsModal }] = useDisclosure(false);
-  // const [commentpostOptionsModalOpened, { close: closeCommentOptionsModal, open: openCommentOptionsModal }] =
-  //   useDisclosure(false);
-  // const [editDrawerOpened, { close: closeEditDrawer, open: openEditDrawer }] = useDisclosure(false);
-  // const [editCommentDrawerOpened, { close: closeEditCommentDrawer, open: openEditCommentDrawer }] =
-  // useDisclosure(false);
 
   const { closePostOptionsModal, openPostOptionsModal, closeEditDrawer, openEditDrawer, editDrawerOpened } =
     usePostModalContext();
@@ -96,22 +84,7 @@ function PostPage() {
           onSave={(updatedPostBody) => handleUpdatePostBody(updatedPostBody)}
           resource='post'
         />
-        // <DrawerEditPost
-        //   close={closeDrawer}
-        //   opened={drawerOpened}
-        //   postTitle={post?.title}
-        //   postBody={post.body}
-        //   onSave={(updatedPostBody) => handleSave(updatedPostBody)}
-        // />
       )}
-
-      {/* <DrawerEditComment
-        close={closeDrawer}
-        opened={drawerOpened}
-        postTitle={post?.title}
-        postBody={post.body}
-        onSave={(updatedPostBody) => handleSave(updatedPostBody)}
-      /> */}
 
       <AnimatePresence>
         {isLoading ? (
@@ -139,9 +112,6 @@ function PostPage() {
                   isChild={false}
                   onDeleteComment={(commentId) => removeComment(commentId)}
                   onEditComment={(commentId, updatedText) => editComment(commentId, { text: updatedText })}
-                  // closePostOptionsModal={closeCommentOptionsModal}
-                  // postOptionsModalOpened={commentpostOptionsModalOpened}
-                  // openPostOptionsModal={openCommentOptionsModal}
                 />
               ) : (
                 <NoCommentsYet />
@@ -179,8 +149,7 @@ function PostPage() {
           </div>
         </div>
         <h1 className='font-semibold text-2xl mt-4'>{post.title}</h1>
-        {post.body && <p className='mt-10 whitespace-pre-line'>{post.body}</p>}
-
+        {post.body && <p className='mt-10 whitespace-pre-line break-words'>{post.body}</p>}
         <ContentInteractions commentCount={post.comments.length} className='mt-5' onOptionsClicked={onOptionsClicked} />
       </div>
     );
@@ -215,7 +184,15 @@ function CommentBoxSkeleton() {
   );
 }
 
-function PostOptionsModal({ onShare, onDelete, onEdit }) {
+function PostOptionsModal({
+  onShare,
+  onDelete,
+  onEdit,
+}: {
+  onShare: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
+}) {
   const { closePostOptionsModal, postOptionsModalOpened } = usePostModalContext();
   return (
     <OptionsModal close={closePostOptionsModal} opened={postOptionsModalOpened}>
@@ -232,71 +209,4 @@ function PostOptionsModal({ onShare, onDelete, onEdit }) {
   );
 }
 
-// function DrawerEditPost({
-//   close,
-//   opened,
-//   postBody,
-//   postTitle,
-//   onSave,
-// }: {
-//   onSave: (text: string) => void;
-//   postTitle: string;
-//   postBody: string;
-//   close: () => void;
-//   opened: boolean;
-// }) {
-//   const [updatedPostBody, setUpdatedPostBody] = useState<string>(postBody);
-
-//   // const resetToInitialState = () => {
-//   //   setUpdatedPostBody("");
-//   // };
-
-//   const handleClose = () => {
-//     close();
-//   };
-
-//   const handleSave = (updatedPostBody: string) => {
-//     onSave(updatedPostBody);
-//     close();
-//   };
-//   return (
-//     <Drawer.Root
-//       classNames={{ body: "max-w-3xl mx-auto" }}
-//       onClose={close}
-//       opened={opened}
-//       position='bottom'
-//       size='90%'
-//     >
-//       <Drawer.Overlay />
-//       <Drawer.Content>
-//         <Drawer.Header className='mr-8 '>
-//           <div className='flex justify-between items-center w-full px-0 mx-0'>
-//             <div className=''>
-//               <Drawer.CloseButton onClick={handleClose}>
-//                 <IconX />
-//               </Drawer.CloseButton>
-//             </div>
-//             <Drawer.Title sx={{ fontWeight: "600", fontSize: "1.2rem" }} className='text-gray-500'>
-//               Edit Post
-//             </Drawer.Title>
-//             <div className=''>
-//               <Drawer.CloseButton onClick={() => handleSave(updatedPostBody)} className='mt-2 '>
-//                 <Button>SAVE</Button>
-//               </Drawer.CloseButton>
-//             </div>
-//           </div>
-//         </Drawer.Header>
-//         <Drawer.Body>
-//           <p className='font-bold text-2xl'>{postTitle}</p>
-//           <Textarea
-//             className='mt-5'
-//             minRows={10}
-//             value={updatedPostBody}
-//             onChange={(e) => setUpdatedPostBody(e.target.value)}
-//           />
-//         </Drawer.Body>
-//       </Drawer.Content>
-//     </Drawer.Root>
-//   );
-// }
 export default PostPage;

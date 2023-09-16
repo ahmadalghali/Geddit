@@ -1,6 +1,6 @@
+import { signIn } from "@/api/auth";
+import { UserSignInRequestDTO } from "@/types/dtos";
 import { Button, PasswordInput, TextInput } from "@mantine/core";
-import { UserSignInRequestDTO } from "../types/dto";
-import { signIn } from "../api/auth";
 
 import { useState } from "react";
 
@@ -20,30 +20,28 @@ function SignInPage() {
       username: usernameTrimmed,
       password: passwordTrimmed,
     };
+
     signIn(userSignInRequestDTO);
   };
   return (
     <>
       <h1>Sign In</h1>
-      <form
-        className="shadow-md p-3 rounded-md"
-        onSubmit={(e) => handleSubmit(e)}
-      >
+      <form className='shadow-md p-3 rounded-md' onSubmit={(e) => handleSubmit(e)}>
         <TextInput
-          className="mb-5"
+          className='mb-5'
           value={username}
-          placeholder="Username"
+          placeholder='Username'
           required
           onChange={(e) => setUsername(e.target.value)}
         />
         <PasswordInput
-          className="mb-5"
+          className='mb-5'
           value={password}
-          placeholder="Password"
+          placeholder='Password'
           required
           onChange={(e) => setPassword(e.target.value)}
         />
-        <Button type="submit">Sign in</Button>
+        <Button type='submit'>Sign in</Button>
       </form>
     </>
   );

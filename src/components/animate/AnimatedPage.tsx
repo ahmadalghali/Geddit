@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLocation } from "react-router-dom";
 
+// Adds Fade In-Out transition to applied pages
 function AnimatedPage({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   return (

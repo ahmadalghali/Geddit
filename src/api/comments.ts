@@ -1,11 +1,5 @@
 import { api } from "@/api/config";
-import { CommentDTO, CreateCommentDTO, UpdateCommentDTO } from "@/types/dtos";
-
-async function createComment(postId: string, createCommentDTO: CreateCommentDTO): Promise<CommentDTO> {
-  const response = await api.post<CommentDTO>(`/posts/${postId}/comments`, createCommentDTO);
-
-  return response.data;
-}
+import { CommentDTO, UpdateCommentDTO } from "@/types/dtos";
 
 async function deleteComment(commentId: string): Promise<boolean> {
   const response = await api.delete(`/comments/${commentId}`);
@@ -17,4 +11,4 @@ async function patchUpdateComment(commentId: string, updateCommentDTO: UpdateCom
   return response.data;
 }
 
-export { createComment, deleteComment, patchUpdateComment };
+export { deleteComment, patchUpdateComment };

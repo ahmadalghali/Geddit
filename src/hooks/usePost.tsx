@@ -1,9 +1,10 @@
-import { createComment, deleteComment, patchUpdateComment } from "@/api/comments";
-import { getPost, patchUpdatePost } from "@/api/posts";
+import { deleteComment, patchUpdateComment } from "@/api/comments";
+import { getPostById, patchUpdatePost } from "@/api/posts";
 import { CommentDTO, CreateCommentDTO, PostDTO, UpdateCommentDTO } from "@/types/dtos";
 import { useEffect, useState } from "react";
 import { deletePost as deletePostInApi } from "@/api/posts";
 import { notify } from "@/lib/notifications";
+import { createComment } from "@/api/post-comments";
 
 function usePost(postId: string) {
   const [post, setPost] = useState<PostDTO>();
@@ -11,7 +12,7 @@ function usePost(postId: string) {
 
   useEffect(() => {
     (async () => {
-      const post = await getPost(postId);
+      const post = await getPostById(postId);
       setPost(post);
       setIsLoading(false);
     })();

@@ -107,7 +107,7 @@ function CreatePostForm({ communityName, onDismiss }: Props) {
       <LoadingOverlay transitionDuration={100} loaderProps={{ size: "lg" }} visible={isSubmitting} />
       <div className='flex items-center justify-between'>
         <CloseButton onClick={onDismiss} size={"xl"} iconSize={30} radius={"xl"} color='gray' />
-        <Button type='submit' radius={"xl"} disabled={!isValid}>
+        <Button type='submit' className='transition-all duration-300' radius={"xl"} disabled={!isValid}>
           POST
         </Button>
       </div>

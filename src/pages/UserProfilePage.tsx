@@ -1,5 +1,5 @@
 import { deletePost } from "@/api/posts";
-import { getUserPosts } from "@/api/user";
+import { getUserPostsByUsername } from "@/api/user";
 import ContentInteractions from "@/components/ContentInteractions";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
@@ -9,9 +9,10 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconBrandReddit, IconDots, IconPencil, IconTrash, IconUser } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 function UserProfilePage() {
+  const { username } = useParams();
   const [isLoading, setIsLoading] = useState(true);
   const [userPosts, setUserPosts] = useState<PostSummaryDTO[]>([]);
 
@@ -23,18 +24,20 @@ function UserProfilePage() {
   useEffect(() => {
     const fetchUserPosts = async () => {
       setIsLoading(true);
-      const posts = await getUserPosts("ahmad");
+      const posts = await getUserPostsByUsername(username!);
       setUserPosts(posts);
 
       setIsLoading(false);
     };
 
     fetchUserPosts();
-  }, []);
+  }, [username]);
+
+  if (!username) return null;
 
   return (
     <div className=''>
-      <UserDetails />
+      <UserDetails username={username} />
       <Tabs
         defaultValue='posts'
         classNames={{
@@ -66,14 +69,14 @@ function UserProfilePage() {
   );
 }
 
-function UserDetails() {
+function UserDetails({ username }: { username: string }) {
   return (
     <div className='p-6 bg-gradient-to-t from-green-950 to-lime-600'>
       <Avatar size='4rem' radius={"xl"} color={"gray"}>
         <IconUser size='40' />
       </Avatar>
       <div className='text-white mt-3'>
-        <p className='font-bold text-2xl '>u/ahmad31</p>
+        <p className='font-bold text-2xl '>u/{username}</p>
         <div className='flex gap-2 font-bold text-sm mt-2'>
           <p>23 followers</p>
         </div>

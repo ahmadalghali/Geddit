@@ -47,7 +47,7 @@ function NavMenu() {
         <Link to={`/create-community`}>
           <Menu.Item icon={<IconPlus />}>Create Community</Menu.Item>
         </Link>
-        <Link to={`/profile`}>
+        <Link to={`${Constants.PREFIX_USER}${user?.username}`}>
           <Menu.Item icon={<IconUser />}>Profile</Menu.Item>
         </Link>
       </Menu.Dropdown>

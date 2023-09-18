@@ -65,7 +65,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "/profile",
+    path: `/${Constants.PREFIX_USER}:username`,
     element: <ProfilePageLayout />,
     children: [
       {

@@ -37,29 +37,27 @@ function CommunityPage() {
     }
   }, [communityName]);
 
+  if (isLoading) return <PageSkeleton />;
+
   return (
     <>
       <Modal opened={opened} onClose={close} centered withCloseButton={false}>
         <CreatePostForm communityName={communityName} onDismiss={close} />
       </Modal>
       <AnimatePresence>
-        {isLoading ? (
-          <PageSkeleton />
-        ) : (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-            <CommunityHeader community={community!} />
-            <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
-              Create Post
-            </Button>
-            {posts.length ? (
-              <PostSummaryItemList posts={posts} />
-            ) : (
-              <div className='flex-grow flex flex-col justify-center'>
-                <NoPostsYet />
-              </div>
-            )}
-          </motion.div>
-        )}
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+          <CommunityHeader community={community!} />
+          <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
+            Create Post
+          </Button>
+          {posts.length ? (
+            <PostSummaryItemList posts={posts} />
+          ) : (
+            <div className='flex-grow flex flex-col justify-center'>
+              <NoPostsYet />
+            </div>
+          )}
+        </motion.div>
       </AnimatePresence>
     </>
   );

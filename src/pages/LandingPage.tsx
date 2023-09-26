@@ -16,11 +16,12 @@ function LandingPage() {
     })();
   }, []);
 
+  if (isLoading) return <PostSummaryItemSkeleton count={5} />;
   return (
-    <div>
+    <>
       <PageTitle>What's happening recently</PageTitle>
-      {isLoading ? <PostSummaryItemSkeleton count={5} /> : <PostSummaryItemList posts={suggestedPosts} />}
-    </div>
+      <PostSummaryItemList posts={suggestedPosts} />
+    </>
   );
 }
 

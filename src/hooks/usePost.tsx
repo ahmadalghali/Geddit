@@ -5,12 +5,14 @@ import { useEffect, useState } from "react";
 import { deletePost as deletePostInApi } from "@/api/posts";
 import { notify } from "@/lib/notifications";
 import { createComment } from "@/api/post-comments";
+import { createCommentReply } from "@/api/comment-replies";
 
 function usePost(postId: string) {
   const [post, setPost] = useState<PostDTO>();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    if (!postId) return;
     (async () => {
       const post = await getPostById(postId);
       setPost(post);
@@ -73,6 +75,24 @@ function usePost(postId: string) {
     });
   };
 
+  const addCommentReply = async (commentId: string, createCommentReplyDTO: CreateCommentDTO) => {
+    const reply = await createCommentReply(commentId, createCommentReplyDTO);
+
+    setPost((prevPost) => {
+      if (!prevPost) return;
+
+      const newComments = prevPost.comments.map((comment) => {
+        if (comment.id === reply.parentCommentId) {
+          comment.replies.unshift(reply);
+        }
+        return comment;
+      });
+      const updatePost: PostDTO = { ...prevPost, comments: newComments };
+
+      return updatePost;
+    });
+  };
+
   const deletePost = async () => {
     return await deletePostInApi(postId);
   };
@@ -86,6 +106,7 @@ function usePost(postId: string) {
     deletePost,
     updatePostBody,
     editComment,
+    addCommentReply,
   };
 }
 

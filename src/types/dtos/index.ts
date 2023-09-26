@@ -19,6 +19,7 @@ type CommentDTO = {
   postId: string;
   replies: CommentDTO[];
   createdDate: string;
+  parentCommentId?: string;
 };
 
 type PostDTO = {

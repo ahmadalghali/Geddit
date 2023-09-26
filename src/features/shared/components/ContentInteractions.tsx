@@ -2,8 +2,8 @@ import { IconArrowBackUp, IconDots, IconMessageCircle } from "@tabler/icons-reac
 import { cn } from "@/lib/utils/classname";
 import { VoteState } from "@/types/index";
 import { useState } from "react";
-import ContentVotes from "@/components/ContentVotes";
 import { ActionIcon } from "@mantine/core";
+import ContentVotes from "@/features/shared/components/ContentVotes";
 
 type Props = {
   onOptionsClicked: () => void;

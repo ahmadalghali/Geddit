@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { CommunitySummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
-import SearchResultCommunity from "@/components/SearchResultCommunity";
+import SearchResultCommunity from "@/features/search/components/SearchResultCommunity";
 type Props = {
   searchResults: CommunitySummaryDTO[];
 };

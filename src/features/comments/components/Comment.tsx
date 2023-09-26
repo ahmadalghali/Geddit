@@ -1,50 +1,33 @@
 import { Avatar, Collapse } from "@mantine/core";
 import { IconArrowsDiagonal, IconBrandReddit, IconPencil, IconTrash } from "@tabler/icons-react";
-import { CommentDTO } from "@/types/dtos";
+import { CommentDTO, CreateCommentDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
 import { AnimatePresence, motion } from "framer-motion";
-import CommentsList from "@/components/CommentsList";
+import CommentsList from "@/features/comments/components/CommentsList";
 import ContentInteractions from "@/components/ContentInteractions";
 import { useDisclosure } from "@mantine/hooks";
 import OptionsModal from "@/components/OptionsModal";
 import DrawerEditText from "@/components/DrawerEditText";
 import { useCommentContext } from "@/contexts/CommentContext";
 import { modals } from "@mantine/modals";
+import DrawerCreateComment from "@/components/DrawerCreateComment";
+import AddCommentBox from "@/features/comments/components/AddCommentBox";
+import usePost from "@/hooks/usePost";
+import { usePostContext } from "@/contexts/PostContext";
 
 type Props = {
   comment: CommentDTO;
   isChild: boolean;
-  onDelete: () => void;
-  onEdit: (updatedCommentText: string) => void;
   setSelected: (comment: CommentDTO) => void;
 };
 
-function Comment({ comment, isChild, onDelete, onEdit, setSelected }: Props) {
+function Comment({ comment, isChild, setSelected }: Props) {
   const [commentExpanded, { toggle: toggleCollapsed }] = useDisclosure(true);
 
   const datePosted = since(comment.createdDate);
 
-  const { closeOptionsModal, openOptionsModal, openEditDrawer, optionsModalOpened, closeEditDrawer, editDrawerOpened } =
-    useCommentContext();
-
-  // const { removeComment, editComment } = usePost(comment.postId);
-
-  // const openDeleteCommentModal = () => {
-  //   closeOptionsModal();
-
-  //   modals.openConfirmModal({
-  //     title: "Delete comment",
-  //     centered: true,
-  //     children: <p>Are you sure you want to delete this comment? You will not be able to undo this action.</p>,
-  //     labels: { confirm: "Delete", cancel: "Cancel" },
-  //     confirmProps: { color: "red" },
-  //     onCancel: () => console.log("Cancel"),
-  //     onConfirm: () => onDelete(),
-  //   });
-  // };
-
-  // const { removeComment,  } = usePost(comment.postId)
+  const { openOptionsModal, toggleCreateCommentDrawer } = useCommentContext();
 
   return (
     <>
@@ -67,10 +50,15 @@ function Comment({ comment, isChild, onDelete, onEdit, setSelected }: Props) {
               toggleCollapsed={toggleCollapsed}
               comment={comment}
               isChild={isChild}
+              onReplyClicked={() => {
+                setSelected(comment);
+                toggleCreateCommentDrawer();
+              }}
               onOptionsClicked={() => {
                 setSelected(comment);
                 openOptionsModal();
               }}
+              onAddReply={() => alert("not implemented yet")}
             />
           </Collapse>
         </div>
@@ -84,12 +72,17 @@ function Content({
   isChild,
   toggleCollapsed,
   onOptionsClicked,
+  // onAddReply,
+  onReplyClicked,
 }: {
   comment: CommentDTO;
   isChild: boolean;
   toggleCollapsed: () => void;
   onOptionsClicked: () => void;
+  onReplyClicked: () => void;
+  onAddReply: (createCommentDTO: CreateCommentDTO) => void;
 }) {
+  // const [replyToCommentBoxOpened, { toggle: toggleReplyToCommentBox }] = useDisclosure(false);
   return (
     <div className='flex'>
       <VerticalCollapsibleLine onClick={toggleCollapsed} />
@@ -98,17 +91,26 @@ function Content({
         {/* Comment */}
         <div className='ml-4 w-full'>
           <p className='whitespace-pre-line'>{comment.text}</p>
-          <ContentInteractions commentCount={comment.replies.length} onOptionsClicked={onOptionsClicked} />
+          <ContentInteractions
+            showCommentsCount={false}
+            onOptionsClicked={onOptionsClicked}
+            showReplyButton
+            onReplyClicked={onReplyClicked}
+          />
         </div>
+        {/* {replyToCommentBoxOpened && <AddCommentBox onSubmit={onAddReply} />} */}
+
         {/* Child */}
-        <div className={"" + isChild ? "ml-5" : ""}>
-          {comment.replies.length > 0 && (
-            <>
-              <br />
-              <CommentsList comments={comment.replies} isChild={true} />
-            </>
-          )}
-        </div>
+        {comment.replies.length > 0 && (
+          <CommentsList
+            comments={comment.replies}
+            isChild={true}
+            className='mt-5'
+            // onDeleteComment={(commentId) => removeComment(commentId)}
+            // onEditComment={(commentId, updatedText) => editComment(commentId, { text: updatedText })}
+            // onReplyToComment={(commentId, createCommentDTO) => addCommentReply(commentId, createCommentDTO)}
+          />
+        )}
       </div>
     </div>
   );

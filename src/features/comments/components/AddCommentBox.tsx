@@ -7,7 +7,7 @@ function AddCommentBox({
   onSubmit,
   className,
 }: {
-  className: string;
+  className?: string;
   onSubmit: (createCommentDTO: CreateCommentDTO) => void;
 }) {
   const [submittable, setSubmittable] = useState(false);
@@ -28,21 +28,17 @@ function AddCommentBox({
   };
 
   return (
-    <form onSubmit={handleSubmit} className={cn("", className)}>
+    <form onSubmit={handleSubmit} className={cn("border-2 rounded-md", className)}>
       <Textarea
         placeholder='Add a comment'
         minRows={5}
         radius={"md"}
         value={text}
         onChange={(e) => setText(e.target.value)}
+        styles={{ input: { border: "none" } }}
       />
-      <div className='flex justify-end'>
-        <Button
-          type='submit'
-          radius={"xl"}
-          className='ml-auto mt-3 transition-all duration-300'
-          disabled={!submittable}
-        >
+      <div className='flex justify-end bg-gray-100 p-2'>
+        <Button type='submit' radius={"xl"} className='ml-auto transition-all duration-300' disabled={!submittable}>
           Reply
         </Button>
       </div>

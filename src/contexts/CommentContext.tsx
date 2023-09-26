@@ -12,6 +12,10 @@ type CommentContextType = {
   editDrawerOpened: boolean;
   closeEditDrawer: () => void;
   openEditDrawer: () => void;
+  createCommentDrawerOpened: boolean;
+  closeCreateCommentDrawer: () => void;
+  openCreateCommentDrawer: () => void;
+  toggleCreateCommentDrawer: () => void;
 };
 
 const initialValue: CommentContextType = {
@@ -21,6 +25,10 @@ const initialValue: CommentContextType = {
   editDrawerOpened: false,
   closeEditDrawer: () => {},
   openEditDrawer: () => {},
+  createCommentDrawerOpened: false,
+  closeCreateCommentDrawer: () => {},
+  openCreateCommentDrawer: () => {},
+  toggleCreateCommentDrawer: () => {},
 };
 
 const CommentContext = createContext<CommentContextType>(initialValue);
@@ -28,6 +36,10 @@ const CommentContext = createContext<CommentContextType>(initialValue);
 const CommentProvider = ({ children }: Props) => {
   const [optionsModalOpened, { close: closeOptionsModal, open: openOptionsModal }] = useDisclosure(false);
   const [editDrawerOpened, { close: closeEditDrawer, open: openEditDrawer }] = useDisclosure(false);
+  const [
+    createCommentDrawerOpened,
+    { close: closeCreateCommentDrawer, open: openCreateCommentDrawer, toggle: toggleCreateCommentDrawer },
+  ] = useDisclosure(false);
 
   return (
     <CommentContext.Provider
@@ -38,6 +50,10 @@ const CommentProvider = ({ children }: Props) => {
         editDrawerOpened,
         closeEditDrawer,
         openEditDrawer,
+        createCommentDrawerOpened,
+        closeCreateCommentDrawer,
+        openCreateCommentDrawer,
+        toggleCreateCommentDrawer,
       }}
     >
       {children}

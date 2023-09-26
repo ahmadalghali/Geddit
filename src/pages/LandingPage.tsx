@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { PostSummaryDTO } from "@/types/dtos";
 import { getSuggestedPosts } from "@/api/suggestions";
-import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
 import PageTitle from "@/components/PageTitle";
 import PostSummaryItemList from "@/features/posts/components/PostSummaryItemList";
+import PostSummaryItemSkeleton from "@/features/posts/components/skeletons/PostSummaryItemSkeleton";
 
 function LandingPage() {
   const [suggestedPosts, setSuggestedPosts] = useState<PostSummaryDTO[]>([]);

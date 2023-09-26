@@ -14,6 +14,7 @@ import UserProfilePage from "@/pages/UserProfilePage";
 import ProfilePageLayout from "@/layouts/ProfilePageLayout";
 import { PostModalProvider } from "@/contexts/PostModalContext";
 import { CommentProvider } from "@/contexts/CommentContext";
+import { PostProvider } from "@/contexts/PostContext";
 
 const router = createBrowserRouter([
   {
@@ -40,9 +41,11 @@ const router = createBrowserRouter([
         path: `/${Constants.PREFIX_COMMUNITY}:communityName/posts/:postId`,
         element: (
           <PostModalProvider>
-            <CommentProvider>
-              <PostPage />
-            </CommentProvider>
+            <PostProvider>
+              <CommentProvider>
+                <PostPage />
+              </CommentProvider>
+            </PostProvider>
           </PostModalProvider>
         ),
       },

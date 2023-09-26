@@ -1,4 +1,4 @@
-import { IconDots, IconMessageCircle } from "@tabler/icons-react";
+import { IconArrowBackUp, IconDots, IconMessageCircle } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/classname";
 import { VoteState } from "@/types/index";
 import { useState } from "react";
@@ -6,13 +6,24 @@ import ContentVotes from "@/components/ContentVotes";
 import { ActionIcon } from "@mantine/core";
 
 type Props = {
-  commentCount: number;
   onOptionsClicked: () => void;
+  onReplyClicked?: () => void;
+  commentCount?: number;
   className?: string;
   showOptions?: boolean;
+  showCommentsCount?: boolean;
+  showReplyButton?: boolean;
 };
 
-function ContentInteractions({ commentCount = 0, className, onOptionsClicked, showOptions = true }: Props) {
+function ContentInteractions({
+  onOptionsClicked,
+  onReplyClicked,
+  commentCount = 0,
+  showOptions = true,
+  showCommentsCount = true,
+  showReplyButton = false,
+  className,
+}: Props) {
   const [voteCount, setVoteCount] = useState(0);
   const [voteState, setVoteState] = useState<VoteState>();
 
@@ -24,8 +35,14 @@ function ContentInteractions({ commentCount = 0, className, onOptionsClicked, sh
         voteState={voteState}
         setVoteState={setVoteState}
       />
-      <Comments commentCount={commentCount} />
-      {/* <ActionIcon></ActionIcon> */}
+
+      {showCommentsCount && <Comments commentCount={commentCount} />}
+      {showReplyButton && (
+        <ActionIcon radius={"xl"} onClick={onReplyClicked}>
+          <IconArrowBackUp size='24' color='gray' />
+        </ActionIcon>
+      )}
+
       {showOptions && (
         <IconDots
           size='36'

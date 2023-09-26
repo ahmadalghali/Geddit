@@ -1,4 +1,4 @@
-import { Button, CloseButton, Drawer, Textarea } from "@mantine/core";
+import { Button, CloseButton, Drawer, MantineNumberSize, Textarea } from "@mantine/core";
 import { useState } from "react";
 
 type Props = {
@@ -8,9 +8,10 @@ type Props = {
   opened: boolean;
   resource: "comment" | "post";
   title?: string;
+  size?: MantineNumberSize | undefined;
 };
 
-function DrawerEditText({ close, opened, text = "", title, onSave, resource }: Props) {
+function DrawerEditText({ close, opened, text = "", title, onSave, resource, size = "90%" }: Props) {
   const [updatedText, setUpdatedText] = useState<string>(text);
 
   const handleSave = (updatedPostBody: string) => {
@@ -31,7 +32,7 @@ function DrawerEditText({ close, opened, text = "", title, onSave, resource }: P
       onClose={onCancel}
       opened={opened}
       position='bottom'
-      size='90%'
+      size={size}
     >
       <Drawer.Overlay />
       <Drawer.Content>

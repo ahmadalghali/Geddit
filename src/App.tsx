@@ -1,5 +1,4 @@
 import { MantineProvider, createEmotionCache } from "@mantine/core";
-
 import { RouterProvider } from "react-router-dom";
 import router from "./Router";
 import { Notifications } from "@mantine/notifications";

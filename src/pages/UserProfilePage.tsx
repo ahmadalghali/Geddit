@@ -1,6 +1,6 @@
 import { deletePost } from "@/api/posts";
 import { getUserPostsByUsername } from "@/api/user";
-import ContentInteractions from "@/components/ContentInteractions";
+import ContentInteractions from "@/features/shared/components/ContentInteractions";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
 import { PostSummaryDTO } from "@/types/dtos";

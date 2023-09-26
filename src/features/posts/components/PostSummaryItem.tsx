@@ -1,10 +1,10 @@
 import { Avatar, Box } from "@mantine/core";
-import { IconBrandReddit, IconDots } from "@tabler/icons-react";
+import { IconBrandReddit } from "@tabler/icons-react";
 import { PostSummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { Link } from "react-router-dom";
 import { since } from "@/lib/utils/date-time";
-import ContentInteractions from "@/components/ContentInteractions";
+import ContentInteractions from "@/features/shared/components/ContentInteractions";
 
 type Props = {
   post: PostSummaryDTO;

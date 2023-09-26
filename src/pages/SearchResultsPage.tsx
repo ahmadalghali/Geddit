@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import SearchResultSkeleton from "@/components/skeletons/SearchResultSkeleton";
+import SearchResultSkeleton from "@/features/search/components/skeletons/SearchResultSkeleton";
 import { CommunitySummaryDTO, PostSummaryDTO, UserDTO } from "@/types/dtos";
 import { SegmentedControl } from "@mantine/core";
 import { Searchable } from "@/types/index";

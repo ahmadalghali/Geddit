@@ -1,20 +1,13 @@
 import { Avatar, Collapse } from "@mantine/core";
-import { IconArrowsDiagonal, IconBrandReddit, IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconArrowsDiagonal, IconBrandReddit } from "@tabler/icons-react";
 import { CommentDTO, CreateCommentDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
 import { AnimatePresence, motion } from "framer-motion";
 import CommentsList from "@/features/comments/components/CommentsList";
-import ContentInteractions from "@/components/ContentInteractions";
+import ContentInteractions from "@/features/shared/components/ContentInteractions";
 import { useDisclosure } from "@mantine/hooks";
-import OptionsModal from "@/components/OptionsModal";
-import DrawerEditText from "@/components/DrawerEditText";
 import { useCommentContext } from "@/contexts/CommentContext";
-import { modals } from "@mantine/modals";
-import DrawerCreateComment from "@/components/DrawerCreateComment";
-import AddCommentBox from "@/features/comments/components/AddCommentBox";
-import usePost from "@/hooks/usePost";
-import { usePostContext } from "@/contexts/PostContext";
 
 type Props = {
   comment: CommentDTO;

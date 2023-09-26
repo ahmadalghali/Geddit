@@ -31,13 +31,13 @@ function AddCommentBox({
     <form onSubmit={handleSubmit} className={cn("border-2 border-gray-200 rounded-md", className)}>
       <Textarea
         placeholder='Add a comment'
-        minRows={5}
+        minRows={3}
         radius={"md"}
         value={text}
         onChange={(e) => setText(e.target.value)}
         styles={{ input: { border: "none" } }}
       />
-      <div className='flex justify-end py-3 px-2'>
+      <div className='flex justify-end py-2 px-2'>
         <Button
           type='submit'
           radius={"xl"}

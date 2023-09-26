@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { getCommunityByName } from "@/api/communities";
 import { useParams } from "react-router-dom";
-import PostSummaryItemList from "@/components/PostSummaryItemList";
 import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { Avatar, Button, Modal, Skeleton } from "@mantine/core";
@@ -9,8 +8,9 @@ import { IconBrandReddit, IconSend } from "@tabler/icons-react";
 import PostSummaryItemSkeleton from "@/components/skeletons/PostSummaryItemSkeleton";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDisclosure } from "@mantine/hooks";
-import CreatePostForm from "@/components/CreatePostForm";
 import { getCommunityPosts } from "@/api/community-posts";
+import CreatePostForm from "@/features/posts/components/CreatePostForm";
+import PostSummaryItemList from "@/features/posts/components/PostSummaryItemList";
 
 function CommunityPage() {
   const [community, setCommunity] = useState<CommunitySummaryDTO | null>(null);

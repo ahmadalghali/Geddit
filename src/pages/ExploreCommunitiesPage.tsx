@@ -3,7 +3,7 @@ import { IconSearch } from "@tabler/icons-react";
 import { getAllCommunities } from "@/api/communities";
 import SearchResultSkeleton from "@/components/skeletons/SearchResultSkeleton";
 import PageTitle from "@/components/PageTitle";
-import SearchResultCommunityList from "@/components/SearchResultCommunityList";
+import SearchResultCommunityList from "@/features/search/components/SearchResultCommunityList";
 import { CommunitySummaryDTO } from "@/types/dtos";
 
 function ExploreCommunitiesPage() {

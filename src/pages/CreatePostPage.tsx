@@ -1,5 +1,5 @@
 import PageTitle from "@/components/PageTitle";
-import CreatePostForm from "@/components/CreatePostForm";
+import CreatePostForm from "@/features/posts/components/CreatePostForm";
 import { useNavigate } from "react-router-dom";
 
 function CreatePostPage() {

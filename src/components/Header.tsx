@@ -1,10 +1,10 @@
-import SearchBar from "@/components/SearchBar";
 import { IconPencil, IconPlus, IconUser, IconWorld } from "@tabler/icons-react";
 import { Link } from "react-router-dom";
 import { Menu, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import useLoggedInUser from "@/hooks/useLoggedInUser";
 import { Constants } from "@/lib/constants";
+import SearchBar from "@/features/search/components/SearchBar";
 
 function Header() {
   return (

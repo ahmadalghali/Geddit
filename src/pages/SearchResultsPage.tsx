@@ -5,10 +5,10 @@ import { CommunitySummaryDTO, PostSummaryDTO, UserDTO } from "@/types/dtos";
 import { SegmentedControl } from "@mantine/core";
 import { Searchable } from "@/types/index";
 import { searchCommunities, searchPosts, searchUsers } from "@/api/search";
-import SearchResultList from "@/components/SearchResultList";
-import SearchResultCommunity from "@/components/SearchResultCommunity";
-import SearchResultPost from "@/components/SearchResultPost";
-import SearchResultUser from "@/components/SearchResultUser";
+import SearchResultList from "@/features/search/components/SearchResultList";
+import SearchResultCommunity from "@/features/search/components/SearchResultCommunity";
+import SearchResultPost from "@/features/search/components/SearchResultPost";
+import SearchResultUser from "@/features/search/components/SearchResultUser";
 
 // TODO: use the enum object approach to render which block
 

@@ -37,15 +37,15 @@ function AddCommentBox({
         onChange={(e) => setText(e.target.value)}
         styles={{ input: { border: "none" } }}
       />
-      <div className='flex justify-end bg-gray-100 p-2'>
+      <div className='flex justify-end py-3 px-2'>
         <Button
           type='submit'
           radius={"xl"}
-          sx={{
-            fontWeight: "bold",
-            color: "white",
-            ":disabled": { background: "darkgray", color: "rgb(239, 239, 239)" },
-          }}
+          // sx={{
+          //   fontWeight: "bold",
+          //   color: "white",
+          //   ":disabled": { background: "darkgray", color: "rgb(239, 239, 239)" },
+          // }}
           className='ml-auto transition-all duration-300'
           disabled={!submittable}
         >

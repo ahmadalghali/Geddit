@@ -23,22 +23,22 @@
     // My additional config
     "baseUrl": ".",
     "paths": {
-      // "@/*": ["src/*"]
-      "@/components/*": ["src/components/*"],
-      "@/api/*": ["src/api/*"],
-      "@/hooks/*": ["src/hooks/*"],
-      "@/pages/*": ["src/pages/*"],
-      "@/types/*": ["src/types/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/config/*": ["src/config/*"],
-      "@/assets/*": ["src/assets/*"],
-      "@/contexts/*": ["src/contexts/*"],
-      "@/layouts/*": ["src/layouts/*"]
+      "@/*": ["./src/*"]
+      // "@/components/*": ["./src/components/*"],
+      // "@/features/*": ["./src/features/*"],
+      // "@/api/*": ["src/api/*"],
+      // "@/hooks/*": ["src/hooks/*"],
+      // "@/pages/*": ["src/pages/*"],
+      // "@/types/*": ["src/types/*"],
+      // "@/lib/*": ["src/lib/*"],
+      // "@/config/*": ["src/config/*"],
+      // "@/assets/*": ["src/assets/*"],
+      // "@/contexts/*": ["src/contexts/*"],
+      // "@/layouts/*": ["src/layouts/*"]
     }
-    // "paths": {
-    //   "@*": ["./src/*"]
-    // }
   },
   "include": ["src"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "./tsconfig.node.json" }]
+  // "extends": "./tsconfig.paths.json"
 }

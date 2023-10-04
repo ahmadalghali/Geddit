@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CommentDTO, UpdateCommentDTO } from "@/types/dtos";
 
 async function deleteComment(commentId: string): Promise<boolean> {

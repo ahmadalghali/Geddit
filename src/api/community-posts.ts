@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CreatePostDTO, PostSummaryDTO } from "@/types/dtos";
 
 async function createCommunityPost(communityName: string, createPostDTO: CreatePostDTO): Promise<PostSummaryDTO> {

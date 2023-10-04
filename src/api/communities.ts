@@ -1,5 +1,5 @@
 import { Community } from "@/types/entities";
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CommunitySummaryDTO, CreateCommunityDTO } from "@/types/dtos";
 
 async function getAllCommunities(): Promise<CommunitySummaryDTO[]> {

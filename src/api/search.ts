@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CommunitySummaryDTO, PostSummaryDTO, UserDTO } from "@/types/dtos";
 
 async function searchCommunities(keyword: string): Promise<CommunitySummaryDTO[]> {

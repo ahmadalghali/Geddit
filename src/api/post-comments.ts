@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CommentDTO, CreateCommentDTO } from "@/types/dtos";
 
 async function getPostComments(postId: string): Promise<CommentDTO[]> {

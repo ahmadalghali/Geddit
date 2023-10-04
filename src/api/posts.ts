@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { PostDTO, UpdatePostDTO } from "@/types/dtos";
 
 async function getPostById(postId: string): Promise<PostDTO> {

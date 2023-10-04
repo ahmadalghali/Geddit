@@ -1,4 +1,4 @@
-import { api } from "@/api/config";
+import { api } from "@/api/config/axios";
 import { CommentDTO, CreateCommentDTO } from "@/types/dtos";
 
 async function createCommentReply(commentId: string, createCommentReplyDTO: CreateCommentDTO): Promise<CommentDTO> {
@@ -6,5 +6,7 @@ async function createCommentReply(commentId: string, createCommentReplyDTO: Crea
 
   return response.data;
 }
+
+async function deleteCommentReply(commentId: string): Promise<boolean> {}
 
 export { createCommentReply };

@@ -34,7 +34,12 @@ function PostSummaryItem({ post }: Props) {
         <p className='font-semibold text-xl mt-2'>{post.title}</p>
         <p className='whitespace-pre-line mt-8 mb-2 break-words'>{post.body?.substring(0, 200)}</p>
 
-        <ContentInteractions commentCount={post.commentCount} showOptions={false} onOptionsClicked={() => {}} />
+        <ContentInteractions
+          voteCount={post.voteCount}
+          commentCount={post.commentCount}
+          showOptions={false}
+          onOptionsClicked={() => {}}
+        />
       </Box>
     </Link>
   );

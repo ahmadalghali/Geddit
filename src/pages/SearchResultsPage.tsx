@@ -52,7 +52,6 @@ function ResultsPanel({ selectedTab }: { selectedTab: Searchable }) {
         setSearchResultsCommunities(results);
       } else if (selectedTab == "Posts") {
         const results = await searchPosts(searchQuery);
-
         setSearchResultsPosts(results);
       } else if (selectedTab == "Users") {
         const results = await searchUsers(searchQuery);

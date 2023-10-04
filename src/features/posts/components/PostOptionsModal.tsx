@@ -8,7 +8,12 @@ import { IconPencil, IconShare, IconTrash } from "@tabler/icons-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCopyToClipboard } from "react-use";
 
-function PostOptionsModal() {
+type Props = {
+  editable?: boolean;
+  deletable?: boolean;
+};
+
+function PostOptionsModal({ deletable = false, editable = false }: Props) {
   const { communityName } = useParams();
 
   const { closePostOptionsModal, postOptionsModalOpened, openEditDrawer } = usePostModalContext();
@@ -58,12 +63,17 @@ function PostOptionsModal() {
       <OptionsModal.Item onClick={handleShare} icon={<IconShare />}>
         Share
       </OptionsModal.Item>
-      <OptionsModal.Item onClick={handleEdit} icon={<IconPencil />}>
-        Edit
-      </OptionsModal.Item>
-      <OptionsModal.Item onClick={handleDelete} icon={<IconTrash />}>
-        Delete
-      </OptionsModal.Item>
+      {editable && (
+        <OptionsModal.Item onClick={handleEdit} icon={<IconPencil />}>
+          Edit
+        </OptionsModal.Item>
+      )}
+
+      {deletable && (
+        <OptionsModal.Item onClick={handleDelete} icon={<IconTrash />}>
+          Delete
+        </OptionsModal.Item>
+      )}
     </OptionsModal>
   );
 }

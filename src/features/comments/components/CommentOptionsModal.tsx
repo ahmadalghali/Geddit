@@ -5,7 +5,13 @@ import { modals } from "@mantine/modals";
 import { usePostContext } from "@/contexts/PostContext";
 import { CommentDTO } from "@/types/dtos";
 
-function CommentOptionsModal({ selectedComment }: { selectedComment: CommentDTO }) {
+type Props = {
+  selectedComment: CommentDTO;
+  editable?: boolean;
+  deletable?: boolean;
+};
+
+function CommentOptionsModal({ selectedComment, editable, deletable }: Props) {
   const { closeOptionsModal, optionsModalOpened, openEditDrawer } = useCommentContext();
   const { removeComment } = usePostContext();
 
@@ -23,24 +29,28 @@ function CommentOptionsModal({ selectedComment }: { selectedComment: CommentDTO 
 
   return (
     <OptionsModal close={closeOptionsModal} opened={optionsModalOpened}>
-      <OptionsModal.Item
-        onClick={() => {
-          closeOptionsModal();
-          openDeleteCommentModal(selectedComment.id);
-        }}
-        icon={<IconTrash />}
-      >
-        Delete
-      </OptionsModal.Item>
-      <OptionsModal.Item
-        onClick={() => {
-          closeOptionsModal();
-          openEditDrawer();
-        }}
-        icon={<IconPencil />}
-      >
-        Edit
-      </OptionsModal.Item>
+      {editable && (
+        <OptionsModal.Item
+          onClick={() => {
+            closeOptionsModal();
+            openEditDrawer();
+          }}
+          icon={<IconPencil />}
+        >
+          Edit
+        </OptionsModal.Item>
+      )}
+      {deletable && (
+        <OptionsModal.Item
+          onClick={() => {
+            closeOptionsModal();
+            openDeleteCommentModal(selectedComment.id);
+          }}
+          icon={<IconTrash />}
+        >
+          Delete
+        </OptionsModal.Item>
+      )}
     </OptionsModal>
   );
 }

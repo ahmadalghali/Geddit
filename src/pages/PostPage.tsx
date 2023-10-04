@@ -13,11 +13,16 @@ import CommentsList from "@/features/comments/components/CommentsList";
 import { usePostContext } from "@/contexts/PostContext";
 import PostOptionsModal from "@/features/posts/components/PostOptionsModal";
 import PostContent from "@/features/posts/components/PostContent";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 function PostPage() {
   const { post, isLoading, addComment, updatePostBody } = usePostContext();
 
   const { openPostOptionsModal, closeEditDrawer, editDrawerOpened } = usePostModalContext();
+
+  const { user } = useAuthContext();
+
+  const authorIsMe = post?.author.username == user?.username;
 
   if (isLoading) return <PostPageSkeleton />;
 
@@ -25,7 +30,7 @@ function PostPage() {
 
   return (
     <AnimatePresence>
-      <PostOptionsModal />
+      <PostOptionsModal deletable={authorIsMe} editable={authorIsMe} key={"post-options-modal"} />
 
       <DrawerEditText
         close={closeEditDrawer}
@@ -34,6 +39,7 @@ function PostPage() {
         text={post.body}
         onSave={(updatedPostBody) => updatePostBody(updatedPostBody)}
         resource='post'
+        key={"drawer-edit-text"}
       />
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
         <PostContent
@@ -46,7 +52,7 @@ function PostPage() {
           className='my-5'
           onSubmit={(createCommentDTO: CreateCommentDTO) => addComment(createCommentDTO)}
         />
-        <Divider mb={20} size={"md"} color='rgb(234, 234, 234)' />
+        <Divider mb={20} size={"6"} color='rgb(234, 234, 234)' />
 
         <AnimatePresence mode='wait'>
           {post.comments.length ? (

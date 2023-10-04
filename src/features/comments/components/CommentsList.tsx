@@ -8,6 +8,7 @@ import DrawerCreateComment from "@/features/comments/components/DrawerCreateComm
 import { usePostContext } from "@/contexts/PostContext";
 import { cn } from "@/lib/utils/classname";
 import CommentOptionsModal from "@/features/comments/components/CommentOptionsModal";
+import { useAuthContext } from "@/contexts/AuthContext";
 
 type Props = {
   comments: CommentDTO[];
@@ -22,6 +23,10 @@ function CommentsList({ comments, className }: Props) {
     useCommentContext();
 
   const { editComment, addCommentReply } = usePostContext();
+
+  const { user } = useAuthContext();
+
+  const authorIsMe = selectedComment?.author.username == user?.username;
 
   return (
     <>
@@ -43,7 +48,9 @@ function CommentsList({ comments, className }: Props) {
         />
       )}
 
-      {selectedComment && <CommentOptionsModal selectedComment={selectedComment} />}
+      {selectedComment && (
+        <CommentOptionsModal deletable={authorIsMe} editable={authorIsMe} selectedComment={selectedComment} />
+      )}
 
       <motion.ul className={cn("space-y-10 bg-white", className)}>
         <AnimatePresence>

@@ -3,7 +3,7 @@ import { ReactNode, createContext, useContext } from "react";
 import { useParams } from "react-router-dom";
 
 type Props = {
-  children?: ReactNode;
+  children: ReactNode;
 };
 
 type PostContextType = ReturnType<typeof usePost>;

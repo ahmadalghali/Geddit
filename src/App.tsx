@@ -3,6 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Router";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
+import { AuthProvider } from "@/contexts/AuthContext";
 
 const cache = createEmotionCache({
   key: "mantine",
@@ -14,7 +15,9 @@ function App() {
     <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>
       <ModalsProvider>
         <Notifications transitionDuration={400} autoClose={2500} position='bottom-center' />
-        <RouterProvider router={router} />
+        <AuthProvider>
+          <RouterProvider router={router} />
+        </AuthProvider>
       </ModalsProvider>
     </MantineProvider>
   );

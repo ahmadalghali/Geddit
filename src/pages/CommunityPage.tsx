@@ -1,41 +1,20 @@
-import { useEffect, useState } from "react";
-import { getCommunityByName } from "@/api/communities";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
+import { CommunitySummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
 import { Avatar, Button, Modal, Skeleton } from "@mantine/core";
 import { IconBrandReddit, IconSend } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useDisclosure } from "@mantine/hooks";
-import { getCommunityPosts } from "@/api/community-posts";
 import CreatePostForm from "@/features/posts/components/CreatePostForm";
 import PostSummaryItemList from "@/features/posts/components/PostSummaryItemList";
 import PostSummaryItemSkeleton from "@/features/posts/components/skeletons/PostSummaryItemSkeleton";
+import useCommunity from "@/hooks/useCommunity";
 
 function CommunityPage() {
-  const [community, setCommunity] = useState<CommunitySummaryDTO | null>(null);
-  const [posts, setPosts] = useState<PostSummaryDTO[]>([]);
   const { communityName } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
+  const { community, posts, isLoading, handleJoinCommunity, handleLeaveCommunity } = useCommunity(communityName!);
   const [opened, { open, close }] = useDisclosure(false);
-
-  useEffect(() => {
-    if (communityName) {
-      const fetchCommunity = async () => {
-        return await getCommunityByName(communityName);
-      };
-
-      const fetchCommunityPosts = async () => {
-        return await getCommunityPosts(communityName);
-      };
-
-      Promise.all([fetchCommunity(), fetchCommunityPosts()]).then(([community, posts]) => {
-        setCommunity(community);
-        setPosts(posts);
-        setIsLoading(false);
-      });
-    }
-  }, [communityName]);
 
   if (isLoading) return <PageSkeleton />;
 
@@ -46,7 +25,7 @@ function CommunityPage() {
       </Modal>
       <AnimatePresence>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <CommunityHeader community={community!} />
+          <CommunityHeader community={community!} onJoin={handleJoinCommunity} onLeave={handleLeaveCommunity} />
           <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
             Create Post
           </Button>
@@ -89,8 +68,18 @@ function CommunityHeaderSkeleton() {
   );
 }
 
-function CommunityHeader({ community }: { community: CommunitySummaryDTO }) {
+function CommunityHeader({
+  community,
+  onJoin,
+  onLeave,
+}: {
+  community: CommunitySummaryDTO;
+  onJoin: () => void;
+  onLeave: () => void;
+}) {
   const [isMember, setIsMember] = useState(false);
+
+  const memberCountText = community.memberCount == 1 ? "1 member" : `${community.memberCount} members`;
 
   return (
     <div className='mb-5'>
@@ -103,40 +92,37 @@ function CommunityHeader({ community }: { community: CommunitySummaryDTO }) {
             {Constants.PREFIX_COMMUNITY}
             {community?.name}
           </p>
-          <p className='text-xs text-gray-500'>42 members</p>
+          <p className='text-xs text-gray-500'>{memberCountText}</p>
         </div>
 
-        {isMember ? (
-          <Button
-            radius={"xl"}
-            variant='outline'
-            sx={{
-              width: "4.25rem",
-              padding: "0",
-              height: "2rem",
-              marginLeft: "auto",
-              fontWeight: "bold",
-              fontSize: ".8rem",
-            }}
-            onClick={() => setIsMember(false)}
-          >
-            JOINED
-          </Button>
-        ) : (
-          <Button
-            radius={"xl"}
-            sx={{
-              width: "4.25rem",
-              padding: "0",
-              height: "2rem",
-              marginLeft: "auto",
-              fontWeight: "bold",
-            }}
-            onClick={() => setIsMember(true)}
-          >
-            JOIN
-          </Button>
-        )}
+        {/* <Button
+          radius={"xl"}
+          variant='outline'
+          sx={{
+            width: "4.25rem",
+            padding: "0",
+            height: "2rem",
+            marginLeft: "auto",
+            fontWeight: "bold",
+            fontSize: ".8rem",
+          }}
+          onClick={onJoin}
+        >
+          JOINED
+        </Button> */}
+        <Button
+          radius={"xl"}
+          sx={{
+            width: "4.25rem",
+            padding: "0",
+            height: "2rem",
+            marginLeft: "auto",
+            fontWeight: "bold",
+          }}
+          onClick={onLeave}
+        >
+          JOIN
+        </Button>
       </div>
       <p className='text-xs text-gray-500 mt-4'>{community?.description}</p>
     </div>

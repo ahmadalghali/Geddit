@@ -8,11 +8,13 @@ import { IconBrandReddit } from "@tabler/icons-react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-
+import { GoogleLogin } from "react-google-login";
 type Inputs = {
   username: string;
   password: string;
 };
+
+const clientId = "870485872584-5sgtcd4i1rcnq5uc0a7mq15arq14u55a.apps.googleusercontent.com";
 
 function SignInPage() {
   const navigate = useNavigate();
@@ -63,6 +65,7 @@ function SignInPage() {
           <IconBrandReddit className='text-center' size={"60"} color='orange' />
         </Avatar>
         <p className='font-extrabold text-3xl text-gray-600 mt-5'>Sign in</p>
+
         <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
           <TextInput placeholder='Username' type='text' {...register("username", { required: true })} />
           <PasswordInput className='my-5' placeholder='Password' {...register("password", { required: true })} />
@@ -81,6 +84,12 @@ function SignInPage() {
         <Link to='/register' className='mt-10 font-bold text-gray-600'>
           Don't have an account? <span className='underline cursor-pointer hover:'>Register</span>
         </Link>
+        <GoogleLogin
+          clientId={clientId}
+          onSuccess={(response) => console.log("response :>> ", response)}
+          onFailure={() => console.log("Failed to sign in")}
+          className='mt-20'
+        />
       </div>
     </>
   );

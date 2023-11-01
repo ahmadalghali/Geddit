@@ -1,39 +1,22 @@
 import { deletePost } from "@/api/posts";
-import { getUserPostsByUsername } from "@/api/user";
+import { getUserPosts, getUserComments } from "@/api/user";
 import ContentInteractions from "@/features/shared/components/ContentInteractions";
+import useUserProfile from "@/hooks/useUserProfile";
 import { Constants } from "@/lib/constants";
 import { since } from "@/lib/utils/date-time";
-import { PostSummaryDTO } from "@/types/dtos";
+import { CommentDTO, PostSummaryDTO } from "@/types/dtos";
 import { ActionIcon, Avatar, Divider, Modal, Skeleton, Tabs } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandReddit, IconDots, IconPencil, IconTrash, IconUser } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 function UserProfilePage() {
   const { username } = useParams();
-  const [isLoading, setIsLoading] = useState(true);
-  const [userPosts, setUserPosts] = useState<PostSummaryDTO[]>([]);
 
-  const deletePostLocally = (postId: string) => {
-    const updatedUserPosts = userPosts.filter((post) => post.id !== postId);
-    setUserPosts(updatedUserPosts);
-  };
+  const { deletePostLocally, isLoading, userPosts, userComments } = useUserProfile(username!);
 
-  useEffect(() => {
-    const fetchUserPosts = async () => {
-      setIsLoading(true);
-      const posts = await getUserPostsByUsername(username!);
-      setUserPosts(posts);
-
-      setIsLoading(false);
-    };
-
-    fetchUserPosts();
-  }, [username]);
-
-  if (!username) return null;
+  if (!username) return;
 
   return (
     <div className=''>
@@ -52,7 +35,7 @@ function UserProfilePage() {
           <Tabs.Tab value='about'>About</Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value='posts' className='  flex-grow '>
+        <Tabs.Panel value='posts' className='flex-grow'>
           <AnimatePresence>
             {isLoading ? (
               <PostItemSkeleton count={10} />
@@ -62,7 +45,11 @@ function UserProfilePage() {
           </AnimatePresence>
         </Tabs.Panel>
 
-        <Tabs.Panel value='comments'>Comments tab content</Tabs.Panel>
+        <Tabs.Panel value='comments' className='flex-grow'>
+          <AnimatePresence>
+            {isLoading ? <PostItemSkeleton count={10} /> : <UserCommentsList comments={userComments} />}
+          </AnimatePresence>
+        </Tabs.Panel>
         <Tabs.Panel value='about'>About tab content</Tabs.Panel>
       </Tabs>
     </div>
@@ -204,6 +191,60 @@ function PostItemSkeleton({ count }: { count: number }) {
         ))}
       </AnimatePresence>
     </ul>
+  );
+}
+
+function UserCommentsList({ comments }: { comments: CommentDTO[] }) {
+  return (
+    <ul>
+      {comments.map((comment) => (
+        <li key={comment.id}>
+          <CommentItem comment={comment} />
+          <Divider size='lg' color='rgb(230, 230, 230)' />
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function CommentItem({ comment }: { comment: CommentDTO }) {
+  const formattedDate = since(comment.createdDate);
+
+  return (
+    <Link to={comment.href}>
+      <motion.div
+        className='bg-white pt-2 pb-1 px-4 cursor-pointer sm:rounded-md hover:bg-zinc-100 transition-all'
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className='flex items-center'>
+          <Avatar size='md' radius='xl' className='mr-1' color={"green"}>
+            <IconBrandReddit size='25' />
+          </Avatar>
+          <p className='font-semibold text-sm'>
+            {Constants.PREFIX_USER}
+            {comment.author.username}
+            <span className='text-xs font-semibold text-gray-400'>
+              <span className='mx-1'>·</span>
+              <span>{formattedDate}</span>
+            </span>
+          </p>
+
+          <ActionIcon radius={"xl"} className='ml-auto'>
+            <IconDots size='25' onClick={() => {}} />
+          </ActionIcon>
+        </div>
+        <p className='text-sm py-1'>{comment.text}</p>
+
+        <ContentInteractions
+          showCommentsCount={false}
+          showOptions={false}
+          commentCount={comment.replies.length}
+          onOptionsClicked={() => {}}
+        />
+      </motion.div>
+    </Link>
   );
 }
 

@@ -1,6 +1,6 @@
 import { Outlet, ScrollRestoration } from "react-router-dom";
-import Header from "@/components/Header";
 import AnimatedPage from "@/components/animate/AnimatedPage";
+import Header from "@/components/Header/Header";
 
 function RootLayout() {
   return (

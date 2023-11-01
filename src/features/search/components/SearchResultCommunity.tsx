@@ -4,6 +4,7 @@ import { Constants } from "@/lib/constants";
 import { CommunitySummaryDTO } from "@/types/dtos";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import JoinButton from "@/features/communities/components/JoinButton";
 type Props = {
   community: CommunitySummaryDTO;
 };
@@ -28,16 +29,7 @@ function SearchResultCommunity({ community }: Props) {
           </h4>
           <p className='text-xs text-gray-500'>{community.description}</p>
         </div>
-        <Button
-          className='ml-auto'
-          sx={{
-            fontWeight: "800",
-          }}
-          radius={"xl"}
-          onClick={handleJoinClicked}
-        >
-          JOIN
-        </Button>
+        <JoinButton onClick={() => {}} />
       </motion.div>
     </Link>
   );

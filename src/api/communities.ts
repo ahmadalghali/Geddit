@@ -19,4 +19,16 @@ async function getCommunityByName(communityName: string): Promise<CommunitySumma
   return communityResponse.data;
 }
 
-export { getAllCommunities, createCommunity, getCommunityByName };
+async function joinCommunity(communityName: string): Promise<number> {
+  const response = await api.post<number>(`/communities/${communityName}/join`);
+  const updatedCommunityMemberCount = response.data;
+  return updatedCommunityMemberCount;
+}
+
+async function leaveCommunity(communityName: string): Promise<number> {
+  const response = await api.delete<number>(`/communities/${communityName}/leave`);
+  const updatedCommunityMemberCount = response.data;
+  return updatedCommunityMemberCount;
+}
+
+export { getAllCommunities, createCommunity, getCommunityByName, joinCommunity, leaveCommunity };

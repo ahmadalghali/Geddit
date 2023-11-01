@@ -5,8 +5,10 @@ import ContentInteractions from "@/features/shared/components/ContentInteraction
 import { since } from "@/lib/utils/date-time";
 import { Constants } from "@/lib/constants";
 import { Link } from "react-router-dom";
+import { usePostContext } from "@/contexts/PostContext";
 
 function PostContent({ post, onOptionsClicked }: { post: PostDTO; onOptionsClicked: () => void }) {
+  const { handleUpvotePost, handleDownvotePost } = usePostContext();
   return (
     <div className=''>
       <div className='flex items-center gap-2'>
@@ -23,7 +25,7 @@ function PostContent({ post, onOptionsClicked }: { post: PostDTO; onOptionsClick
 
           <p className='text-[.8rem] font-semibold text-gray-500'>
             {Constants.PREFIX_USER}
-            {post.authorUsername}
+            {post.author.username}
             <span>
               <span className='mx-1'>·</span>
               <span>{since(post.createdDate)}</span>
@@ -33,7 +35,15 @@ function PostContent({ post, onOptionsClicked }: { post: PostDTO; onOptionsClick
       </div>
       <h1 className='font-semibold text-2xl mt-4'>{post.title}</h1>
       {post.body && <p className='mt-10 whitespace-pre-line break-words'>{post.body}</p>}
-      <ContentInteractions commentCount={post.comments.length} className='mt-5' onOptionsClicked={onOptionsClicked} />
+      <ContentInteractions
+        onUpvote={handleUpvotePost}
+        onDownvote={handleDownvotePost}
+        voteCount={post.voteCount}
+        voteStatus={post.voteStatus}
+        commentCount={post.comments.length}
+        className='mt-5'
+        onOptionsClicked={onOptionsClicked}
+      />
     </div>
   );
 }

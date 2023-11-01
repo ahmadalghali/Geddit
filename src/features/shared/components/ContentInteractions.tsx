@@ -1,11 +1,15 @@
 import { IconArrowBackUp, IconDots, IconMessageCircle } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/classname";
-import { VoteState } from "@/types/index";
+import { ContentVoteStatus, VoteState } from "@/types/index";
 import { useState } from "react";
 import { ActionIcon } from "@mantine/core";
 import ContentVotes from "@/features/shared/components/ContentVotes";
 
 type Props = {
+  onUpvote: () => void;
+  onDownvote: () => void;
+  voteCount: number;
+  voteStatus: ContentVoteStatus;
   onOptionsClicked: () => void;
   onReplyClicked?: () => void;
   commentCount?: number;
@@ -18,22 +22,28 @@ type Props = {
 function ContentInteractions({
   onOptionsClicked,
   onReplyClicked,
+  onUpvote,
+  onDownvote,
+  voteCount,
+  voteStatus,
   commentCount = 0,
   showOptions = true,
   showCommentsCount = true,
   showReplyButton = false,
   className,
 }: Props) {
-  const [voteCount, setVoteCount] = useState(0);
-  const [voteState, setVoteState] = useState<VoteState>();
+  // const [voteCount, setVoteCount] = useState(0);
+  // const [voteState, setVoteState] = useState<VoteState>();
 
   return (
     <div className={cn("flex items-center space-x-5", className ?? "")}>
       <ContentVotes
+        onUpvote={onUpvote}
+        onDownvote={onDownvote}
         voteCount={voteCount}
-        setVoteCount={setVoteCount}
-        voteState={voteState}
-        setVoteState={setVoteState}
+        voteStatus={voteStatus}
+        // setVoteCount={setVoteCount}
+        // setVoteState={setVoteState}
       />
 
       {showCommentsCount && <Comments commentCount={commentCount} />}

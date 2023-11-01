@@ -50,7 +50,7 @@ function NavMenu() {
 
         {isLoggedIn ? (
           <>
-            <Link to={`${Constants.PREFIX_USER}${user?.username}`}>
+            <Link to={`/${Constants.PREFIX_USER}${user?.username}`}>
               <Menu.Item icon={<IconUser />}>Profile</Menu.Item>
             </Link>
             <Menu.Item onClick={displaySignOutModal} icon={<IconLogout2 />}>

@@ -8,6 +8,8 @@ import CommentsList from "@/features/comments/components/CommentsList";
 import ContentInteractions from "@/features/shared/components/ContentInteractions";
 import { useDisclosure } from "@mantine/hooks";
 import { useCommentContext } from "@/contexts/CommentContext";
+import { usePostContext } from "@/contexts/PostContext";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 type Props = {
   comment: CommentDTO;
@@ -22,17 +24,31 @@ function Comment({ comment, isChild, setSelected }: Props) {
 
   const { openOptionsModal, toggleCreateCommentDrawer } = useCommentContext();
 
+  const { post } = usePostContext();
+
+  const authorIsMe = post?.author.username == comment.author.username;
+
+  const [searchParams] = useSearchParams();
+  const highlightedCommentId = searchParams.get("highlightedCommentId");
+
+  const isHighlighted = highlightedCommentId && highlightedCommentId === comment.id;
   return (
     <>
       <motion.div
-        layout
+        // layout
         key={comment.id}
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         transition={{ type: "spring", duration: 0.7 }}
+        className={
+          isHighlighted
+            ? "bg-amber-50 py-3 px-1 rounded-md outline outline-4 outline-offset-1 outline-amber-400 shadow-2xl"
+            : ""
+        }
       >
         <Header
-          author={comment.authorUsername}
+          authorUsername={comment.author.username}
+          isAuthor={authorIsMe}
           datePosted={datePosted}
           expandComment={toggleCollapsed}
           commentExpanded={commentExpanded}
@@ -76,15 +92,19 @@ function Content({
   onAddReply: (createCommentDTO: CreateCommentDTO) => void;
 }) {
   // const [replyToCommentBoxOpened, { toggle: toggleReplyToCommentBox }] = useDisclosure(false);
+  const { handleUpvoteComment, handleDownvoteComment } = usePostContext();
   return (
     <div className='flex'>
       <VerticalCollapsibleLine onClick={toggleCollapsed} />
-
       <div className='w-full'>
         {/* Comment */}
         <div className='ml-4 w-full'>
-          <p className='whitespace-pre-line'>{comment.text}</p>
+          <p className='whitespace-pre-line break-words pr-5'>{comment.text}</p>
           <ContentInteractions
+            onUpvote={() => handleUpvoteComment(comment.id)}
+            onDownvote={() => handleDownvoteComment(comment.id)}
+            voteCount={comment.voteCount}
+            voteStatus={comment.voteStatus}
             showCommentsCount={false}
             onOptionsClicked={onOptionsClicked}
             showReplyButton
@@ -94,31 +114,24 @@ function Content({
         {/* {replyToCommentBoxOpened && <AddCommentBox onSubmit={onAddReply} />} */}
 
         {/* Child */}
-        {comment.replies.length > 0 && (
-          <CommentsList
-            comments={comment.replies}
-            isChild={true}
-            className='mt-5'
-            // onDeleteComment={(commentId) => removeComment(commentId)}
-            // onEditComment={(commentId, updatedText) => editComment(commentId, { text: updatedText })}
-            // onReplyToComment={(commentId, createCommentDTO) => addCommentReply(commentId, createCommentDTO)}
-          />
-        )}
+        {comment.replies.length > 0 && <CommentsList comments={comment.replies} isChild={true} className='mt-5' />}
       </div>
     </div>
   );
 }
 
 function Header({
-  author,
+  authorUsername,
   datePosted,
   expandComment,
   commentExpanded,
+  isAuthor,
 }: {
-  author: string;
+  authorUsername: string;
   datePosted: string;
   expandComment: () => void;
   commentExpanded: boolean;
+  isAuthor: boolean;
 }) {
   return (
     <motion.div className='flex items-center' transition={{ duration: 0.6 }}>
@@ -147,10 +160,14 @@ function Header({
           <p className='text-sm'>
             <span className='font-semibold '>
               {Constants.PREFIX_USER}
-              {author}
+              {authorUsername}
             </span>
-            <span className='mx-1'>·</span>
-            <span className='font-bold text-blue-600 text-[.9rem]'>Author</span>
+            {isAuthor && (
+              <>
+                <span className='mx-1'>·</span>
+                <span className='font-bold text-blue-600 text-[.9rem]'>Author</span>
+              </>
+            )}
             <span className=''>
               <span className='mx-1'>·</span>
               <span>{datePosted}</span>

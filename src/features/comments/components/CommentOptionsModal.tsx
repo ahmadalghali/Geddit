@@ -1,9 +1,11 @@
 import OptionsModal from "@/components/OptionsModal";
-import { IconPencil, IconTrash } from "@tabler/icons-react";
+import { IconPencil, IconShare, IconTrash } from "@tabler/icons-react";
 import { useCommentContext } from "@/contexts/CommentContext";
 import { modals } from "@mantine/modals";
 import { usePostContext } from "@/contexts/PostContext";
 import { CommentDTO } from "@/types/dtos";
+import { notify } from "@/lib/notifications";
+import { useCopyToClipboard } from "react-use";
 
 type Props = {
   selectedComment: CommentDTO;
@@ -27,8 +29,19 @@ function CommentOptionsModal({ selectedComment, editable, deletable }: Props) {
     });
   };
 
+  const [, copyToClipboard] = useCopyToClipboard();
+
+  const handleShare = () => {
+    copyToClipboard(selectedComment.href);
+    closeOptionsModal();
+    notify("Comment link copied to clipboard");
+  };
+
   return (
     <OptionsModal close={closeOptionsModal} opened={optionsModalOpened}>
+      <OptionsModal.Item onClick={handleShare} icon={<IconShare />}>
+        Share
+      </OptionsModal.Item>
       {editable && (
         <OptionsModal.Item
           onClick={() => {

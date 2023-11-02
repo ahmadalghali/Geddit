@@ -36,6 +36,7 @@ function DrawerCreateComment({ close, opened, onSubmit, size = "40%" }: Props) {
       <Drawer.Content>
         <Drawer.Header>
           <CloseButton onClick={onCancel} size={"xl"} iconSize={25} radius={"xl"} color='gray' />
+          {/* @ts-ignore */}
           <Drawer.Title sx={{ fontWeight: "600", fontSize: "1.2rem" }} className='text-gray-500'>
             Reply to comment
           </Drawer.Title>

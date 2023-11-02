@@ -30,6 +30,7 @@ function SearchResultUser({ user }: Props) {
         <Button
           className='ml-auto'
           classNames={{ root: "text-sm" }}
+          //@ts-ignore
           sx={{
             fontWeight: "800",
           }}

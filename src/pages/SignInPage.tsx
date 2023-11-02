@@ -21,7 +21,7 @@ function SignInPage() {
   const { register, handleSubmit } = useForm<Inputs>();
   const { storeDetails } = useAuthContext();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [, setIsSubmitting] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = async ({ username, password }) => {
     setIsSubmitting(true);
@@ -73,6 +73,7 @@ function SignInPage() {
             type='submit'
             w={"100%"}
             radius={"xl"}
+            //@ts-ignore
             sx={{
               fontWeight: "800",
             }}

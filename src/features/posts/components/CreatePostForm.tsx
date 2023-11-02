@@ -1,11 +1,10 @@
 import { forwardRef, useEffect, useState } from "react";
-import { Community } from "@/types/entities";
 import { Avatar, Button, CloseButton, Group, LoadingOverlay, Select, Text, TextInput, Textarea } from "@mantine/core";
 import { IconBrandReddit, IconCheck } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
 import { getAllCommunities } from "@/api/communities";
 import { useNavigate } from "react-router";
-import { CreatePostDTO } from "@/types/dtos";
+import { CommunitySummaryDTO, CreatePostDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
 import { addArtificialDelay } from "@/lib/utils/network";
 import { useForm, SubmitHandler, useController } from "react-hook-form";
@@ -26,7 +25,7 @@ function CreatePostForm({ communityName, onDismiss }: Props) {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
     control,
     setValue,
   } = useForm<Inputs>();
@@ -88,7 +87,7 @@ function CreatePostForm({ communityName, onDismiss }: Props) {
     fetchAllCommunities();
   }, []);
 
-  const mapCommunitiesToSelectData = (communities: Community[]): SelectItemType[] => {
+  const mapCommunitiesToSelectData = (communities: CommunitySummaryDTO[]): SelectItemType[] => {
     return communities.map((community): SelectItemType => {
       return {
         label: Constants.PREFIX_COMMUNITY + community.name,

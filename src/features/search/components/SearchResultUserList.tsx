@@ -2,7 +2,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { UserDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
-import SearchResultUser from "@/components/SearchResultUser";
+import SearchResultUser from "@/features/search/components/SearchResultUser";
 type Props = {
   users: UserDTO[];
 };

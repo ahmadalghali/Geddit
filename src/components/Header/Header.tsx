@@ -1,14 +1,8 @@
 import { Link } from "react-router-dom";
 import SearchBar from "@/features/search/components/SearchBar";
 import NavMenu from "@/components/Header/NavMenu";
-import { IconDoorEnter, IconLogin, IconUser } from "@tabler/icons-react";
-import { useDisclosure } from "@mantine/hooks";
-import SignInModal from "@/features/auth/components/SignInModal";
-import { useAuthContext } from "@/contexts/AuthContext";
 
 function Header() {
-  const displayLoginModal = () => {};
-
   return (
     <>
       {/* <SignInModal /> */}

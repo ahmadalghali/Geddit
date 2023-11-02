@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { CommunitySummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
@@ -70,14 +69,13 @@ function CommunityHeaderSkeleton() {
 
 function CommunityHeader({
   community,
-  onJoin,
   onLeave,
 }: {
   community: CommunitySummaryDTO;
   onJoin: () => void;
   onLeave: () => void;
 }) {
-  const [isMember, setIsMember] = useState(false);
+  //
 
   const memberCountText = community.memberCount == 1 ? "1 member" : `${community.memberCount} members`;
 

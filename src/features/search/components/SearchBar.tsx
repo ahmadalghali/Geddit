@@ -6,8 +6,8 @@ import { getAllCommunities } from "@/api/communities";
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [allCommunityNames, setAllCommunityNames] = useState<string[]>([]);
-  const [autoCompleteData, setAutoCompleteData] = useState<string[]>([]);
+  const [, setAllCommunityNames] = useState<string[]>([]);
+  const [autoCompleteData] = useState<string[]>([]);
   const searchBarRef = useRef<HTMLInputElement | null>(null);
 
   // optimise to fetch only once

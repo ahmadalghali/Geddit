@@ -1,5 +1,5 @@
 import { IconArrowBigDown, IconArrowBigUp } from "@tabler/icons-react";
-import { ContentVoteStatus, VoteState } from "@/types/index";
+import { ContentVoteStatus, VoteState } from "@/types";
 import { ActionIcon } from "@mantine/core";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   setVoteState: React.Dispatch<React.SetStateAction<VoteState | undefined>>;
 };
 
-function ContentVotes({ onUpvote, onDownvote, voteStatus, voteCount = 0, setVoteCount, setVoteState }: Props) {
+function ContentVotes({ onUpvote, onDownvote, voteStatus, voteCount = 0 }: Props) {
   // const handleUpvote = () => {
   //   setVoteState((prevVal) => (prevVal == "UPVOTED" ? undefined : "UPVOTED"));
   //   setVoteCount((prevVal) => {

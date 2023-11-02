@@ -1,7 +1,6 @@
 import { IconArrowBackUp, IconDots, IconMessageCircle } from "@tabler/icons-react";
 import { cn } from "@/lib/utils/classname";
-import { ContentVoteStatus, VoteState } from "@/types/index";
-import { useState } from "react";
+import { ContentVoteStatus } from "@/types/index";
 import { ActionIcon } from "@mantine/core";
 import ContentVotes from "@/features/shared/components/ContentVotes";
 
@@ -38,6 +37,8 @@ function ContentInteractions({
   return (
     <div className={cn("flex items-center space-x-5", className ?? "")}>
       <ContentVotes
+        setVoteCount={() => {}}
+        setVoteState={() => {}}
         onUpvote={onUpvote}
         onDownvote={onDownvote}
         voteCount={voteCount}

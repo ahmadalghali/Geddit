@@ -1,14 +1,11 @@
 import { Avatar, Button, PasswordInput, TextInput } from "@mantine/core";
-import { useState } from "react";
-import { UserRegisterRequestDTO } from "@/types/dtos";
-import { register } from "@/api/auth";
 import { IconBrandReddit } from "@tabler/icons-react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-type Inputs = {
-  username: string;
-  password: string;
-};
+// type Inputs = {
+//   username: string;
+//   password: string;
+// };
 
 function RegisterPage() {
   return (
@@ -26,6 +23,7 @@ function RegisterPage() {
             type='submit'
             w={"100%"}
             radius={"xl"}
+            //@ts-ignore
             sx={{
               fontWeight: "800",
             }}

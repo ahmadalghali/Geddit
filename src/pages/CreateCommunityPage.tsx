@@ -20,10 +20,10 @@ function CreateCommunityPage() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<Inputs>();
 
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [, setIsSubmitting] = useState(false);
 
   const onSubmit: SubmitHandler<Inputs> = async ({ name, description }) => {
     setIsSubmitting(true);

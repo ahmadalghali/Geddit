@@ -3,7 +3,7 @@ import { useDisclosure } from "@mantine/hooks";
 import { IconBrandReddit } from "@tabler/icons-react";
 
 function SignInModal() {
-  const [signInModalOpened, { open: openSignInModal, close: closeSignInModal }] = useDisclosure(true);
+  const [signInModalOpened, { close: closeSignInModal }] = useDisclosure(true);
 
   return (
     <Modal
@@ -25,6 +25,7 @@ function SignInModal() {
             type='submit'
             w={"100%"}
             radius={"xl"}
+            // @ts-ignore
             sx={{
               fontWeight: "800",
             }}

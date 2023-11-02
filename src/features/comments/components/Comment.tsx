@@ -9,7 +9,7 @@ import ContentInteractions from "@/features/shared/components/ContentInteraction
 import { useDisclosure } from "@mantine/hooks";
 import { useCommentContext } from "@/contexts/CommentContext";
 import { usePostContext } from "@/contexts/PostContext";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 type Props = {
   comment: CommentDTO;
@@ -78,7 +78,6 @@ function Comment({ comment, isChild, setSelected }: Props) {
 
 function Content({
   comment,
-  isChild,
   toggleCollapsed,
   onOptionsClicked,
   // onAddReply,

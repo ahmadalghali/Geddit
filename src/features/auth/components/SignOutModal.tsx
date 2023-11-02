@@ -1,9 +1,9 @@
-import { Avatar, Button, Modal, PasswordInput, TextInput } from "@mantine/core";
+import { Avatar, Button, Modal } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconBrandReddit } from "@tabler/icons-react";
 
 function SignOutModal() {
-  const [signOutModalOpened, { open: openSignOutModal, close: closeSignOutModal }] = useDisclosure(true);
+  const [signOutModalOpened, { close: closeSignOutModal }] = useDisclosure(true);
 
   return (
     <Modal
@@ -22,6 +22,7 @@ function SignOutModal() {
           type='submit'
           w={"100%"}
           radius={"xl"}
+          //@ts-ignore
           sx={{
             fontWeight: "800",
           }}

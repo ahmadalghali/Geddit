@@ -38,6 +38,7 @@ function DrawerEditText({ close, opened, text = "", title, onSave, resource, siz
       <Drawer.Content>
         <Drawer.Header>
           <CloseButton onClick={onCancel} size={"xl"} iconSize={25} radius={"xl"} color='gray' />
+          {/* @ts-ignore */}
           <Drawer.Title sx={{ fontWeight: "600", fontSize: "1.2rem" }} className='text-gray-500'>
             Edit {resource}
           </Drawer.Title>

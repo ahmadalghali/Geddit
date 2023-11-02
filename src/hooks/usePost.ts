@@ -95,23 +95,23 @@ function usePost(postId: string) {
     });
   };
 
-  const removeCommentReply = async (commentId: string, createCommentReplyDTO: CreateCommentDTO) => {
-    const reply = await createCommentReply(commentId, createCommentReplyDTO);
+  // const removeCommentReply = async (commentId: string, createCommentReplyDTO: CreateCommentDTO) => {
+  //   const reply = await createCommentReply(commentId, createCommentReplyDTO);
 
-    setPost((prevPost) => {
-      if (!prevPost) return;
+  //   setPost((prevPost) => {
+  //     if (!prevPost) return;
 
-      const newComments = prevPost.comments.map((comment) => {
-        if (comment.id === reply.parentCommentId) {
-          comment.replies.unshift(reply);
-        }
-        return comment;
-      });
-      const updatePost: PostDTO = { ...prevPost, comments: newComments };
+  //     const newComments = prevPost.comments.map((comment) => {
+  //       if (comment.id === reply.parentCommentId) {
+  //         comment.replies.unshift(reply);
+  //       }
+  //       return comment;
+  //     });
+  //     const updatePost: PostDTO = { ...prevPost, comments: newComments };
 
-      return updatePost;
-    });
-  };
+  //     return updatePost;
+  //   });
+  // };
 
   const deletePost = async () => {
     return await deletePostInApi(postId);
@@ -137,7 +137,7 @@ function usePost(postId: string) {
     });
   };
 
-  const handleRemoveVoteFromPost = async () => {};
+  // const handleRemoveVoteFromPost = async () => {};
 
   const handleUpvoteComment = async (commentId: string) => {
     const updatedComment = await upvoteComment(commentId);
@@ -177,7 +177,7 @@ function usePost(postId: string) {
     });
   };
 
-  const handleRemoveVoteFromComment = async () => {};
+  // const handleRemoveVoteFromComment = async () => {};
 
   return {
     post,

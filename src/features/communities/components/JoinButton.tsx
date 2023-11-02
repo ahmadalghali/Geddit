@@ -9,6 +9,7 @@ function JoinButton({ text = "JOIN", onClick }: Props) {
   return (
     <Button
       className='ml-auto uppercase'
+      //@ts-ignore
       sx={{
         fontWeight: "800",
       }}

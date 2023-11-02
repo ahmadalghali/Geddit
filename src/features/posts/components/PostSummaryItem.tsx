@@ -37,6 +37,9 @@ function PostSummaryItem({ post }: Props) {
         <p className='whitespace-pre-line mt-8 mb-2 break-words'>{post.body?.substring(0, 200)}</p>
 
         <ContentInteractions
+          onDownvote={() => {}}
+          onUpvote={() => {}}
+          voteStatus='UNVOTED'
           voteCount={post.voteCount}
           commentCount={post.commentCount}
           showOptions={false}

@@ -1,9 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { CommunitySummaryDTO, PostSummaryDTO } from "@/types/dtos";
+import { PostSummaryDTO } from "@/types/dtos";
 import { Constants } from "@/lib/constants";
-import SearchResultCommunity from "@/components/SearchResultCommunity";
-import SearchResultPost from "@/components/SearchResultPost";
+import SearchResultPost from "@/features/search/components/SearchResultPost";
 type Props = {
   posts: PostSummaryDTO[];
 };

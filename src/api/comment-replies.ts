@@ -7,6 +7,6 @@ async function createCommentReply(commentId: string, createCommentReplyDTO: Crea
   return response.data;
 }
 
-async function deleteCommentReply(commentId: string): Promise<boolean> {}
+// async function deleteCommentReply(commentId: string): Promise<boolean> {}
 
 export { createCommentReply };

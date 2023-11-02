@@ -1,4 +1,4 @@
-import { Avatar, Button } from "@mantine/core";
+import { Avatar } from "@mantine/core";
 import { IconBrandReddit } from "@tabler/icons-react";
 import { Constants } from "@/lib/constants";
 import { CommunitySummaryDTO } from "@/types/dtos";
@@ -10,11 +10,12 @@ type Props = {
 };
 
 function SearchResultCommunity({ community }: Props) {
-  const handleJoinClicked = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
+  // const handleJoinClicked = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  //   e.preventDefault();
 
-    alert("joined");
-  };
+  //   alert("joined");
+  // };
+
   return (
     <Link to={`/${Constants.PREFIX_COMMUNITY}${community.name}`}>
       <motion.div className='flex rounded-md p-3 items-center '>

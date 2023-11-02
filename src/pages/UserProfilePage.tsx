@@ -1,5 +1,4 @@
 import { deletePost } from "@/api/posts";
-import { getUserPosts, getUserComments } from "@/api/user";
 import ContentInteractions from "@/features/shared/components/ContentInteractions";
 import useUserProfile from "@/hooks/useUserProfile";
 import { Constants } from "@/lib/constants";
@@ -134,7 +133,14 @@ function PostItem({ post, onDelete }: { post: PostSummaryDTO; onDelete: (postId:
           </div>
           <p className='font-semibold'>{post.title}</p>
 
-          <ContentInteractions commentCount={post.commentCount} onOptionsClicked={() => {}} />
+          <ContentInteractions
+            onUpvote={() => {}}
+            onDownvote={() => {}}
+            voteCount={0}
+            voteStatus='UNVOTED'
+            commentCount={post.commentCount}
+            onOptionsClicked={() => {}}
+          />
         </motion.div>
       </Link>
     </>
@@ -238,6 +244,10 @@ function CommentItem({ comment }: { comment: CommentDTO }) {
         <p className='text-sm py-1'>{comment.text}</p>
 
         <ContentInteractions
+          onUpvote={() => {}}
+          onDownvote={() => {}}
+          voteCount={comment.voteCount}
+          voteStatus={comment.voteStatus}
           showCommentsCount={false}
           showOptions={false}
           commentCount={comment.replies.length}

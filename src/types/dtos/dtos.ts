@@ -66,13 +66,18 @@ type PostSummaryDTO = {
 };
 
 type UserRegisterRequestDTO = {
-  username: string;
+  email: string;
   password: string;
 };
 
 type UserSignInRequestDTO = {
-  username: string;
+  email: string;
   password: string;
+};
+
+type UserSignInResponseDTO = {
+  accessToken: string;
+  refreshToken: string;
 };
 
 type UserDTO = {
@@ -103,4 +108,5 @@ export type {
   UserSignInRequestDTO,
   UpdatePostDTO,
   UpdateCommentDTO,
+  UserSignInResponseDTO,
 };

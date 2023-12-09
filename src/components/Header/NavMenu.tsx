@@ -1,15 +1,19 @@
 import { IconLogin, IconLogout2, IconPencil, IconPlus, IconUser, IconWorld } from "@tabler/icons-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Menu, Burger } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { Constants } from "@/lib/constants";
 import { useAuthContext } from "@/contexts/AuthContext";
 import { modals } from "@mantine/modals";
+import useAuthModal from "@/hooks/useAuthModal";
 
 function NavMenu() {
   const [opened, { toggle, close }] = useDisclosure(false);
 
-  const { isLoggedIn, user, removeDetails } = useAuthContext();
+  const { clearAuth, isLoggedIn, user } = useAuthContext();
+  const navigate = useNavigate();
+
+  const { displayAuthModal } = useAuthModal();
 
   const displaySignOutModal = () =>
     modals.openConfirmModal({
@@ -19,7 +23,10 @@ function NavMenu() {
       labels: { confirm: "Sign out", cancel: "Cancel" },
       // confirmProps: { color: "red" },
       onCancel: () => console.log("Cancel"),
-      onConfirm: () => removeDetails(),
+      onConfirm: () => {
+        clearAuth();
+        navigate("/");
+      },
     });
 
   return (
@@ -58,9 +65,9 @@ function NavMenu() {
             </Menu.Item>
           </>
         ) : (
-          <Link to='/sign-in'>
-            <Menu.Item icon={<IconLogin />}>Login</Menu.Item>
-          </Link>
+          <Menu.Item icon={<IconLogin />} onClick={displayAuthModal}>
+            Login
+          </Menu.Item>
         )}
       </Menu.Dropdown>
     </Menu>

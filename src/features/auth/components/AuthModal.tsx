@@ -43,6 +43,7 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
       <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
         <TextInput placeholder='Email' type='text' {...register("email", { required: true })} />
         <PasswordInput className='my-5' placeholder='Password' {...register("password", { required: true })} />
+        <PasswordInput className='my-5 invisible' />
         <Button
           type='submit'
           w={"100%"}

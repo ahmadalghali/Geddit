@@ -1,17 +1,16 @@
 import useSignIn from "@/hooks/useSignIn";
 import useSignUp from "@/hooks/useSignUp";
 import { Avatar, Button, Modal, PasswordInput, TextInput } from "@mantine/core";
-import { useDisclosure } from "@mantine/hooks";
 import { IconBrandReddit } from "@tabler/icons-react";
 import { useState } from "react";
 
-function AuthModal({ opened = false, close, open }: { opened: boolean; close: () => void; open?: () => void }) {
+function AuthModal({ opened = false, close }: { opened: boolean; close: () => void; open?: () => void }) {
   const [displayedModal, setDisplayedModal] = useState<"SIGN_IN" | "SIGN_UP">("SIGN_IN");
   // const [signInModalDisplayed, setSignInModalDisplayed] = useState(true);
   // {displayedModal == "SIGN_IN" ? <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")}/> : <SignUpModal onSwitchToSignIn={() => setDisplayedModal("SIGN_IN")}/>}
-  const toggleModal = () => {
-    setDisplayedModal((prev) => (prev == "SIGN_IN" ? "SIGN_UP" : "SIGN_IN"));
-  };
+  // const toggleModal = () => {
+  //   setDisplayedModal((prev) => (prev == "SIGN_IN" ? "SIGN_UP" : "SIGN_IN"));
+  // };
 
   return (
     <Modal

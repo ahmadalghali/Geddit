@@ -75,7 +75,7 @@ type UserSignInRequestDTO = {
   password: string;
 };
 
-type UserSignInResponseDTO = {
+type AuthResponseDTO = {
   accessToken: string;
   refreshToken: string;
 };
@@ -108,5 +108,5 @@ export type {
   UserSignInRequestDTO,
   UpdatePostDTO,
   UpdateCommentDTO,
-  UserSignInResponseDTO,
+  AuthResponseDTO,
 };

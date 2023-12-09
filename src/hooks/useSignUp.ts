@@ -1,6 +1,6 @@
 import { signUp } from "@/api/auth";
 import { useAuthContext } from "@/contexts/AuthContext";
-import { UserRegisterRequestDTO, UserSignInRequestDTO } from "@/types/dtos";
+import { UserRegisterRequestDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { useLocation, useNavigate } from "react-router-dom";

@@ -1,13 +1,19 @@
 import { api } from "@/api/config/axios";
-import { UserDTO, UserRegisterRequestDTO, UserSignInRequestDTO, UserSignInResponseDTO } from "@/types/dtos";
+import { AuthResponseDTO, UserRegisterRequestDTO, UserSignInRequestDTO } from "@/types/dtos";
 
-async function signUp(userRegisterRequestDTO: UserRegisterRequestDTO): Promise<boolean> {
-  const registerResponse = await api.post<UserDTO>("/auth/register", userRegisterRequestDTO);
-  return registerResponse.status == 201;
+async function signUp(userRegisterRequestDTO: UserRegisterRequestDTO): Promise<AuthResponseDTO> {
+  const registerResponse = await api.post<AuthResponseDTO>("/auth/register", userRegisterRequestDTO, {
+    withCredentials: true,
+  });
+  if (registerResponse.status == 201) {
+    const user = registerResponse.data;
+    return user;
+  }
+  throw new Error("Could not sign in");
 }
 
-async function signIn(userSignInRequestDTO: UserSignInRequestDTO): Promise<UserSignInResponseDTO> {
-  const signInResponse = await api.post<UserSignInResponseDTO>("/auth/sign-in", userSignInRequestDTO, {
+async function signIn(userSignInRequestDTO: UserSignInRequestDTO): Promise<AuthResponseDTO> {
+  const signInResponse = await api.post<AuthResponseDTO>("/auth/sign-in", userSignInRequestDTO, {
     withCredentials: true,
   });
 

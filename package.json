@@ -26,6 +26,7 @@
     "@mantine/spotlight": "^6.0.17",
     "@mantine/tiptap": "^6.0.17",
     "@radix-ui/react-slot": "^1.0.2",
+    "@reduxjs/toolkit": "^1.9.7",
     "@tabler/icons-react": "^2.29.0",
     "@tiptap/extension-link": "^2.0.4",
     "@tiptap/react": "^2.0.4",

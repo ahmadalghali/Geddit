@@ -1,9 +1,11 @@
 import { signUp } from "@/api/auth";
 import { useAuthContext } from "@/contexts/AuthContext";
+import useAuthModal from "@/hooks/useAuthModal";
 import { UserRegisterRequestDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { useLocation, useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 type Inputs = {
   email: string;
@@ -12,19 +14,11 @@ type Inputs = {
 };
 
 function useSignUp() {
-  const { setAuth, user } = useAuthContext();
-
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
-
-  // const navigate = useNavigate();
+  const { setAuth } = useAuthContext();
   const { register, handleSubmit } = useForm<Inputs>();
-
-  //  const [, setIsSubmitting] = useState(false);
+  const { hideAuthModal } = useAuthModal();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password, confirmPassword }) => {
-    //  setIsSubmitting(true);
-
     const emailTrimmed = email.trim();
     const passwordTrimmed = password.trim();
     const confirmPasswordTrimmed = confirmPassword.trim();
@@ -38,32 +32,25 @@ function useSignUp() {
       password: passwordTrimmed,
     };
 
-    try {
-      const response = await signUp(userSignUpRequestDTO);
-      console.log("response :>> ", response);
-      if (response.accessToken) {
-        const accessToken = response.accessToken;
-        setAuth({ accessToken });
+    const response = await signUp(userSignUpRequestDTO);
+    if (response.status == 200) {
+      const accessToken = response.data.accessToken;
+      setAuth({ accessToken });
 
-        // navigate(from, { replace: true });
-        // storeDetails(user);
-        //
+      const { sub: userEmail } = jwtDecode(accessToken);
 
-        notifications.show({
-          color: "green",
-          title: `Welcome, ${user?.username}`,
-          message: "",
-        });
+      notifications.show({
+        color: "green",
+        title: `Welcome, ${userEmail}`,
+        message: "",
+      });
 
-        // navigate("/");
-      } else {
-        notifications.show({
-          message: "Something went wrong, please try again.",
-          color: "red",
-        });
-      }
-    } finally {
-      //  setIsSubmitting(false);
+      hideAuthModal();
+    } else {
+      notifications.show({
+        message: `Something went wrong, please try again. ${response.status}`,
+        color: "red",
+      });
     }
   };
   return {

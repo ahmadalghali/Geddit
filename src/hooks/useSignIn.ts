@@ -3,6 +3,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import useAuthModal from "@/hooks/useAuthModal";
 import { UserSignInRequestDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
+import { jwtDecode } from "jwt-decode";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 type Inputs = {
@@ -11,20 +12,12 @@ type Inputs = {
 };
 
 function useSignIn() {
-  const { setAuth, user } = useAuthContext();
+  const { setAuth } = useAuthContext();
   const { hideAuthModal } = useAuthModal();
 
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
-
-  // const navigate = useNavigate();
   const { register, handleSubmit } = useForm<Inputs>();
 
-  //  const [, setIsSubmitting] = useState(false);
-
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
-    //  setIsSubmitting(true);
-
     const emailTrimmed = email.trim();
     const passwordTrimmed = password.trim();
 
@@ -35,34 +28,32 @@ function useSignIn() {
       password: passwordTrimmed,
     };
 
-    try {
-      const response = await signIn(userSignInRequestDTO);
-      console.log("response :>> ", response);
-      if (response.accessToken) {
-        const accessToken = response.accessToken;
-        setAuth({ accessToken });
+    const response = await signIn(userSignInRequestDTO);
 
-        // navigate(from, { replace: true });
-        // storeDetails(user);
-        //
+    if (response.status == 200) {
+      const accessToken = response.data.accessToken;
+      setAuth({ accessToken });
 
-        notifications.show({
-          color: "green",
-          title: `Welcome, ${user?.username}`,
-          message: "",
-        });
+      const { sub: userEmail } = jwtDecode(accessToken);
 
-        hideAuthModal();
+      notifications.show({
+        color: "green",
+        title: `Welcome, ${userEmail}`,
+        message: "",
+      });
 
-        // navigate("/");
-      } else {
-        notifications.show({
-          message: "Something went wrong, please try again.",
-          color: "red",
-        });
-      }
-    } finally {
-      //  setIsSubmitting(false);
+      // notifications.show({
+      //   color: "green",
+      //   title: `Welcome, ${user?.username}`,
+      //   message: "",
+      // });
+
+      hideAuthModal();
+    } else {
+      notifications.show({
+        message: "Something went wrong, please try again.",
+        color: "red",
+      });
     }
   };
   return {

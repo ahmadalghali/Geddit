@@ -15,7 +15,12 @@ type Inputs = {
 
 function useSignUp() {
   const { setAuth } = useAuthContext();
-  const { register, handleSubmit } = useForm<Inputs>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError,
+  } = useForm<Inputs>();
   const { hideAuthModal } = useAuthModal();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password, confirmPassword }) => {
@@ -25,7 +30,8 @@ function useSignUp() {
 
     if (emailTrimmed.length == 0 || passwordTrimmed.length == 0 || passwordTrimmed.length == 0) return;
 
-    if (passwordTrimmed !== confirmPasswordTrimmed) return;
+    if (passwordTrimmed !== confirmPasswordTrimmed)
+      return setError("confirmPassword", { message: "Passwords do not match" });
 
     const userSignUpRequestDTO: UserRegisterRequestDTO = {
       email: emailTrimmed,
@@ -57,6 +63,7 @@ function useSignUp() {
     handleSubmit,
     onSubmit,
     register,
+    errors,
   };
 }
 

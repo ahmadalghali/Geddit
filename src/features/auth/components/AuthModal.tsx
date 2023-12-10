@@ -35,15 +35,30 @@ function AuthModal({ opened = false, close }: { opened: boolean; close: () => vo
 }
 
 function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
-  const { handleSubmit, onSubmit, register } = useSignIn();
+  const { handleSubmit, onSubmit, register, errors } = useSignIn();
 
   return (
     <>
       <p className='font-extrabold text-3xl text-gray-600 mt-5'>Sign in to continue</p>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
-        <TextInput placeholder='Email' type='text' {...register("email", { required: true })} />
-        <PasswordInput className='my-5' placeholder='Password' {...register("password", { required: true })} />
-        <PasswordInput className='my-5 invisible' />
+        <TextInput
+          label='Email'
+          withAsterisk
+          error={errors.email && errors.email.message}
+          placeholder='Email'
+          type='email'
+          {...register("email", { required: true })}
+        />
+
+        <PasswordInput
+          className='my-5'
+          withAsterisk
+          label='Password'
+          placeholder='Password'
+          error={errors.password && errors.password.message}
+          {...register("password", { required: true })}
+        />
+        <PasswordInput className='my-5 invisible' label='NEEDED FOR ' />
         <Button
           type='submit'
           w={"100%"}
@@ -68,17 +83,36 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
 }
 
 function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
-  const { handleSubmit, onSubmit, register } = useSignUp();
+  const { handleSubmit, onSubmit, register, errors } = useSignUp();
 
   return (
     <>
       <p className='font-extrabold text-3xl text-gray-600 mt-5'>Sign up to continue</p>
       <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
-        <TextInput placeholder='Email' type='text' {...register("email", { required: true })} />
-        <PasswordInput className='my-5' placeholder='Password' {...register("password", { required: true })} />
+        <TextInput
+          label='Email'
+          withAsterisk
+          error={errors.email && errors.email.message}
+          placeholder='Email'
+          type='email'
+          {...register("email", { required: true })}
+        />
+
         <PasswordInput
           className='my-5'
+          withAsterisk
+          label='Password'
+          placeholder='Password'
+          error={errors.password && errors.password.message}
+          {...register("password", { required: true })}
+        />
+
+        <PasswordInput
+          className='my-5'
+          withAsterisk
+          label='Confirm password'
           placeholder='Confirm Password'
+          error={errors.confirmPassword && errors.confirmPassword.message}
           {...register("confirmPassword", { required: true })}
         />
         <Button
@@ -96,12 +130,14 @@ function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
 
       <p className='mt-10 font-bold text-gray-600'>
         Already have an account?{" "}
-        <span onClick={onSwitchToSignIn} className='underline cursor-pointer hover:'>
+        <span onClick={onSwitchToSignIn} className='underline cursor-pointer'>
           Sign in
         </span>
       </p>
     </>
   );
 }
+
+// const ErrorMessage = ({ children }: { children: ReactNode }) => <p className='h-4'>{children}</p>;
 
 export default AuthModal;

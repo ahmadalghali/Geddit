@@ -1,7 +1,6 @@
 import useSignIn from "@/hooks/useSignIn";
 import useSignUp from "@/hooks/useSignUp";
-import { Avatar, Button, Modal, PasswordInput, TextInput } from "@mantine/core";
-import { IconBrandReddit } from "@tabler/icons-react";
+import { Button, Modal, PasswordInput, TextInput } from "@mantine/core";
 import { useState } from "react";
 
 function AuthModal({ opened = false, close }: { opened: boolean; close: () => void; open?: () => void }) {
@@ -19,11 +18,12 @@ function AuthModal({ opened = false, close }: { opened: boolean; close: () => vo
       opened={opened}
       radius={"lg"}
       closeButtonProps={{ size: "xl", color: "gray", radius: "100%" }}
+      styles={{ header: { paddingBottom: 0 } }}
     >
       <div className='grid place-items-center pb-5'>
-        <Avatar size='xl' radius='100%' color='orange'>
-          <IconBrandReddit className='text-center' size={"60"} color='orange' />
-        </Avatar>
+        {/* <Avatar size='5rem' radius='100%' color='orange'>
+          <IconBrandReddit className='text-center' size={"50"} color='orange' />
+        </Avatar> */}
         {displayedModal == "SIGN_IN" ? (
           <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")} />
         ) : (
@@ -38,9 +38,9 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
   const { handleSubmit, onSubmit, register, errors } = useSignIn();
 
   return (
-    <>
-      <p className='font-extrabold text-3xl text-gray-600 mt-5'>Sign in to continue</p>
-      <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
+    <div className='w-80'>
+      <p className='font-extrabold text-3xl text-center text-gray-600 mt-5'>Sign in to continue</p>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-10'>
         <TextInput
           label='Email'
           withAsterisk
@@ -72,13 +72,27 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
         </Button>
       </form>
 
-      <p className='mt-10 font-bold text-gray-600'>
+      <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>
         Don't have an account?{" "}
-        <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
+        {/* <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
           Sign up
-        </span>
+        </span> */}
       </p>
-    </>
+      <Button
+        type='submit'
+        w={"100%"}
+        radius={"xl"}
+        color='dark'
+        variant='outline'
+        // @ts-ignore
+        sx={{
+          fontWeight: "800",
+        }}
+        onClick={onSwitchToSignUp}
+      >
+        Sign Up
+      </Button>
+    </div>
   );
 }
 
@@ -86,9 +100,9 @@ function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
   const { handleSubmit, onSubmit, register, errors } = useSignUp();
 
   return (
-    <>
-      <p className='font-extrabold text-3xl text-gray-600 mt-5'>Sign up to continue</p>
-      <form onSubmit={handleSubmit(onSubmit)} className='mt-10 w-80'>
+    <div className='w-80'>
+      <p className='font-extrabold text-3xl text-center text-gray-600 mt-5'>Sign up to continue</p>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-10'>
         <TextInput
           label='Email'
           withAsterisk
@@ -128,13 +142,27 @@ function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
         </Button>
       </form>
 
-      <p className='mt-10 font-bold text-gray-600'>
+      <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>
         Already have an account?{" "}
-        <span onClick={onSwitchToSignIn} className='underline cursor-pointer'>
-          Sign in
-        </span>
+        {/* <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
+          Sign up
+        </span> */}
       </p>
-    </>
+      <Button
+        type='submit'
+        w={"100%"}
+        radius={"xl"}
+        color='dark'
+        variant='outline'
+        // @ts-ignore
+        sx={{
+          fontWeight: "800",
+        }}
+        onClick={onSwitchToSignIn}
+      >
+        Sign In
+      </Button>
+    </div>
   );
 }
 

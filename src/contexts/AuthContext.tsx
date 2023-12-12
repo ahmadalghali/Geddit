@@ -1,46 +1,53 @@
-import useApi from "@/hooks/useApi";
 import { UserDTO } from "@/types/dtos";
 import { ReactNode, createContext, useContext } from "react";
 import { useLocalStorage } from "react-use";
-
+import { jwtDecode } from "jwt-decode";
 type AuthContextType = {
-  user: UserDTO | undefined;
-  setUser: React.Dispatch<React.SetStateAction<UserDTO | undefined>>;
+  auth: { accessToken: string } | undefined;
+  setAuth: React.Dispatch<
+    React.SetStateAction<
+      | {
+          accessToken: string;
+        }
+      | undefined
+    >
+  >;
+  // user: UserDTO | undefined;
+  // setUser: React.Dispatch<React.SetStateAction<UserDTO | undefined>>;
   isLoggedIn: boolean;
-  storeDetails: (user: UserDTO) => void;
-  removeDetails: () => void;
+  // storeDetails: (user: UserDTO) => void;
+  clearAuth: () => void;
+  user: UserDTO | undefined;
 };
 
 const AuthContext = createContext<AuthContextType | null>({
+  auth: undefined,
+  setAuth: () => {},
   isLoggedIn: false,
-  setUser: () => {},
+  // setUser: () => {},
+  // user: undefined,
+  // storeDetails: () => {},
+  clearAuth: () => {},
   user: undefined,
-  storeDetails: () => {},
-  removeDetails: () => {},
 });
 
 function AuthProvider({ children }: { children: ReactNode }) {
   // const [user, setUser] = useState<UserDTO | null>(null);
-  const [user, setUser, clearUser] = useLocalStorage<UserDTO>("user", undefined);
-  const isLoggedIn = !!user;
+  // const [auth, setAuth] = useState<{ accessToken: string }>();
+  // const [user, setUser, clearUser] = useLocalStorage<UserDTO>("user", undefined);
+  const [auth, setAuth, clearAuth] = useLocalStorage<{ accessToken: string }>("auth", undefined);
+  let userId;
+  let userEmail;
+  let user: UserDTO | undefined;
+  if (auth?.accessToken) {
+    const decodedToken = jwtDecode(auth.accessToken) as { userId: string; sub: string; exp: string };
+    userId = decodedToken.userId;
+    userEmail = decodedToken.sub;
+    user = { id: userId, username: userEmail };
+  }
+  const isLoggedIn = !!auth;
 
-  const { setUsernameHeader, removeUsernameHeader } = useApi();
-
-  const storeDetails = (user: UserDTO) => {
-    setUser(user);
-    setUsernameHeader(user.username);
-  };
-
-  const removeDetails = () => {
-    clearUser();
-    removeUsernameHeader();
-  };
-
-  return (
-    <AuthContext.Provider value={{ user, setUser, isLoggedIn, storeDetails, removeDetails }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ auth, setAuth, isLoggedIn, clearAuth, user }}>{children}</AuthContext.Provider>;
 }
 
 function useAuthContext() {
@@ -53,4 +60,4 @@ function useAuthContext() {
   return context;
 }
 
-export { AuthProvider, useAuthContext };
+export { AuthProvider, useAuthContext, AuthContext };

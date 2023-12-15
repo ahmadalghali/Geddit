@@ -6,6 +6,7 @@ import { ModalsProvider } from "@mantine/modals";
 import { AuthProvider } from "@/contexts/AuthContext";
 import AuthModal from "@/features/auth/components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
+import { api } from "@/api/config/axios";
 
 // import { gapi } from "gapi-script";
 
@@ -17,7 +18,18 @@ const cache = createEmotionCache({
 // const clientId = "870485872584-5sgtcd4i1rcnq5uc0a7mq15arq14u55a.apps.googleusercontent.com";
 
 function App() {
-  const { hideAuthModal, opened_authModal } = useAuthModal();
+  const { hideAuthModal, opened_authModal, displayAuthModal } = useAuthModal();
+
+  api.interceptors.response.use(
+    (val) => val,
+    (error) => {
+      if (error.response.status == 403) {
+        displayAuthModal();
+      }
+
+      return Promise.reject(error);
+    }
+  );
 
   return (
     <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>

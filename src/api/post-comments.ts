@@ -6,10 +6,9 @@ async function getPostComments(postId: string): Promise<CommentDTO[]> {
   return response.data;
 }
 
-async function createComment(postId: string, createCommentDTO: CreateCommentDTO): Promise<CommentDTO> {
+async function createComment({ postId, createCommentDTO }: { postId: string; createCommentDTO: CreateCommentDTO }) {
   const response = await api.post<CommentDTO>(`/posts/${postId}/comments`, createCommentDTO);
-
-  return response.data;
+  return response;
 }
 
 export { getPostComments, createComment };

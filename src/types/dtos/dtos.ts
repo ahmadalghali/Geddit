@@ -23,7 +23,7 @@ type CommentDTO = {
   createdDate: string;
   parentCommentId?: string;
   voteCount: number;
-  voteStatus: ContentVoteStatus;
+  userVoteStatus: ContentVoteStatus;
   href: string;
 };
 
@@ -36,7 +36,7 @@ type PostDTO = {
   createdDate: string;
   author: UserDTO;
   voteCount: number;
-  voteStatus: ContentVoteStatus;
+  userVoteStatus: ContentVoteStatus;
 };
 
 type CommunityDTO = {
@@ -62,6 +62,7 @@ type PostSummaryDTO = {
   commentCount: number;
   createdDate: string;
   voteCount: number;
+  userVoteStatus: ContentVoteStatus;
   author: UserDTO;
 };
 

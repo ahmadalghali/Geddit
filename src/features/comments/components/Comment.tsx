@@ -103,7 +103,7 @@ function Content({
             onUpvote={() => handleUpvoteComment(comment.id)}
             onDownvote={() => handleDownvoteComment(comment.id)}
             voteCount={comment.voteCount}
-            voteStatus={comment.voteStatus}
+            voteStatus={comment.userVoteStatus}
             showCommentsCount={false}
             onOptionsClicked={onOptionsClicked}
             showReplyButton

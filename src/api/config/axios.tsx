@@ -113,29 +113,28 @@ axiosInstance.interceptors.response.use(
         // });
         // window.location.href = "/sign-in";
         // Handle the 403 response here, e.g., display an error message or redirect the user
-        console.error("Access denied. You do not have permission to access this resource.");
+        // console.error("Access denied. You do not have permission to access this resource.");
       } else {
-        console.error("Server Error:", error.response.data);
-
-        notifications.show({
-          title: "Something went wrong",
-          message: "Please try again later.",
-          color: "red",
-        });
+        // console.error("Server Error:", error.response.data);
+        // notifications.show({
+        //   title: "Something went wrong",
+        //   message: "Please try again later.",
+        //   color: "red",
+        // });
       }
       // You can also add additional error handling logic here for other status codes
     } else if (error.request) {
       // The request was made, but no response was received
-      console.error("Network Error:", error.request);
-      notifications.show({
-        title: "Server error",
-        message: "It's us, not you, we're working on fixing it :)",
-        color: "red",
-      });
+      // console.error("Network Error:", error.request);
+      // notifications.show({
+      //   title: "Server error",
+      //   message: "It's us, not you, we're working on fixing it :)",
+      //   color: "red",
+      // });
     } else {
       // Something else happened that caused an error
-      console.error("Error:", error.message);
-      notifications.show({ title: "Something went wrong", message: error.message, color: "red" });
+      // console.error("Error:", error.message);
+      // notifications.show({ title: "Something went wrong", message: error.message, color: "red" });
     }
 
     // You can also throw the error to propagate it to the calling code,

@@ -31,7 +31,7 @@ function useSignUp() {
     if (emailTrimmed.length == 0 || passwordTrimmed.length == 0 || passwordTrimmed.length == 0) return;
 
     if (passwordTrimmed !== confirmPasswordTrimmed)
-      return setError("confirmPassword", { message: "Passwords do not match" });
+      return setError("confirmPassword", { message: "Password does not match" });
 
     const userSignUpRequestDTO: UserRegisterRequestDTO = {
       email: emailTrimmed,

@@ -3,6 +3,7 @@ import { useAuthContext } from "@/contexts/AuthContext";
 import useAuthModal from "@/hooks/useAuthModal";
 import { UserSignInRequestDTO } from "@/types/dtos";
 import { notifications } from "@mantine/notifications";
+import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import { SubmitHandler, useForm } from "react-hook-form";
 
@@ -19,6 +20,7 @@ function useSignIn() {
     register,
     handleSubmit,
     formState: { errors },
+    setError,
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = async ({ email, password }) => {
@@ -32,32 +34,42 @@ function useSignIn() {
       password: passwordTrimmed,
     };
 
-    const response = await signIn(userSignInRequestDTO);
+    try {
+      const response = await signIn(userSignInRequestDTO);
 
-    if (response.status == 200) {
-      const accessToken = response.data.accessToken;
-      setAuth({ accessToken });
+      if (response.status == 200) {
+        const accessToken = response.data.accessToken;
+        setAuth({ accessToken });
 
-      const { sub: userEmail } = jwtDecode(accessToken);
+        const { sub: userEmail } = jwtDecode(accessToken);
 
-      notifications.show({
-        color: "green",
-        title: `Welcome, ${userEmail}`,
-        message: "",
-      });
+        notifications.show({
+          color: "green",
+          title: `Welcome, ${userEmail}`,
+          message: "",
+        });
 
-      // notifications.show({
-      //   color: "green",
-      //   title: `Welcome, ${user?.username}`,
-      //   message: "",
-      // });
+        // notifications.show({
+        //   color: "green",
+        //   title: `Welcome, ${user?.username}`,
+        //   message: "",
+        // });
 
-      hideAuthModal();
-    } else {
-      notifications.show({
-        message: "Something went wrong, please try again.",
-        color: "red",
-      });
+        hideAuthModal();
+      } else {
+        notifications.show({
+          message: "Something went wrong, please try again.",
+          color: "red",
+        });
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status == 404) {
+          setError("email", { message: "Email not found, please register." }, { shouldFocus: true });
+        }
+      } else {
+        // stock error
+      }
     }
   };
   return {

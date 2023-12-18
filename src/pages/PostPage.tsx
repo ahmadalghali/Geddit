@@ -14,15 +14,25 @@ import { usePostContext } from "@/contexts/PostContext";
 import PostOptionsModal from "@/features/posts/components/PostOptionsModal";
 import PostContent from "@/features/posts/components/PostContent";
 import { useAuthContext } from "@/contexts/AuthContext";
+import { useState } from "react";
 
 function PostPage() {
   const { post, isLoading, addComment, updatePostBody } = usePostContext();
+  const [commentBoxText, setCommentBoxText] = useState("");
 
   const { openPostOptionsModal, closeEditDrawer, editDrawerOpened } = usePostModalContext();
 
   const { user } = useAuthContext();
 
-  const authorIsMe = post?.author.username == user?.username;
+  const isAuthor = post?.author.username == user?.username;
+
+  const handleAddComment = async (createCommentDTO: CreateCommentDTO) => {
+    const added = await addComment(createCommentDTO);
+
+    if (added) {
+      setCommentBoxText("");
+    }
+  };
 
   if (isLoading) return <PostPageSkeleton />;
 
@@ -30,7 +40,7 @@ function PostPage() {
 
   return (
     <AnimatePresence>
-      <PostOptionsModal deletable={authorIsMe} editable={authorIsMe} key={"post-options-modal"} />
+      <PostOptionsModal deletable={isAuthor} editable={isAuthor} key={"post-options-modal"} />
 
       <DrawerEditText
         close={closeEditDrawer}
@@ -50,7 +60,9 @@ function PostPage() {
         />
         <AddCommentBox
           className='my-5'
-          onSubmit={(createCommentDTO: CreateCommentDTO) => addComment(createCommentDTO)}
+          onSubmit={(createCommentDTO: CreateCommentDTO) => handleAddComment(createCommentDTO)}
+          text={commentBoxText}
+          onChange={(e) => setCommentBoxText(e.target.value)}
         />
         <Divider mb={20} size={"6"} color='rgb(234, 234, 234)' />
 

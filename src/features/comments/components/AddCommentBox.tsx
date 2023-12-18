@@ -6,12 +6,15 @@ import { cn } from "@/lib/utils/classname";
 function AddCommentBox({
   onSubmit,
   className,
+  text = "",
+  onChange,
 }: {
   className?: string;
   onSubmit: (createCommentDTO: CreateCommentDTO) => void;
+  text: string;
+  onChange?: React.ChangeEventHandler<HTMLTextAreaElement> | undefined;
 }) {
   const [submittable, setSubmittable] = useState(false);
-  const [text, setText] = useState("");
 
   useEffect(() => {
     if (text.trim().length == 0) {
@@ -24,7 +27,6 @@ function AddCommentBox({
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     onSubmit({ text: text });
-    setText("");
   };
 
   return (
@@ -34,7 +36,7 @@ function AddCommentBox({
         minRows={3}
         radius={"md"}
         value={text}
-        onChange={(e) => setText(e.target.value)}
+        onChange={onChange}
         styles={{ input: { border: "none" } }}
       />
       <div className='flex justify-end py-2 px-2'>

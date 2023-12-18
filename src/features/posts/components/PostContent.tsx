@@ -39,7 +39,7 @@ function PostContent({ post, onOptionsClicked }: { post: PostDTO; onOptionsClick
         onUpvote={handleUpvotePost}
         onDownvote={handleDownvotePost}
         voteCount={post.voteCount}
-        voteStatus={post.voteStatus}
+        voteStatus={post.userVoteStatus}
         commentCount={post.comments.length}
         className='mt-5'
         onOptionsClicked={onOptionsClicked}

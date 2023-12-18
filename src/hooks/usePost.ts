@@ -6,12 +6,15 @@ import { deletePost as deletePostInApi } from "@/api/posts";
 import { notify } from "@/lib/notifications";
 import { createComment } from "@/api/post-comments";
 import { createCommentReply } from "@/api/comment-replies";
-import { downvotePost, upvotePost } from "@/api/post-votes";
-import { downvoteComment, upvoteComment } from "@/api/comment-votes";
+import { downvotePost, removeVoteFromPost, upvotePost } from "@/api/post-votes";
+import { downvoteComment, removeVoteFromComment, upvoteComment } from "@/api/comment-votes";
+import useAuthModal from "@/hooks/useAuthModal";
+import axios from "axios";
 
 function usePost(postId: string) {
   const [post, setPost] = useState<PostDTO>();
   const [isLoading, setIsLoading] = useState(true);
+  const { displayAuthModal } = useAuthModal();
 
   useEffect(() => {
     if (!postId) return;
@@ -64,17 +67,34 @@ function usePost(postId: string) {
     setPost(updatedPost);
   };
 
-  const addComment = async (createCommentDTO: CreateCommentDTO) => {
-    const comment = await createComment(postId, createCommentDTO);
+  const addComment = async (createCommentDTO: CreateCommentDTO): Promise<boolean> => {
+    try {
+      const { data: createdComment, status } = await createComment({ postId, createCommentDTO });
 
-    setPost((prevPost) => {
-      if (!prevPost) return;
+      if (status == 201) {
+        setPost((prevPost) => {
+          if (!prevPost) return;
 
-      const newComments = [comment, ...prevPost.comments];
-      const updatePost: PostDTO = { ...prevPost, comments: newComments };
+          const newComments = [createdComment, ...prevPost.comments];
+          const updatePost: PostDTO = { ...prevPost, comments: newComments };
 
-      return updatePost;
-    });
+          return updatePost;
+        });
+        return true;
+      } else {
+        notify("Failed to add comment, something went wrong");
+      }
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        if (err.response?.status == 403) {
+          displayAuthModal();
+        }
+      } else {
+        // stock error
+      }
+    }
+
+    return Promise.reject();
   };
 
   const addCommentReply = async (commentId: string, createCommentReplyDTO: CreateCommentDTO) => {
@@ -118,36 +138,58 @@ function usePost(postId: string) {
   };
 
   const handleUpvotePost = async () => {
-    const updatedPost = await upvotePost(postId);
+    if (!post) return;
+
+    let updatedPost: PostDTO;
+
+    if (post.userVoteStatus == "UPVOTED") {
+      updatedPost = await removeVoteFromPost(postId);
+    } else {
+      updatedPost = await upvotePost(postId);
+    }
 
     setPost((prevPost) => {
       if (!prevPost) return;
 
-      return { ...prevPost, voteCount: updatedPost.voteCount };
+      return updatedPost;
     });
   };
 
   const handleDownvotePost = async () => {
-    const updatedPost = await downvotePost(postId);
+    if (!post) return;
+
+    let updatedPost: PostDTO;
+
+    if (post.userVoteStatus == "DOWNVOTED") {
+      updatedPost = await removeVoteFromPost(postId);
+    } else {
+      updatedPost = await downvotePost(postId);
+    }
 
     setPost((prevPost) => {
       if (!prevPost) return;
 
-      return { ...prevPost, voteCount: updatedPost.voteCount };
+      return updatedPost;
     });
   };
 
-  // const handleRemoveVoteFromPost = async () => {};
-
   const handleUpvoteComment = async (commentId: string) => {
-    const updatedComment = await upvoteComment(commentId);
+    let updatedComment: CommentDTO;
+    const commentToUpdate = post?.comments.find((c) => c.id === commentId);
+    if (!commentToUpdate) return;
+
+    if (commentToUpdate.userVoteStatus == "UPVOTED") {
+      updatedComment = await removeVoteFromComment(commentId);
+    } else {
+      updatedComment = await upvoteComment(commentId);
+    }
 
     setPost((prevPost) => {
       if (!prevPost) return;
 
       const newComments = prevPost.comments.map((comment) => {
         if (comment.id === commentId) {
-          return { ...comment, voteCount: updatedComment.voteCount };
+          return updatedComment;
         }
         return comment;
       });
@@ -159,14 +201,23 @@ function usePost(postId: string) {
   };
 
   const handleDownvoteComment = async (commentId: string) => {
-    const updatedComment = await downvoteComment(commentId);
+    let updatedComment: CommentDTO;
+    const commentToUpdate = post?.comments.find((c) => c.id === commentId);
+
+    if (!commentToUpdate) return;
+
+    if (commentToUpdate.userVoteStatus == "DOWNVOTED") {
+      updatedComment = await removeVoteFromComment(commentId);
+    } else {
+      updatedComment = await downvoteComment(commentId);
+    }
 
     setPost((prevPost) => {
       if (!prevPost) return;
 
       const newComments = prevPost.comments.map((comment) => {
         if (comment.id === commentId) {
-          return { ...comment, voteCount: updatedComment.voteCount };
+          return updatedComment;
         }
         return comment;
       });
@@ -176,8 +227,6 @@ function usePost(postId: string) {
       return updatePost;
     });
   };
-
-  // const handleRemoveVoteFromComment = async () => {};
 
   return {
     post,

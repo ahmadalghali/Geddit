@@ -1,5 +1,4 @@
 import { API_BASE_URL } from "@/config/api";
-import { notifications } from "@mantine/notifications";
 import axios from "axios";
 
 const axiosInstance = axios.create({

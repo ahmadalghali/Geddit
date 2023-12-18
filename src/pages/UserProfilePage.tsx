@@ -247,7 +247,7 @@ function CommentItem({ comment }: { comment: CommentDTO }) {
           onUpvote={() => {}}
           onDownvote={() => {}}
           voteCount={comment.voteCount}
-          voteStatus={comment.voteStatus}
+          voteStatus={comment.userVoteStatus}
           showCommentsCount={false}
           showOptions={false}
           commentCount={comment.replies.length}

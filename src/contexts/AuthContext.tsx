@@ -2,6 +2,7 @@ import { UserDTO } from "@/types/dtos";
 import { ReactNode, createContext, useContext } from "react";
 import { useLocalStorage } from "react-use";
 import { jwtDecode } from "jwt-decode";
+import { api } from "@/api/config/axios";
 type AuthContextType = {
   auth: { accessToken: string } | undefined;
   setAuth: React.Dispatch<
@@ -43,7 +44,10 @@ function AuthProvider({ children }: { children: ReactNode }) {
     const decodedToken = jwtDecode(auth.accessToken) as { userId: string; sub: string; exp: string };
     userId = decodedToken.userId;
     userEmail = decodedToken.sub;
-    user = { id: userId, username: userEmail };
+    user = { id: userId, email: userEmail, followerCount: 0, followingCount: 0, username: "placeholder-username" };
+    api.defaults.withCredentials = true;
+  } else {
+    api.defaults.withCredentials = false;
   }
   const isLoggedIn = !!auth;
 

@@ -1,4 +1,5 @@
 import { API_BASE_URL } from "@/config/api";
+import { notifications } from "@mantine/notifications";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -10,6 +11,9 @@ const axiosInstance = axios.create({
 });
 
 // let notificationId: string;
+const updateAxiosCredentials = (loggedIn: boolean) => {
+  axiosInstance.defaults.withCredentials = loggedIn;
+};
 
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -22,8 +26,8 @@ axiosInstance.interceptors.request.use(
       }
     }
 
-    console.log("config.headers.Authorization :>> ", config.headers.Authorization);
-    console.log("config.withCredentials :>> ", config.withCredentials);
+    // console.log("config.headers.Authorization :>> ", config.headers.Authorization);
+    // console.log("config.withCredentials :>> ", config.withCredentials);
 
     return config;
     // Start a timer when the request is sent
@@ -114,12 +118,13 @@ axiosInstance.interceptors.response.use(
         // Handle the 403 response here, e.g., display an error message or redirect the user
         // console.error("Access denied. You do not have permission to access this resource.");
       } else {
-        // console.error("Server Error:", error.response.data);
-        // notifications.show({
-        //   title: "Something went wrong",
-        //   message: "Please try again later.",
-        //   color: "red",
-        // });
+        console.error("Server Error:", error.response.data);
+        notifications.show({
+          title: error.response.data.message,
+          message: "",
+          color: "red",
+          withCloseButton: false,
+        });
       }
       // You can also add additional error handling logic here for other status codes
     } else if (error.request) {
@@ -148,4 +153,4 @@ axiosInstance.interceptors.response.use(
 //   withCredentials: true,
 // });
 
-export { axiosInstance as api };
+export { axiosInstance as api, updateAxiosCredentials };

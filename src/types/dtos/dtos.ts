@@ -83,7 +83,10 @@ type AuthResponseDTO = {
 
 type UserDTO = {
   id: string;
+  email: string;
   username: string;
+  followerCount: number;
+  followingCount: number;
   profileImageUrl?: string;
 };
 

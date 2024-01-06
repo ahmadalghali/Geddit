@@ -6,6 +6,7 @@ import { notifications } from "@mantine/notifications";
 import { SubmitHandler, useForm } from "react-hook-form";
 // import { useLocation, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import { updateAxiosCredentials } from "@/api/config/axios";
 
 type Inputs = {
   email: string;
@@ -41,6 +42,7 @@ function useSignUp() {
     const response = await signUp(userSignUpRequestDTO);
     if (response.status == 200) {
       const accessToken = response.data.accessToken;
+      updateAxiosCredentials(true);
       setAuth({ accessToken });
 
       const { sub: userEmail } = jwtDecode(accessToken);
@@ -54,7 +56,7 @@ function useSignUp() {
       hideAuthModal();
     } else {
       notifications.show({
-        message: `Something went wrong, please try again. ${response.status}`,
+        message: `Oops... something went wrong, please try again. ${response.status}`,
         color: "red",
       });
     }

@@ -1,4 +1,5 @@
 import { signIn } from "@/api/auth";
+import { updateAxiosCredentials } from "@/api/config/axios";
 import { useAuthContext } from "@/contexts/AuthContext";
 import useAuthModal from "@/hooks/useAuthModal";
 import { UserSignInRequestDTO } from "@/types/dtos";
@@ -40,6 +41,7 @@ function useSignIn() {
       if (response.status == 200) {
         const accessToken = response.data.accessToken;
         setAuth({ accessToken });
+        updateAxiosCredentials(true);
 
         const { sub: userEmail } = jwtDecode(accessToken);
 
@@ -58,13 +60,13 @@ function useSignIn() {
         hideAuthModal();
       } else {
         notifications.show({
-          message: "Something went wrong, please try again.",
+          message: "Oops... something went wrong",
           color: "red",
         });
       }
     } catch (err) {
       if (axios.isAxiosError(err)) {
-        if (err.response?.status == 404) {
+        if (err.response?.status == 400) {
           setError("email", { message: "Email not found, please register." }, { shouldFocus: true });
         }
       } else {

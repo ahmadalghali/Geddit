@@ -26,7 +26,7 @@ function Comment({ comment, isChild, setSelected }: Props) {
 
   const { post } = usePostContext();
 
-  const authorIsMe = post?.author.username == comment.author.username;
+  const isAuthor = post?.author.id == comment.author.id;
 
   const [searchParams] = useSearchParams();
   const highlightedCommentId = searchParams.get("highlightedCommentId");
@@ -48,7 +48,7 @@ function Comment({ comment, isChild, setSelected }: Props) {
       >
         <Header
           authorUsername={comment.author.username}
-          isAuthor={authorIsMe}
+          isAuthor={isAuthor}
           datePosted={datePosted}
           expandComment={toggleCollapsed}
           commentExpanded={commentExpanded}

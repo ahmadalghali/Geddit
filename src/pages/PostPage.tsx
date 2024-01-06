@@ -24,7 +24,7 @@ function PostPage() {
 
   const { user } = useAuthContext();
 
-  const isAuthor = post?.author.username == user?.username;
+  const isAuthor = post?.author.id == user?.id;
 
   const handleAddComment = async (createCommentDTO: CreateCommentDTO) => {
     const added = await addComment(createCommentDTO);

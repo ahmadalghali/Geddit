@@ -26,7 +26,7 @@ function CommentsList({ comments, className }: Props) {
 
   const { user } = useAuthContext();
 
-  const authorIsMe = selectedComment?.author.username == user?.username;
+  const isAuthor = selectedComment?.author.id == user?.id;
 
   return (
     <>
@@ -49,7 +49,7 @@ function CommentsList({ comments, className }: Props) {
       )}
 
       {selectedComment && (
-        <CommentOptionsModal deletable={authorIsMe} editable={authorIsMe} selectedComment={selectedComment} />
+        <CommentOptionsModal deletable={isAuthor} editable={isAuthor} selectedComment={selectedComment} />
       )}
 
       <motion.ul className={cn("space-y-10 bg-white", className)}>

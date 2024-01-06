@@ -10,7 +10,7 @@ import { Constants } from "@/lib/constants";
 import { useNavigate } from "react-router-dom";
 
 type Inputs = {
-  name: string;
+  communityName: string;
   description: string;
 };
 
@@ -20,16 +20,16 @@ function CreateCommunityPage() {
   const {
     register,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<Inputs>();
 
   const [, setIsSubmitting] = useState(false);
 
-  const onSubmit: SubmitHandler<Inputs> = async ({ name, description }) => {
+  const onSubmit: SubmitHandler<Inputs> = async ({ communityName, description }) => {
     setIsSubmitting(true);
 
     const createCommunityDTO: CreateCommunityDTO = {
-      name,
+      name: communityName,
       description,
     };
 
@@ -49,7 +49,7 @@ function CreateCommunityPage() {
         navigate(`/${Constants.PREFIX_COMMUNITY}${createdCommunity.name}`);
       } else {
         notifications.show({
-          message: "Something went wrong, please try again.",
+          message: "Oops... something went wrong, please try again.",
           color: "red",
         });
       }
@@ -63,15 +63,21 @@ function CreateCommunityPage() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextInput
           className='mb-5'
-          placeholder='Name'
+          placeholder='Community name'
+          label='Community name'
+          withAsterisk
+          error={errors.communityName && errors.communityName.message}
           icon={<p className='text-[.95rem] text-gray-500 font-bold tracking-widest w-2'>g/</p>}
           iconWidth={25}
-          {...register("name", { required: true, maxLength: 20 })}
+          {...register("communityName", { required: true, maxLength: 21, minLength: 3 })}
         />
         <Textarea
           placeholder='Description'
+          label='Description'
+          withAsterisk
+          error={errors.description && errors.description.message}
           minRows={3}
-          {...register("description", { maxLength: 100 })}
+          {...register("description", { maxLength: 200, required: true })}
           maxLength={100}
         />
         <Button

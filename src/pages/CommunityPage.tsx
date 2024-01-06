@@ -15,6 +15,10 @@ function CommunityPage() {
   const { community, posts, isLoading, handleJoinCommunity, handleLeaveCommunity } = useCommunity(communityName!);
   const [opened, { open, close }] = useDisclosure(false);
 
+  const handleJoin = () => {
+    handleJoinCommunity();
+  };
+
   if (isLoading) return <PageSkeleton />;
 
   return (
@@ -24,7 +28,7 @@ function CommunityPage() {
       </Modal>
       <AnimatePresence>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
-          <CommunityHeader community={community!} onJoin={handleJoinCommunity} onLeave={handleLeaveCommunity} />
+          <CommunityHeader community={community!} onJoin={handleJoin} onLeave={handleLeaveCommunity} />
           <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
             Create Post
           </Button>
@@ -70,6 +74,7 @@ function CommunityHeaderSkeleton() {
 function CommunityHeader({
   community,
   onLeave,
+  onJoin,
 }: {
   community: CommunitySummaryDTO;
   onJoin: () => void;
@@ -78,6 +83,7 @@ function CommunityHeader({
   //
 
   const memberCountText = community.memberCount == 1 ? "1 member" : `${community.memberCount} members`;
+  const isMember = community.isMember;
 
   return (
     <div className='mb-5'>
@@ -93,34 +99,37 @@ function CommunityHeader({
           <p className='text-xs text-gray-500'>{memberCountText}</p>
         </div>
 
-        {/* <Button
-          radius={"xl"}
-          variant='outline'
-          sx={{
-            width: "4.25rem",
-            padding: "0",
-            height: "2rem",
-            marginLeft: "auto",
-            fontWeight: "bold",
-            fontSize: ".8rem",
-          }}
-          onClick={onJoin}
-        >
-          JOINED
-        </Button> */}
-        <Button
-          radius={"xl"}
-          sx={{
-            width: "4.25rem",
-            padding: "0",
-            height: "2rem",
-            marginLeft: "auto",
-            fontWeight: "bold",
-          }}
-          onClick={onLeave}
-        >
-          JOIN
-        </Button>
+        {isMember ? (
+          <Button
+            radius={"xl"}
+            variant='outline'
+            sx={{
+              width: "4.25rem",
+              padding: "0",
+              height: "2rem",
+              marginLeft: "auto",
+              fontWeight: "bold",
+              fontSize: ".8rem",
+            }}
+            onClick={onLeave}
+          >
+            JOINED
+          </Button>
+        ) : (
+          <Button
+            radius={"xl"}
+            sx={{
+              width: "4.25rem",
+              padding: "0",
+              height: "2rem",
+              marginLeft: "auto",
+              fontWeight: "bold",
+            }}
+            onClick={onJoin}
+          >
+            JOIN
+          </Button>
+        )}
       </div>
       <p className='text-xs text-gray-500 mt-4'>{community?.description}</p>
     </div>

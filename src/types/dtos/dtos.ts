@@ -51,6 +51,7 @@ type CommunitySummaryDTO = {
   description: string;
   imageUrl?: string;
   postCount: number;
+  isMember: boolean;
   memberCount: number;
 };
 

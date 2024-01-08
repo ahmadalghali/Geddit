@@ -1,13 +1,7 @@
-import * as day from "dayjs";
+import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-day.extend(relativeTime);
+dayjs.extend(relativeTime);
 
-// export function since(date?: string | number | day.Dayjs | Date | null | undefined) {
-//   return day(date).fromNow();
-// }
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function since(date?: string) {
-  date;
-  return "test";
+export function since(date?: string | number | dayjs.Dayjs | Date | null | undefined) {
+  return dayjs(date).fromNow();
 }

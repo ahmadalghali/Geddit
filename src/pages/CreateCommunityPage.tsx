@@ -77,7 +77,7 @@ function CreateCommunityPage() {
           withAsterisk
           error={errors.description && errors.description.message}
           minRows={3}
-          {...register("description", { maxLength: 200, required: true })}
+          {...register("description", { maxLength: 300, required: true })}
           maxLength={100}
         />
         <Button

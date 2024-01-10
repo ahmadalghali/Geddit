@@ -1,5 +1,7 @@
 import { API_BASE_URL } from "@/config/api";
+import { rem } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconCheck } from "@tabler/icons-react";
 import axios from "axios";
 
 const axiosInstance = axios.create({
@@ -29,39 +31,39 @@ axiosInstance.interceptors.request.use(
     // console.log("config.headers.Authorization :>> ", config.headers.Authorization);
     // console.log("config.withCredentials :>> ", config.withCredentials);
 
-    return config;
+    // return config;
     // Start a timer when the request is sent
     // @ts-ignore
-    // config.timer = setTimeout(() => {
-    //   notifications.show({
-    //     id: "server-wake-up",
-    //     withBorder: true,
-    //     color: "yellow",
-    //     radius: "md",
-    //     className: "shadow-3xl",
-    //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //     // @ts-ignore
-    //     styles: (theme) => ({
-    //       root: {
-    //         backgroundColor: theme.colors.gray[8],
-    //         // "&::before": { backgroundColor: theme.white },
-    //       },
-    //       title: { color: theme.white, fontSize: "1rem", fontWeight: "600" },
-    //       description: {
-    //         color: theme.white,
-    //         paddingTop: ".25rem",
-    //         paddingBottom: ".25rem",
-    //         fontSize: ".9rem",
-    //         fontWeight: "500",
-    //       },
-    //     }),
-    //     title: "Our server is starting up. ",
-    //     message: "Estimated time left: about 10 seconds",
-    //     loading: true,
-    //     autoClose: false,
-    //     withCloseButton: false,
-    //   });
-    // }, 2500); // Show notification after 3 seconds
+    config.timer = setTimeout(() => {
+      notifications.show({
+        id: "server-wake-up",
+        withBorder: true,
+        color: "yellow",
+        radius: "md",
+        className: "shadow-3xl",
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        styles: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.gray[8],
+            // "&::before": { backgroundColor: theme.white },
+          },
+          title: { color: theme.white, fontSize: "1rem", fontWeight: "600" },
+          description: {
+            color: theme.white,
+            paddingTop: ".25rem",
+            paddingBottom: ".25rem",
+            fontSize: ".9rem",
+            fontWeight: "500",
+          },
+        }),
+        title: "Hang in there! Our servers are starting up.",
+        message: "Estimated time left: 10 seconds",
+        loading: true,
+        autoClose: false,
+        withCloseButton: false,
+      });
+    }, 3000); // Show notification after 4 seconds
     return config;
   },
   (error) => {
@@ -71,42 +73,54 @@ axiosInstance.interceptors.request.use(
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    // if (response.config.timer) {
-    //   console.log("response.config.timer :>> ", response.config.timer);
-    //   notifications.update({
-    //     id: "server-wake-up",
-    //     title: "Server is up and running.",
-    //     message: "You're ready to go!",
-    //     icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
-    //     loading: false,
-    //     autoClose: 3000,
-    //     color: "green",
-    //     withBorder: true,
-    //     radius: "md",
-    //     className: "shadow-3xl",
-    //     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //     // @ts-ignore
-    //     styles: (theme) => ({
-    //       root: {
-    //         backgroundColor: theme.colors.gray[8],
-    //         // "&::before": { backgroundColor: theme.white },
-    //       },
-    //       title: { color: theme.white, fontSize: "1rem", fontWeight: "600" },
-    //       description: {
-    //         color: theme.white,
-    //         paddingTop: ".25rem",
-    //         paddingBottom: ".25rem",
-    //         fontSize: ".9rem",
-    //         fontWeight: "500",
-    //       },
-    //     }),
-    //   });
-    //   clearTimeout(response.config.timer); // Clear the timer
-    // }
+    const isSuccessResponse = response.status == 200 || response.status == 201;
+
+    if (isSuccessResponse && response.config.timer) {
+      console.log("response.config.timer :>> ", response.config.timer);
+      notifications.update({
+        id: "server-wake-up",
+        title: "Server is up and running.",
+        message: "You're ready to go!",
+        icon: <IconCheck style={{ width: rem(18), height: rem(18) }} />,
+        loading: false,
+        autoClose: 2000,
+        color: "green",
+        withBorder: true,
+        radius: "md",
+        className: "shadow-3xl",
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        styles: (theme) => ({
+          root: {
+            backgroundColor: theme.colors.gray[8],
+            // "&::before": { backgroundColor: theme.white },
+          },
+          title: { color: theme.white, fontSize: "1rem", fontWeight: "600" },
+          description: {
+            color: theme.white,
+            paddingTop: ".25rem",
+            paddingBottom: ".25rem",
+            fontSize: ".9rem",
+            fontWeight: "500",
+          },
+        }),
+      });
+      clearTimeout(response.config.timer); // Clear the timer
+    } else {
+      notifications.hide("server-wake-up");
+      clearTimeout(response.config.timer); // Clear the timer
+    }
     return response;
   },
   (error) => {
+    console.log("IM AN ERROR :>> ", error);
+    notifications.hide("server-wake-up");
+    clearTimeout(error.response.config.timer); // Clear the timer
     if (error.response) {
+      if (error.response.config.timer) {
+        notifications.hide("server-wake-up");
+        clearTimeout(error.response.config.timer); // Clear the timer
+      }
       // The request was made, but the server responded with an error status code
       if (error.response.status === 403) {
         // notifications.show({

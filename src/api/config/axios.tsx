@@ -74,9 +74,10 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => {
     const isSuccessResponse = response.status == 200 || response.status == 201;
+    // @ts-ignore
+    const serverWakeUpTimer = response.config.timer;
 
-    if (isSuccessResponse && response.config.timer) {
-      console.log("response.config.timer :>> ", response.config.timer);
+    if (isSuccessResponse && serverWakeUpTimer) {
       notifications.update({
         id: "server-wake-up",
         title: "Server is up and running.",
@@ -105,15 +106,14 @@ axiosInstance.interceptors.response.use(
           },
         }),
       });
-      clearTimeout(response.config.timer); // Clear the timer
+      clearTimeout(serverWakeUpTimer); // Clear the timer
     } else {
       notifications.hide("server-wake-up");
-      clearTimeout(response.config.timer); // Clear the timer
+      clearTimeout(serverWakeUpTimer); // Clear the timer
     }
     return response;
   },
   (error) => {
-    console.log("IM AN ERROR :>> ", error);
     notifications.hide("server-wake-up");
     clearTimeout(error.response.config.timer); // Clear the timer
     if (error.response) {

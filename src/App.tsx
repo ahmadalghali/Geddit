@@ -3,7 +3,7 @@ import { RouterProvider } from "react-router-dom";
 import router from "./Router";
 import { Notifications } from "@mantine/notifications";
 import { ModalsProvider } from "@mantine/modals";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { useAuthContext } from "@/contexts/AuthContext";
 import AuthModal from "@/features/auth/components/AuthModal";
 import useAuthModal from "@/hooks/useAuthModal";
 import { api } from "@/api/config/axios";
@@ -19,11 +19,13 @@ const cache = createEmotionCache({
 
 function App() {
   const { hideAuthModal, opened_authModal, displayAuthModal } = useAuthModal();
+  const { clearAuth } = useAuthContext();
 
   api.interceptors.response.use(
     (val) => val,
     (error) => {
       if (error.response.status == 403) {
+        clearAuth();
         displayAuthModal();
       }
 
@@ -35,10 +37,8 @@ function App() {
     <MantineProvider emotionCache={cache} withGlobalStyles withNormalizeCSS>
       <ModalsProvider>
         <Notifications transitionDuration={400} autoClose={2500} position='bottom-center' />
-        <AuthProvider>
-          <RouterProvider router={router} />
-          <AuthModal opened={opened_authModal} close={hideAuthModal} />
-        </AuthProvider>
+        <RouterProvider router={router} />
+        <AuthModal opened={opened_authModal} close={hideAuthModal} />
       </ModalsProvider>
     </MantineProvider>
   );

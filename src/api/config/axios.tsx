@@ -37,7 +37,7 @@ axiosInstance.interceptors.request.use(
     config.timer = setTimeout(() => {
       notifications.show({
         id: "server-wake-up",
-        withBorder: true,
+        withBorder: false,
         color: "yellow",
         radius: "md",
         className: "shadow-3xl",
@@ -86,7 +86,7 @@ axiosInstance.interceptors.response.use(
         loading: false,
         autoClose: 2000,
         color: "green",
-        withBorder: true,
+        withBorder: false,
         radius: "md",
         className: "shadow-3xl",
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

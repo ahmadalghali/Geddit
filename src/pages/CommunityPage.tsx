@@ -9,11 +9,15 @@ import CreatePostForm from "@/features/posts/components/CreatePostForm";
 import PostSummaryItemList from "@/features/posts/components/PostSummaryItemList";
 import PostSummaryItemSkeleton from "@/features/posts/components/skeletons/PostSummaryItemSkeleton";
 import useCommunity from "@/hooks/useCommunity";
+import { useAuthContext } from "@/contexts/AuthContext";
+import useAuthModal from "@/hooks/useAuthModal";
 
 function CommunityPage() {
   const { communityName } = useParams();
   const { community, posts, isLoading, handleJoinCommunity, handleLeaveCommunity } = useCommunity(communityName!);
   const [opened, { open, close }] = useDisclosure(false);
+  const { isLoggedIn } = useAuthContext();
+  const { displayAuthModal } = useAuthModal();
 
   const handleJoin = () => {
     handleJoinCommunity();
@@ -29,7 +33,19 @@ function CommunityPage() {
       <AnimatePresence>
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
           <CommunityHeader community={community!} onJoin={handleJoin} onLeave={handleLeaveCommunity} />
-          <Button radius='xl' w='100%' className='mb-8' variant='outline' onClick={open}>
+          <Button
+            radius='xl'
+            w='100%'
+            className='mb-8'
+            variant='outline'
+            onClick={() => {
+              if (!isLoggedIn) {
+                displayAuthModal();
+              } else {
+                open();
+              }
+            }}
+          >
             Create Post
           </Button>
           {posts.length ? (

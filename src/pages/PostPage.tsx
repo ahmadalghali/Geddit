@@ -67,16 +67,7 @@ function PostPage() {
         <Divider mb={20} size={"6"} color='rgb(234, 234, 234)' />
 
         <AnimatePresence mode='wait'>
-          {post.comments.length ? (
-            <CommentsList
-              comments={post.comments.sort(
-                (a, b) => new Date(b.createdDate).valueOf() - new Date(a.createdDate).valueOf()
-              )}
-              isChild={false}
-            />
-          ) : (
-            <NoCommentsYet />
-          )}
+          {post.comments.length ? <CommentsList comments={post.comments} isChild={false} /> : <NoCommentsYet />}
         </AnimatePresence>
       </motion.div>
     </AnimatePresence>

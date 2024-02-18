@@ -26,22 +26,15 @@ function AuthModal({ opened = false, close }: { opened: boolean; close: () => vo
         {/* <Avatar size='5rem' radius='100%' color='orange'>
           <IconBrandReddit className='text-center' size={"50"} color='orange' />
         </Avatar> */}
-        <div>
+        <div className='w-72'>
           {displayedModal == "SIGN_IN" ? (
             <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")} />
           ) : (
             <SignUpModal onSwitchToSignIn={() => setDisplayedModal("SIGN_IN")} />
           )}
-          <Divider
-            mt={50}
-            size={"md"}
-            // label='Already have an account?'
-            labelPosition='center'
-          />
+          <Divider my={25} size={"sm"} label='OR' labelPosition='center' />
 
-          <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>Just want to look around?</p>
-
-          <GlowingButton onClick={signInAsGuest}>Enter as guest</GlowingButton>
+          <GlowingButton onClick={signInAsGuest}>Continue as guest</GlowingButton>
         </div>
       </div>
     </Modal>
@@ -76,9 +69,9 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
   const { handleSubmit, onSubmit, register, errors } = useSignIn();
 
   return (
-    <div className='w-80'>
-      <p className='font-extrabold text-3xl text-center text-gray-600 mt-5'>Sign in to continue</p>
-      <form onSubmit={handleSubmit(onSubmit)} className='mt-10'>
+    <div className='md:w-80 w-full'>
+      <p className='font-extrabold text-3xl text-center text-gray-600 mt-3'>Sign in to continue</p>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-6'>
         <TextInput
           label='Email'
           withAsterisk
@@ -110,26 +103,12 @@ function SignInModal({ onSwitchToSignUp }: { onSwitchToSignUp: () => void }) {
         </Button>
       </form>
 
-      <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>
+      <p className='mt-8 mb-3 font-bold text-center text-gray-600'>
         Don't have an account?{" "}
-        {/* <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
+        <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
           Sign up
-        </span> */}
+        </span>
       </p>
-      <Button
-        type='submit'
-        w={"100%"}
-        radius={"xl"}
-        color='dark'
-        variant='outline'
-        // @ts-ignore
-        sx={{
-          fontWeight: "800",
-        }}
-        onClick={onSwitchToSignUp}
-      >
-        Sign Up
-      </Button>
     </div>
   );
 }
@@ -138,9 +117,9 @@ function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
   const { handleSubmit, onSubmit, register, errors } = useSignUp();
 
   return (
-    <div className='w-80'>
-      <p className='font-extrabold text-3xl text-center text-gray-600 mt-5'>Sign up to continue</p>
-      <form onSubmit={handleSubmit(onSubmit)} className='mt-10'>
+    <div className='md:w-80 w-full'>
+      <p className='font-extrabold text-3xl text-center text-gray-600 mt-3'>Sign up to continue</p>
+      <form onSubmit={handleSubmit(onSubmit)} className='mt-6'>
         <TextInput
           label='Email'
           withAsterisk
@@ -180,26 +159,12 @@ function SignUpModal({ onSwitchToSignIn }: { onSwitchToSignIn: () => void }) {
         </Button>
       </form>
 
-      <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>
+      <p className='mt-8 mb-3 font-bold text-center text-gray-600'>
         Already have an account?{" "}
-        {/* <span onClick={onSwitchToSignUp} className='underline cursor-pointer hover:'>
-          Sign up
-        </span> */}
+        <span onClick={onSwitchToSignIn} className='underline cursor-pointer'>
+          Sign in
+        </span>
       </p>
-      <Button
-        type='submit'
-        w={"100%"}
-        radius={"xl"}
-        color='dark'
-        variant='outline'
-        // @ts-ignore
-        sx={{
-          fontWeight: "800",
-        }}
-        onClick={onSwitchToSignIn}
-      >
-        Sign In
-      </Button>
     </div>
   );
 }

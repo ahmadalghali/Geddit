@@ -2,15 +2,22 @@ import { api } from "@/api/config/axios";
 import { AuthResponseDTO, UserRegisterRequestDTO, UserSignInRequestDTO } from "@/types/dtos";
 import { AxiosResponse } from "axios";
 
+const BASE_MAPPING = "/auth";
+
 function signUp(userRegisterRequestDTO: UserRegisterRequestDTO): Promise<AxiosResponse<AuthResponseDTO, unknown>> {
-  return api.post<AuthResponseDTO>("/auth/register", userRegisterRequestDTO, {
+  return api.post<AuthResponseDTO>(`${BASE_MAPPING}/register`, userRegisterRequestDTO, {
     withCredentials: true,
   });
 }
 
 function signIn(userSignInRequestDTO: UserSignInRequestDTO): Promise<AxiosResponse<AuthResponseDTO, unknown>> {
-  return api.post<AuthResponseDTO>("/auth/sign-in", userSignInRequestDTO, {
+  return api.post<AuthResponseDTO>(`${BASE_MAPPING}/sign-in`, userSignInRequestDTO, {
     withCredentials: true,
   });
 }
-export { signUp, signIn };
+
+function temporaryDemoSignIn(): Promise<AxiosResponse<AuthResponseDTO, unknown>> {
+  return api.post<AuthResponseDTO>(`${BASE_MAPPING}/temporary-demo-sign-in`);
+}
+
+export { signUp, signIn, temporaryDemoSignIn };

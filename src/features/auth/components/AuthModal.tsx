@@ -1,10 +1,12 @@
 import useSignIn from "@/hooks/useSignIn";
 import useSignUp from "@/hooks/useSignUp";
-import { Button, Modal, PasswordInput, TextInput } from "@mantine/core";
-import { useState } from "react";
+import useTemporaryDemoSignIn from "@/hooks/useTemporaryDemoSignIn";
+import { Button, Divider, Modal, PasswordInput, TextInput } from "@mantine/core";
+import { ReactNode, useState } from "react";
 
 function AuthModal({ opened = false, close }: { opened: boolean; close: () => void; open?: () => void }) {
   const [displayedModal, setDisplayedModal] = useState<"SIGN_IN" | "SIGN_UP">("SIGN_IN");
+  const { signInAsGuest } = useTemporaryDemoSignIn();
   // const [signInModalDisplayed, setSignInModalDisplayed] = useState(true);
   // {displayedModal == "SIGN_IN" ? <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")}/> : <SignUpModal onSwitchToSignIn={() => setDisplayedModal("SIGN_IN")}/>}
   // const toggleModal = () => {
@@ -24,13 +26,49 @@ function AuthModal({ opened = false, close }: { opened: boolean; close: () => vo
         {/* <Avatar size='5rem' radius='100%' color='orange'>
           <IconBrandReddit className='text-center' size={"50"} color='orange' />
         </Avatar> */}
-        {displayedModal == "SIGN_IN" ? (
-          <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")} />
-        ) : (
-          <SignUpModal onSwitchToSignIn={() => setDisplayedModal("SIGN_IN")} />
-        )}
+        <div>
+          {displayedModal == "SIGN_IN" ? (
+            <SignInModal onSwitchToSignUp={() => setDisplayedModal("SIGN_UP")} />
+          ) : (
+            <SignUpModal onSwitchToSignIn={() => setDisplayedModal("SIGN_IN")} />
+          )}
+          <Divider
+            mt={50}
+            size={"md"}
+            // label='Already have an account?'
+            labelPosition='center'
+          />
+
+          <p className='mt-10 mb-3 font-bold text-lg text-gray-600'>Just want to look around?</p>
+
+          <GlowingButton onClick={signInAsGuest}>Enter as guest</GlowingButton>
+        </div>
       </div>
     </Modal>
+  );
+}
+
+function GlowingButton({ children, onClick }: { children: ReactNode; onClick: () => void }) {
+  return (
+    <div className='relative'>
+      {/* bg-gradient-to-r from-yellow-600 via-orange-00 to-amber-600 */}
+      <div className='absolute -inset-1 bg-amber-600 rounded-3xl blur'></div>
+      <Button
+        type='submit'
+        w={"100%"}
+        radius={"xl"}
+        color='orange'
+        onClick={onClick}
+        // @ts-ignore
+        sx={{
+          fontWeight: "900",
+          fontSize: ".9rem",
+        }}
+        className='uppercase'
+      >
+        {children}
+      </Button>
+    </div>
   );
 }
 
